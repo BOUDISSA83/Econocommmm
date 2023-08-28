@@ -1,0 +1,141 @@
+<mat-card class="mb-25 tagus-card">
+    <mat-card-content>
+        <nav>
+            <ul class="ps-0 mt-0">
+                <li>
+                    <a routerLink="/account" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">Account</a>
+                </li>
+                <li>
+                    <a routerLink="/user-mangement" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">Users</a>
+                </li>
+                <li>
+                    <a routerLink="/role-mangement" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">Roles</a>
+                </li>
+
+            </ul>
+        </nav>
+        <mat-card-header class="d-block">
+            <div class="row control-box justify-content-between">
+                <div class="col-lg-5">
+                    <div class="search-box">
+                        <app-search-box (searchChange)="onSearchChanged($event)"
+                            placeholder="{{'users.management.Search' | translate}}"></app-search-box>
+                    </div>
+                </div>
+                <div class="col-lg-7 text-end">
+                    <button *ngIf="canManageUsers" mat-flat-button class="default-btn tagus" (click)="newUser()">
+                        <i class="ri-add-fill"></i>{{'users.management.NewUser' | translate}}
+                    </button>
+                </div>
+            </div>
+        </mat-card-header>
+
+        <div class="myTasksTable mat-elevation-z8 tagus-mat-table">
+            <table mat-table [dataSource]="dataSource">
+
+                <!-- Task Name Column -->
+                <ng-container matColumnDef="index">
+                    <th mat-header-cell *matHeaderCellDef class="text-start">#</th>
+                    <td mat-cell *matCellDef="let element" class="text-start">
+                        <div class="d-flex align-items-center name-info">
+                            <mat-checkbox></mat-checkbox>
+                            <a routerLink="/task-details">
+                                {{element.index}}
+                            </a>
+                        </div>
+                    </td>
+                </ng-container>
+
+                Assigned Column
+                <!-- <ng-container matColumnDef="assigned">
+                    <th mat-header-cell *matHeaderCellDef>Assigned</th>
+                    <td mat-cell *matCellDef="let element">
+                        <img [src]="element.assigned.img" matTooltip="{{element.assigned.name}}" class="rounded-circle"
+                            alt="icon">
+                    </td>
+                </ng-container> -->
+
+                <!-- Deadline Column -->
+                <ng-container matColumnDef="jobTitle">
+                    <th mat-header-cell *matHeaderCellDef>{{ 'users.management.Title' | translate }}</th>
+                    <td mat-cell *matCellDef="let element">{{element.jobTitle}}</td>
+                </ng-container>
+                <!-- Deadline Column -->
+                <ng-container matColumnDef="userName">
+                    <th mat-header-cell *matHeaderCellDef>{{ 'users.management.UserName' | translate }}</th>
+                    <td mat-cell *matCellDef="let element">{{element.userName}}</td>
+                </ng-container>
+
+                <!-- Completion Column -->
+                <ng-container matColumnDef="fullName">
+                    <th mat-header-cell *matHeaderCellDef>{{ 'users.management.FullName' | translate }}</th>
+                    <td mat-cell *matCellDef="let element">{{element.fullName}}</td>
+                </ng-container>
+
+                <!-- Priority Column -->
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef>{{ 'users.management.Email' | translate }}</th>
+                    <td mat-cell *matCellDef="let element">
+                        <span class="badge completed fw-medium">{{element.email}}</span>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="phoneNumber">
+                    <th mat-header-cell *matHeaderCellDef>{{ 'users.management.PhoneNumber' | translate }}</th>
+                    <td mat-cell *matCellDef="let element">{{element.phoneNumber}}</td>
+
+                </ng-container>
+                <ng-container matColumnDef="roles">
+                    <th mat-header-cell *matHeaderCellDef>Roles</th>
+                    <td mat-cell *matCellDef="let element">
+                        <span class="fw-medium" *ngFor="let role of element.roles">{{ role }}</span>
+                    </td>
+
+                </ng-container>
+                <!-- Action Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Action</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button type="button" mat-button
+                            class="position-relative dot-btn p-0 bg-transparent border-none"
+                            [matMenuTriggerFor]="actionMenu">
+                            <i class="ri-more-fill"></i>
+                        </button>
+                        <mat-menu #actionMenu="matMenu" class="dotMenu two monthMenu" xPosition="before">
+
+                            <button mat-menu-item type="button" (click)="editUser(element)"
+                                class="bg-transparent border-none position-relative">
+                                <i class="ri-edit-line"></i> Edit
+                            </button>
+                            <button mat-menu-item type="button" (click)="deleteUser(element)"
+                                class="bg-transparent border-none position-relative">
+                                <i class="ri-delete-bin-line"></i> Remove
+                            </button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
+            <mat-paginator [pageSizeOptions]="[10, 20, 30, 40]" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>
+<ng-template #editorModal let-modal>
+    <div class="modal-header">
+        <h4 *ngIf="!editingUserName" class="modal-title"><i class="fa fa-user-plus"></i> {{'users.management.NewUser' |
+            translate}}</h4>
+        <h4 *ngIf="editingUserName" class="modal-title"><i class="fa fa-user-circle-o"></i>
+            {{'users.management.EditUser' | translate:editingUserName}}</h4>
+        <button type="button" class="btn-close fs-sm" title="Close" (click)="modal.close()" tabindex="-1"></button>
+    </div>
+    <div class="modal-body">
+        <app-user-info #userEditor [isGeneralEditor]="true"
+            (afterOnInit)="setUserEditorComponent($event)"></app-user-info>
+    </div>
+</ng-template>
