@@ -1,12 +1,9 @@
 ﻿
 using GreenTunnel.Core.Entities;
 using GreenTunnel.Infrastructure.Interfaces;
-using System;
-using System.Linq;
-
-namespace DAL.Repositories.Interfaces
+namespace GreenTunnel.Repositories.Interfaces
 {
-    public interface IWorkSpaceRepository : IRepository<Product>
+    public interface IWorkspaceRepository : IRepository<Workspace>
     {
 
     }

@@ -5,7 +5,7 @@ using GreenTunnel.Infrastructure.Interfaces;
 using System;
 using System.Linq;
 
-namespace DAL.Repositories.Interfaces
+namespace GreenTunnel.Repositories.Interfaces
 {
     public interface IWorkplaceRepository : IRepository<Workplace>
     {

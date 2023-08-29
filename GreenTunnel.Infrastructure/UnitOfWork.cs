@@ -1,10 +1,9 @@
 ﻿
 
-using DAL.Repositories;
-using DAL.Repositories.Interfaces;
 using GreenTunnel.Core.Entities;
 using GreenTunnel.Infrastructure.Interfaces;
 using GreenTunnel.Infrastructure.Repositories;
+using GreenTunnel.Repositories.Interfaces;
 using System;
 using System.Linq;
 
@@ -14,7 +13,7 @@ namespace GreenTunnel.Infrastructure
     {
         private readonly ApplicationDbContext _context;
         private IFactoryRepository _factories;
-        private IWorkSpaceRepository _workspaces;
+        private IWorkspaceRepository _workspaces;
         private IWorkplaceRepository _workplaces;
 
         public UnitOfWork(ApplicationDbContext context)
@@ -32,7 +31,7 @@ namespace GreenTunnel.Infrastructure
             }
         }
 
-        public IWorkSpaceRepository Workspaces
+        public IWorkspaceRepository Workspaces
         {
             get
             {
@@ -46,7 +45,7 @@ namespace GreenTunnel.Infrastructure
         {
             get
             {
-                _workplaces ??= new WorkplacesRepository(_context);
+                _workplaces ??= new WorkplaceRepository(_context);
 
                 return _workplaces;
             }

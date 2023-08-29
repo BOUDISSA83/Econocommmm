@@ -1,5 +1,4 @@
-﻿using DAL.Repositories.Interfaces;
-using GreenTunnel.Application.Factory.Commands.CreateFactory;
+﻿using GreenTunnel.Application.Factory.Commands.CreateFactory;
 using GreenTunnel.Infrastructure.Interfaces;
 using MediatR;
 using System;
@@ -9,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GreenTunnel.Core.Entities;
 using GreenTunnel.Infrastructure.ViewModels.Response;
+using GreenTunnel.Repositories.Interfaces;
 
 namespace Factorys.Handler
 {

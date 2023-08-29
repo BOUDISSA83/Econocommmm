@@ -1,18 +1,18 @@
 ﻿
 
 using GreenTunnel.Core.Entities;
-using DAL.Repositories.Interfaces;
 using GreenTunnel.Infrastructure;
 using GreenTunnel.Infrastructure.Repositories;
+using GreenTunnel.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
 namespace GreenTunnel.Infrastructure.Repositories
 {
-    public class WorkspaceRepository : Repository<Product>, IWorkSpaceRepository
+    public class WorkspaceRepository : Repository<Workspace>, IWorkspaceRepository
     {
-        public WorkspaceRepository(DbContext context) : base(context)
+        public WorkspaceRepository(ApplicationDbContext context) : base(context)
         { }
 
         private ApplicationDbContext _appContext => (ApplicationDbContext)_context;

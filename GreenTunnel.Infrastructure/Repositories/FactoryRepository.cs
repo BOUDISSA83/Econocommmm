@@ -1,8 +1,6 @@
 ﻿
 
 using GreenTunnel.Core.Entities;
-using DAL.Repositories;
-using DAL.Repositories.Interfaces;
 using GreenTunnel.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System;
