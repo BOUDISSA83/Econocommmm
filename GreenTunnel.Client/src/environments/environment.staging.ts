@@ -7,7 +7,7 @@
 export const environment = {
     production: true,
     env_name:"staging",
-    baseUrl: null, // Change this to the address of your backend API if different from frontend address
+    baseUrl: "https://sateba-greentunnel.azurewebsites.net/", // Change this to the address of your backend API if different from frontend address
     loginUrl: '/login'
   };
   
@@ -19,4 +19,3 @@ export const environment = {
    * on performance if an error is thrown.
    */
   // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
-  
