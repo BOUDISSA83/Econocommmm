@@ -7,7 +7,7 @@
 export const environment = {
   production: false,
   env_name:"local",
-  baseUrl: null, // Change this to the address of your backend API if different from frontend address
+  baseUrl: "https://sateba-greentunnel.azurewebsites.net/", // Change this to the address of your backend API if different from frontend address
   loginUrl: '/login'
 };
 
