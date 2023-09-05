@@ -131,8 +131,8 @@ export class LoginComponent  implements OnInit, OnDestroy{
     
       offerAlternateHost() {
         if (Utilities.checkIsLocalHost(location.origin) && Utilities.checkIsLocalHost(this.configurations.baseUrl)) {
-          this.alertService.showDialog('Dear Developer!\nIt appears your backend Web API service is not running...\n' +
-            'Would you want to temporarily switch to the online Demo API below?(Or specify another)',
+          this.alertService.showDialog('Dear User!\nIt appears your backend service is not running...\n' +
+            'We highly recommand to call the support!',
             DialogType.prompt,
             (value: string) => {
               this.configurations.baseUrl = value;

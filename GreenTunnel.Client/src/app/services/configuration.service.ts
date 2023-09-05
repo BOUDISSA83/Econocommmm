@@ -102,7 +102,7 @@ export class ConfigurationService {
 
   public baseUrl = environment.baseUrl || Utilities.baseUrl();
   public loginUrl = environment.loginUrl;
-  public fallbackBaseUrl = 'https://greentunnel-standard.ebenmonney.com';
+  public fallbackBaseUrl = 'https://sateba-greentunnel.azurewebsites.net/';
   // ***End of defaults***
 
   private _language: string = "";
