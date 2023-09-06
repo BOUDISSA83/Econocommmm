@@ -10,7 +10,7 @@
 
 **Server**
 
-Execute the following commands to build the backend. Make to sure to make GreenTunnel.Api as a startup project.
+Execute the following commands to build the backend. Make to sure to set GreenTunnel.Api as a startup project.
 > dotnet tools restore
 
 > dotnet run
