@@ -1,13 +1,7 @@
- 
-
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-
 export const environment = {
     production: true,
     env_name:"staging",
-    baseUrl: "https://sateba-greentunnel.azurewebsites.net/", // Change this to the address of your backend API if different from frontend address
+    baseUrl: "https://sateba-greentunnel.azurewebsites.net/",
     loginUrl: '/login'
   };
   

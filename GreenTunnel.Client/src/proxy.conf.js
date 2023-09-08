@@ -3,8 +3,8 @@ const PROXY_CONFIG = [
     context: [
       "/weatherforecast",
     ],
-    target: "https://localhost:5001",
-    secure: false
+        target: "https://sateba-greentunnel.azurewebsites.net",
+    secure: true
   }
 ]
 
