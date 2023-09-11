@@ -55,6 +55,7 @@ namespace GreenTunnel
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .SetIsOriginAllowed((host) => true)
+                .SetIsOriginAllowedToAllowWildcardSubdomains()
                 .AllowCredentials());
 
             app.UseIdentityServer();
