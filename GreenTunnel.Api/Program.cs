@@ -53,7 +53,9 @@ namespace GreenTunnel
             app.UseCors(builder => builder
                 .AllowAnyOrigin()
                 .AllowAnyHeader()
-                .AllowAnyMethod());
+                .AllowAnyMethod()
+                .SetIsOriginAllowed((host) => true)
+                .AllowCredentials());
 
             app.UseIdentityServer();
             app.UseAuthorization();
