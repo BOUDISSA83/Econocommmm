@@ -1,11 +1,11 @@
-﻿using GreenTunnel.Application.Factory.Commands.CreateFactory;
-using MediatR;
-using GreenTunnel.Core.Entities;
+﻿using MediatR;
+
+using GreenTunnel.Application.Factory.Commands.CreateFactory;
 using GreenTunnel.Infrastructure.ViewModels.Response;
 using GreenTunnel.Core.Repositories.Interfaces;
 using GreenTunnel.Infrastructure.ViewModels.Response.Factory;
 
-namespace Factorys.Handler;
+namespace GreenTunnel.Application.Factory.Handler;
 
 public class CreateFactoryCommandHandler : IRequestHandler<CreateFactoryCommand, CqrsResponseViewModel>
 {
@@ -19,7 +19,7 @@ public class CreateFactoryCommandHandler : IRequestHandler<CreateFactoryCommand,
         _factoryRepository = factoryRepository;
         _workplaceRepository = workplaceRepository;
     }
-    // Application/Factories/DTOs/FactoryDto.cs
+
     public class FactoryDto
     {
         public string Name { get; set; }
@@ -30,7 +30,7 @@ public class CreateFactoryCommandHandler : IRequestHandler<CreateFactoryCommand,
     public async Task<CqrsResponseViewModel> Handle(CreateFactoryCommand request, CancellationToken cancellationToken)
     {
 
-        var factoryModel = new Factory()
+        var factoryModel = new Core.Entities.Factory()
         {
             Name = request.Model.Name,
             Email = request.Model.Email,
