@@ -28,7 +28,7 @@ export class AccountService {
 
   }
 
-  getUser(userId?: string) {
+  getUser(userId?: string) {  
     return this.accountEndpoint.getUserEndpoint<User>(userId);
   }
 
@@ -44,10 +44,10 @@ export class AccountService {
     return this.accountEndpoint.getUsersEndpoint<User[]>(page, pageSize);
   }
 
-  getUsersAndRoles(page?: number, pageSize?: number) {
-
+  getUsersAndRoles(page?: number, pageSize?: number,searchTerm?:string,sortColumn?:string,sortOrder?:string) {
+    debugger
     return forkJoin([
-      this.accountEndpoint.getUsersEndpoint<User[]>(page, pageSize),
+      this.accountEndpoint.getUsersEndpoint<User[]>(page, pageSize,searchTerm,sortColumn,sortOrder),
       this.accountEndpoint.getRolesEndpoint<Role[]>()]);
   }
 
@@ -106,10 +106,10 @@ export class AccountService {
     return this.accountEndpoint.getRolesEndpoint<Role[]>(page, pageSize);
   }
 
-  getRolesAndPermissions(page?: number, pageSize?: number) {
+  getRolesAndPermissions(page?: number, pageSize?: number,searchTerm?:string,sortColumn?:string,sortOrder?:string) {
 
     return forkJoin([
-      this.accountEndpoint.getRolesEndpoint<Role[]>(page, pageSize),
+      this.accountEndpoint.getRolesEndpoint<Role[]>(page, pageSize,searchTerm,sortColumn,sortOrder),
       this.accountEndpoint.getPermissionsEndpoint<Permission[]>()]);
   }
 

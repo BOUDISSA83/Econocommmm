@@ -1,7 +1,7 @@
 export const environment = {
-    production: true,
+    production: false,
     env_name:"staging",
-    baseUrl: "https://sateba-greentunnel.azurewebsites.net",
+    baseUrl: null,
     loginUrl: '/login'
   };
   

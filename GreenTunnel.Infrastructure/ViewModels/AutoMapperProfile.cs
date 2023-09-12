@@ -4,6 +4,9 @@ using AutoMapper;
 using DAL.Core;
 using GreenTunnel.Core;
 using GreenTunnel.Core.Entities;
+using GreenTunnel.Infrastructure.ViewModels.Response.Factory;
+using GreenTunnel.Infrastructure.ViewModels.Response.WorkPlace;
+using GreenTunnel.Infrastructure.ViewModels.Response.WorkSpace;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Linq;
@@ -54,6 +57,33 @@ namespace GreenTunnel.Infrastructure.ViewModels
                 .ReverseMap();
 
             CreateMap<Order, OrderViewModel>()
+                .ReverseMap();
+           CreateMap<GreenTunnel.Core.Entities.Factory, GetFacoriesListResponseModel>();
+
+            CreateMap<GreenTunnel.Core.Entities.Factory, FactoryViewModel>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
+            .ForMember(dest => dest.Workplaces, opt => opt.MapFrom(src => src.Workplaces))
+            .ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
+            .ForMember(dest => dest.UpdatedDate, opt => opt.Ignore())
+            .ForMember(dest => dest.UpdatedBy, opt => opt.Ignore());
+
+            CreateMap<Workplace, GetWorkplacesListResponseModel>();
+            CreateMap<Workspace, GetWorkspacesListResponseModel>();
+
+            CreateMap<Workplace, WorkplaceViewModel>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
+            .ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
+.           ForMember(dest => dest.UpdatedDate, opt => opt.Ignore())
+            .ForMember(dest => dest.UpdatedBy, opt => opt.Ignore());
+
+            CreateMap<Workspace, WorkSpaceViewModel>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
+            .ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
+            .ForMember(dest => dest.UpdatedDate, opt => opt.Ignore())
+            .ForMember(dest => dest.UpdatedBy, opt => opt.Ignore());
+
+            CreateMap<Workspace, WorkSpaceViewModel>();
+            CreateMap<Moulds, MouldsViewModel>()
                 .ReverseMap();
         }
     }

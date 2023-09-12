@@ -4,12 +4,14 @@ using GreenTunnel.Core;
 using GreenTunnel.Core.Entities;
 using GreenTunnel.Core.Interfaces;
 using GreenTunnel.Infrastructure;
+using GreenTunnel.Infrastructure.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -73,31 +75,73 @@ namespace DAL.Core
 
             return (user, roles);
         }
-
-        public async Task<List<(ApplicationUser User, string[] Roles)>> GetUsersAndRolesAsync(int page, int pageSize)
+        private static Expression<Func<ApplicationUser, object>> GetSortProperty(string sortColumn)
         {
-            IQueryable<ApplicationUser> usersQuery = _context.Users
-                .Include(u => u.Roles)
-                .OrderBy(u => u.UserName);
+            return sortColumn?.ToLower() switch
+            {
+                "name" => factory => factory.FullName,
+                _ => factory => factory.Id,
+            };
+        }
+        private static Expression<Func<ApplicationRole, object>> GetRolesSortProperty(string sortColumn)
+        {
+            return sortColumn?.ToLower() switch
+            {
+                "name" => factory => factory.Name,
+                _ => factory => factory.Id,
+            };
+        }
+        public async Task<PagedList<(ApplicationUser User, string[] Roles)>> GetUsersAndRolesAsync(int page, int pageSize, string? sortColumn, string? sortOrder, string? searchTerm)
+        {
+            IQueryable<ApplicationUser> factoriesQuery = _context.Users;
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                factoriesQuery = factoriesQuery.Where(p => p.UserName.Contains(searchTerm));
+            }
 
-            if (page != -1)
-                usersQuery = usersQuery.Skip((page - 1) * pageSize);
+            if (sortOrder?.ToLower() == "desc")
+            {
+                factoriesQuery = factoriesQuery.OrderByDescending(GetSortProperty(sortColumn));
+            }
+            else
+            {
+                factoriesQuery = factoriesQuery.OrderBy(GetSortProperty(sortColumn));
+            }
 
-            if (pageSize != -1)
-                usersQuery = usersQuery.Take(pageSize);
+            var factories = factoriesQuery.Include(u => u.Roles)
+               .AsSingleQuery()
+               .OrderBy(r => r.CreatedDate);
 
-            var users = await usersQuery.ToListAsync();
+            
 
-            var userRoleIds = users.SelectMany(u => u.Roles.Select(r => r.RoleId)).ToList();
+            // Extract user role IDs
+            var userRoleIds = factoriesQuery.SelectMany(u => u.Roles.Select(r => r.RoleId)).ToList();
 
+            // Fetch roles based on user role IDs
             var roles = await _context.Roles
                 .Where(r => userRoleIds.Contains(r.Id))
                 .ToArrayAsync();
 
-            return users
-                .Select(u => (u, roles.Where(r => u.Roles.Select(ur => ur.RoleId).Contains(r.Id)).Select(r => r.Name).ToArray()))
-                .ToList();
+            var userRolesList = factoriesQuery
+      .Select(u => new
+      {
+          User = u,
+          RoleNames = _context.Roles
+              .Where(r => u.Roles.Any(ur => ur.RoleId == r.Id))
+              .Select(r => r.Name)
+              .ToArray()
+      })
+      .ToList()
+      .Select(x => (x.User, x.RoleNames))
+      .ToList();
+
+
+            // Create a PagedList of (ApplicationUser, string[]) tuples
+            var userRolesResult = await PagedList<(ApplicationUser User, string[] Roles)>.CreateAsync(userRolesList, page, pageSize);
+
+            return userRolesResult;
         }
+
 
         public async Task<(bool Succeeded, string[] Errors)> CreateUserAsync(ApplicationUser user, IEnumerable<string> roles, string password)
         {
@@ -243,23 +287,49 @@ namespace DAL.Core
             return role;
         }
 
-        public async Task<List<ApplicationRole>> GetRolesLoadRelatedAsync(int page, int pageSize)
+        public async Task<PagedList<ApplicationRole>> GetRolesLoadRelatedAsync(string? sortColumn, string? sortOrder, string? searchTerm, int page, int pageSize)
         {
-            IQueryable<ApplicationRole> rolesQuery = _context.Roles
+            //IQueryable<ApplicationRole> rolesQuery = _context.Roles
+            //    .Include(r => r.Claims)
+            //    .Include(r => r.Users)
+            //    .AsSingleQuery()
+            //    .OrderBy(r => r.Name);
+
+            //if (page != -1)
+            //    rolesQuery = rolesQuery.Skip((page - 1) * pageSize);
+
+            //if (pageSize != -1)
+            //    rolesQuery = rolesQuery.Take(pageSize);
+
+            //var roles = await rolesQuery.ToListAsync();
+
+            //return roles;
+
+            IQueryable<ApplicationRole> rolesQuery = _context.Roles;
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                rolesQuery = rolesQuery.Where(p => p.Name.Contains(searchTerm));
+            }
+
+            if (sortOrder?.ToLower() == "desc")
+            {
+                rolesQuery = rolesQuery.OrderByDescending(GetRolesSortProperty(sortColumn));
+            }
+            else
+            {
+                rolesQuery = rolesQuery.OrderBy(GetRolesSortProperty(sortColumn));
+            }
+
+            var factories = rolesQuery
                 .Include(r => r.Claims)
                 .Include(r => r.Users)
                 .AsSingleQuery()
                 .OrderBy(r => r.Name);
 
-            if (page != -1)
-                rolesQuery = rolesQuery.Skip((page - 1) * pageSize);
+            // Create a PagedList of (ApplicationUser, string[]) tuples
+            var userRolesResult = await PagedList<ApplicationRole>.CreateAsync(factories, page, pageSize);
 
-            if (pageSize != -1)
-                rolesQuery = rolesQuery.Take(pageSize);
-
-            var roles = await rolesQuery.ToListAsync();
-
-            return roles;
+            return userRolesResult;
         }
 
         public async Task<(bool Succeeded, string[] Errors)> CreateRoleAsync(ApplicationRole role, IEnumerable<string> claims)

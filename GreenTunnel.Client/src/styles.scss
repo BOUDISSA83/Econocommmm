@@ -238,7 +238,7 @@ button {
                     border-bottom: 1px solid #eeeeee;
                     transition: var(--transition);
                     padding: 15px 35px 15px 15px;
-                    
+
                     img {
                         width: 50px;
                         border-radius: 50%;
@@ -493,7 +493,7 @@ button {
                 .mat-mdc-menu-content {
                     button {
                         padding-left: 36px;
-                        
+
                         i {
                             top: 50%;
                             left: 15px;
@@ -572,7 +572,7 @@ button {
                 min-width: unset !important;
                 color: var(--paragraphColor);
                 transition: var(--transition);
-                
+
                 &:hover {
                     color: var(--heraBlueColor);
                 }
@@ -624,7 +624,7 @@ button {
                     height: 41px;
                     width: 100%;
                     border: 0;
-                    
+
                     &::placeholder {
                         color: #A9A9C8;
                         transition: var(--transition);
@@ -648,7 +648,7 @@ button {
                     color: var(--heraBlueColor);
                     background-color: transparent;
                     transition: var(--transition);
-        
+
                     &:hover {
                         color: var(--blackColor);
                     }
@@ -687,7 +687,7 @@ button {
                             .mat-mdc-checkbox {
                                 .mdc-checkbox {
                                     margin-left: -10px;
-    
+
                                     .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true])~.mdc-checkbox__background {
                                         border-color: #a9a9c8;
                                     }
@@ -739,7 +739,7 @@ button {
                                 .mat-mdc-checkbox {
                                     .mdc-checkbox {
                                         margin-left: -10px;
-        
+
                                         .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true])~.mdc-checkbox__background {
                                             border-color: #a9a9c8;
                                         }
@@ -925,7 +925,7 @@ button {
                                     .badge {
                                         background: rgba(0, 182, 155, 0.1);
                                         color: #00b69b;
-        
+
                                         &.inactive {
                                             color: #ee368c;
                                             background: rgba(238, 54, 140, 0.1);
@@ -939,7 +939,7 @@ button {
                 &.myTasksTable {
                     -webkit-overflow-scrolling: touch;
                     overflow: {
-                        x: auto;
+                        x: hidden;
                         y: hidden;
                     };
                     .mdc-data-table__header-row {
@@ -953,7 +953,7 @@ button {
                         .mdc-data-table__row {
                             .mdc-data-table__cell {
                                 padding: 12px 20px;
-                                
+
                                 img {
                                     width: 30px;
                                     height: 30px;
@@ -1012,7 +1012,7 @@ button {
                                     .badge {
                                         background: rgba(0, 182, 155, 0.1);
                                         color: #00b69b;
-        
+
                                         &.pending {
                                             color: #ee368c;
                                             background: rgba(238, 54, 140, 0.1);
@@ -1025,7 +1025,7 @@ button {
                 }
                 &::-webkit-scrollbar {
                     -webkit-appearance: none;
-                    
+
                     &:vertical {
                         width: 10px;
                     }
@@ -1039,7 +1039,7 @@ button {
                     background-color: rgba(0, 0, 0, .2);
                 }
                 &::-webkit-scrollbar-track {
-                    border-radius: 10px;  
+                    border-radius: 10px;
                     background-color: var(--whiteColor);
                 }
             }
@@ -1064,7 +1064,7 @@ button {
                     .mat-mdc-tab-header {
                         margin-bottom: 20px;
                         border-bottom: 1px solid #F7FAFF;
-        
+
                         .mat-mdc-tab-label-container {
                             .mat-mdc-tab-list {
                                 .mat-mdc-tab-labels {
@@ -1095,7 +1095,7 @@ button {
                                         &.mdc-tab--active {
                                             background-color: var(--heraBlueColor);
                                             color: var(--whiteColor);
-        
+
                                             .mdc-tab__text-label {
                                                 color: var(--whiteColor);
                                             }
@@ -1108,7 +1108,7 @@ button {
                     .mat-mdc-tab-body-wrapper {
                         .mat-mdc-tab-body {
                             overflow: hidden;
-        
+
                             .mat-mdc-tab-body-content {
                                 overflow: hidden;
                             }
@@ -1214,7 +1214,7 @@ button {
                         border: none;
                         background: var(--whiteColor);
                         box-shadow: 0px 4px 20px rgba(47, 143, 232, 0.07);
-            
+
                         .apexcharts-tooltip-title {
                             padding: 8px 10px;
                             border-bottom: none;
@@ -1363,7 +1363,7 @@ button {
                                                     padding: 4px 20px 5px;
                                                     color: var(--heraBlueColor);
                                                     background: rgba(117, 127, 239, 0.1);
-                    
+
                                                     &.failed {
                                                         color: #ee368c;
                                                         background: rgba(238, 54, 140, 0.1);
@@ -1485,7 +1485,7 @@ button {
                     margin-bottom: 15px;
                     border-radius: 8px;
                     box-shadow: unset;
-        
+
                     &:last-child {
                         margin-bottom: 0;
                     }
@@ -1532,7 +1532,7 @@ button {
 
                     .content-list {
                         list-style: none;
-                        
+
                         li {
                             border-bottom: 1px solid #E7EBF5;
                             padding: {
@@ -1656,7 +1656,7 @@ button {
     }
     &.liveVisitsChart {
         padding-bottom: 5px;
-    
+
         .apexcharts-text {
             font-size: 13px;
         }
@@ -1704,7 +1704,7 @@ button {
                         margin: 0 0 11px;
                         font-weight: 600;
                         color: var(--paragraphColor);
-                        
+
                         .value {
                             font-weight: normal;
                         }
@@ -1902,13 +1902,13 @@ quill-editor {
                 }
                 &:focus {
                     border-color: var(--heraBlueColor);
-    
+
                     &::placeholder {
                         color: transparent;
                     }
                 }
                 &[type="file"] {
-                    line-height: 55px;   
+                    line-height: 55px;
                 }
             }
             .input-folder-name {
@@ -1932,7 +1932,7 @@ quill-editor {
                 }
                 &:focus {
                     border-color: var(--heraBlueColor);
-    
+
                     &::placeholder {
                         color: transparent;
                     }
@@ -2183,7 +2183,7 @@ quill-editor {
                 }
                 .dot-btn {
                     color: #828690;
-                    
+
                     &:hover {
                         color: var(--heraBlueColor);
                     }
@@ -2195,7 +2195,7 @@ quill-editor {
                     .input-search {
                         background-color: #1e2227;
                         color: var(--whiteColor);
-                        
+
                         &::placeholder {
                             color: #828690;
                         }
@@ -2237,13 +2237,13 @@ quill-editor {
 
                                     .product-info {
                                         color: #828690;
-                                        
+
                                         &:hover {
                                             color: var(--heraBlueColor);
                                         }
                                     }
                                     .mat-mdc-checkbox {
-                                        .mdc-checkbox {            
+                                        .mdc-checkbox {
                                             .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true])~.mdc-checkbox__background {
                                                 border-color: #a9a9c8;
                                             }
@@ -2341,20 +2341,20 @@ quill-editor {
                     &.mat-mdc-tab-group {
                         .mat-mdc-tab-header {
                             border-bottom-color: #1f2226;
-            
+
                             .mat-mdc-tab-label-container {
                                 .mat-mdc-tab-list {
                                     .mat-mdc-tab-labels {
                                         .mat-mdc-tab {
                                             background-color: #1d2024;
-                                            
+
                                             .mdc-tab__text-label {
                                                 color: var(--whiteColor);
                                             }
                                             &.mdc-tab--active {
                                                 background-color: var(--heraBlueColor);
                                                 color: var(--whiteColor);
-            
+
                                                 .mdc-tab__text-label {
                                                     color: var(--whiteColor);
                                                 }
@@ -2400,7 +2400,7 @@ quill-editor {
                             border: none;
                             background: var(--whiteColor);
                             box-shadow: 0px 4px 20px rgba(47, 143, 232, 0.07);
-                
+
                             .apexcharts-tooltip-title {
                                 padding: 8px 10px;
                                 border-bottom: none;
@@ -2448,7 +2448,7 @@ quill-editor {
                                 .mat-mdc-tab-labels {
                                     .mat-mdc-tab {
                                         background-color: #1d2024;
-                                        
+
                                         .mdc-tab__text-label {
                                             color: var(--whiteColor);
                                         }
@@ -2562,14 +2562,14 @@ quill-editor {
             &-tooltip {
                 &.apexcharts-theme-light {
                     background: #1e2227;
-        
+
                     .apexcharts-tooltip-title {
                         background: #0d1015;
                         color: var(--whiteColor);
                     }
                     .apexcharts-tooltip-text {
                         color: #828690;
-                        
+
                         .apexcharts-tooltip-text-y-value {
                             color: var(--whiteColor);
                         }
@@ -2578,7 +2578,7 @@ quill-editor {
             }
             &-xaxistooltip, &-yaxistooltip {
                 background-color: #1e2227;
-        
+
                 .apexcharts-xaxistooltip-text {
                     color: var(--whiteColor);
                 }
@@ -2659,7 +2659,7 @@ quill-editor {
     // Editor
     .NgxEditor__Wrapper {
         border-color: #1f2226 !important;
-    
+
         .NgxEditor__MenuBar {
             background: #14171c;
             border-color: #1f2226 !important;
@@ -2674,7 +2674,7 @@ quill-editor {
     }
     quill-editor {
         width: 100%;
-    
+
         .ql-toolbar {
             &.ql-snow {
                 border-color: #1f2226;
@@ -2718,7 +2718,7 @@ quill-editor {
 .card-border-radius {
     .mat-mdc-card {
         border-radius: 0 !important;
-        
+
         &.tagus-card {
             border-radius: 0 !important;
         }
@@ -3301,7 +3301,7 @@ quill-editor {
             &.mat-mdc-menu-panel {
                 border-radius: 5px 5px 0 0;
                 width: 250px;
-                
+
                 .menu-header {
                     border-radius: 5px 5px 0 0;
                     padding: 12px;
@@ -3316,7 +3316,7 @@ quill-editor {
                 .menu-body {
                     li {
                         padding: 10px 28px 10px 12px;
-                        
+
                         img {
                             width: 45px;
                         }
@@ -3375,7 +3375,7 @@ quill-editor {
         &.mat-mdc-menu-panel {
             &.mat-mdc-menu-panel {
                 width: 120px;
-                
+
                 ul {
                     li {
                         a {
@@ -3398,7 +3398,7 @@ quill-editor {
         &.mat-mdc-menu-panel {
             &.mat-mdc-menu-panel {
                 width: 130px;
-                
+
                 ul {
                     li {
                         button {
@@ -3419,7 +3419,7 @@ quill-editor {
         &.mat-mdc-menu-panel {
             &.mat-mdc-menu-panel {
                 width: 135px;
-                
+
                 .mat-mdc-menu-content {
                     button {
                         padding: 5px 15px;
@@ -3575,7 +3575,7 @@ quill-editor {
                             .mdc-data-table__row {
                                 .mdc-data-table__cell {
                                     padding: 12px 15px;
-                                    
+
                                     .badge {
                                         padding: 4px 18px 5px;
                                     }
@@ -3603,10 +3603,10 @@ quill-editor {
                 .product-tabs {
                     &.mat-mdc-tab-group {
                         margin-top: 20px;
-        
+
                         .mat-mdc-tab-header {
                             margin-bottom: 15px;
-            
+
                             .mat-mdc-tab-label-container {
                                 .mat-mdc-tab-list {
                                     .mat-mdc-tab-labels {
@@ -3699,16 +3699,16 @@ quill-editor {
                     .mat-expansion-indicator {
                         right: 15px;
                         top: 12px;
-        
+
                         &::after {
                             padding: 3px;
                         }
                     }
                     .mat-expansion-panel-body {
                         padding: 5px 15px 15px;
-        
+
                         .content-list {
-                            
+
                             li {
                                 i {
                                     font-size: 15px;
@@ -3780,7 +3780,7 @@ quill-editor {
                 };
             }
         }
-        &.liveVisitsChart {        
+        &.liveVisitsChart {
             .apexcharts-text {
                 font-size: 13px;
             }
@@ -3808,17 +3808,17 @@ quill-editor {
     .create-dialog-box {
         .title {
             padding: 15px;
-    
+
             .close-btn {
                 font-size: 14px !important;
             }
         }
         form {
             padding: 15px;
-    
+
             .form-group {
                 margin-bottom: 15px;
-    
+
                 .input-folder-name {
                     height: 48px;
                     font-size: 14px;
@@ -3835,7 +3835,7 @@ quill-editor {
                         right: 15px;
                     };
                     &[type="file"] {
-                        line-height: 50px;   
+                        line-height: 50px;
                     }
                 }
             }
@@ -3873,7 +3873,7 @@ quill-editor {
 
     // RTL CSS
     .rtl-enabled {
-        
+
         // Default BTN
         .default-btn {
             padding: {
@@ -4033,7 +4033,7 @@ quill-editor {
                                                     .mdc-data-table__cell {
                                                         .course-info {
                                                             margin-left: 0;
-                                                            
+
                                                             img {
                                                                 margin-left: 0;
                                                             }
@@ -4248,7 +4248,7 @@ quill-editor {
                                     .product-info {
                                         margin-right: 0;
                                         padding-right: 35px;
-                                        
+
                                         img {
                                             width: 45px;
                                         }
@@ -4438,7 +4438,7 @@ quill-editor {
                 }
             }
         }
-    
+
         // Col
         .col {
             margin: {
@@ -4447,7 +4447,7 @@ quill-editor {
             };
             &:last-child {
                 margin-left: 0 !important;
-    
+
                 .col {
                     margin: {
                         right: 0 !important;
@@ -4455,7 +4455,7 @@ quill-editor {
                     };
                     &:last-child {
                         margin-left: 0 !important;
-    
+
                         .col {
                             margin: {
                                 right: 0 !important;
@@ -4469,7 +4469,7 @@ quill-editor {
                 }
             }
         }
-    
+
     }
 
 }
@@ -4610,7 +4610,7 @@ quill-editor {
                 }
             }
         }
-    
+
         // Col
         .col {
             margin: {
@@ -4619,7 +4619,7 @@ quill-editor {
             };
             &:last-child {
                 margin-left: 0 !important;
-    
+
                 .col {
                     margin: {
                         right: 0 !important;
@@ -4627,7 +4627,7 @@ quill-editor {
                     };
                     &:last-child {
                         margin-left: 0 !important;
-    
+
                         .col {
                             margin: {
                                 right: 0 !important;
@@ -4641,7 +4641,7 @@ quill-editor {
                 }
             }
         }
-    
+
     }
 
 }
@@ -4708,7 +4708,7 @@ quill-editor {
                 }
             }
         }
-    
+
     }
 
 }
@@ -4775,7 +4775,7 @@ quill-editor {
             }
         }
     }
-    
+
     // RTL CSS
     .rtl-enabled {
 

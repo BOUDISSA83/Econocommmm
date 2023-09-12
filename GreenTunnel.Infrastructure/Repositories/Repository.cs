@@ -11,10 +11,10 @@ namespace GreenTunnel.Infrastructure.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected readonly DbContext _context;
+        protected readonly ApplicationDbContext _context;
         protected readonly DbSet<TEntity> _entities;
 
-        public Repository(DbContext context)
+        public Repository(ApplicationDbContext context)
         {
             _context = context;
             _entities = context.Set<TEntity>();
@@ -22,7 +22,8 @@ namespace GreenTunnel.Infrastructure.Repositories
 
         public virtual void Add(TEntity entity)
         {
-            _entities.Add(entity);
+            _context.Add(entity);
+            _context.SaveChanges();
         }
 
         public virtual void AddRange(IEnumerable<TEntity> entities)
@@ -32,7 +33,8 @@ namespace GreenTunnel.Infrastructure.Repositories
 
         public virtual void Update(TEntity entity)
         {
-            _entities.Update(entity);
+            _context.Update(entity);
+            _context.SaveChanges();
         }
 
         public virtual void UpdateRange(IEnumerable<TEntity> entities)
@@ -42,7 +44,8 @@ namespace GreenTunnel.Infrastructure.Repositories
 
         public virtual void Remove(TEntity entity)
         {
-            _entities.Remove(entity);
+            _context.Remove(entity);
+            _context.SaveChanges();
         }
 
         public virtual void RemoveRange(IEnumerable<TEntity> entities)
@@ -60,9 +63,9 @@ namespace GreenTunnel.Infrastructure.Repositories
             return _entities.Where(predicate);
         }
 
-        public virtual TEntity GetSingleOrDefault(Expression<Func<TEntity, bool>> predicate)
+        public  virtual Task<TEntity> GetSingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return _entities.SingleOrDefault(predicate);
+            return _entities.SingleOrDefaultAsync(predicate);
         }
 
         public virtual TEntity Get(int id)

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GreenTunnel.Infrastructure.ViewModels.Factory;
+using GreenTunnel.Infrastructure.ViewModels.Response;
 
-namespace GreenTunnel.Application.Factory.Commands.UpdateFactory
+using MediatR;
+
+namespace GreenTunnel.Application.Factory.Commands.UpdateFactory;
+
+public class UpdateFactoryCommand : IRequest<CqrsResponseViewModel>
 {
-    public class UpdateFactoryCommand
-    {
-    }
+    public UpdateFactoryRequestViewModel Model { get; set; }
 }

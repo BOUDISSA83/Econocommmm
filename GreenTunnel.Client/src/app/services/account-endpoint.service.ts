@@ -50,9 +50,9 @@ export class AccountEndpoint extends EndpointBase {
   }
 
 
-  getUsersEndpoint<T>(page?: number, pageSize?: number): Observable<T> {
-    const endpointUrl = page && pageSize ? `${this.usersUrl}/${page}/${pageSize}` : this.usersUrl;
-
+  getUsersEndpoint<T>(page?: number, pageSize?: number,searchTerm?:string,sortColumn?:string,sortOrder?:string): Observable<T> {
+    const endpointUrl = page && pageSize ? `${this.usersUrl}/Allusers?pageNumber=${page}&pageSize=${pageSize}&searchTerm=${searchTerm}&sortColumn=${sortColumn}/sortOrder?=${sortOrder}` : this.usersUrl;
+    debugger
     return this.http.get<T>(endpointUrl, this.requestHeaders).pipe<T>(
       catchError<T, Observable<T>>(error => {
         return this.handleError(error, () => this.getUsersEndpoint(page, pageSize));
@@ -158,8 +158,8 @@ export class AccountEndpoint extends EndpointBase {
 
 
 
-  getRolesEndpoint<T>(page?: number, pageSize?: number): Observable<T> {
-    const endpointUrl = page && pageSize ? `${this.rolesUrl}/${page}/${pageSize}` : this.rolesUrl;
+  getRolesEndpoint<T>(page?: number, pageSize?: number,searchTerm?:string,sortColumn?:string,sortOrder?:string): Observable<T> {
+    const endpointUrl = page && pageSize ? `${this.rolesUrl}/Allroles?pageNumber=${page}&pageSize=${pageSize}&searchTerm=${searchTerm}&sortColumn=${sortColumn}/sortOrder?=${sortOrder}` : this.rolesUrl;
 
     return this.http.get<T>(endpointUrl, this.requestHeaders).pipe<T>(
       catchError<T, Observable<T>>((error:any) => {

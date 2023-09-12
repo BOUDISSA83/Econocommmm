@@ -140,6 +140,20 @@ import { Utilities } from './services/utilities';
 import { UserInfoComponent } from './components/settings/user/user-info/user-info.component';
 import { RolesManagementComponent } from './components/settings/roles/roles-mangement/roles-management/roles-management.component';
 import { UsersManagementComponent } from './components/settings/user/user-mangement/app-users-management/users-management.component';
+import { FactoryListComponent } from './components/views/factory-list/factory-list.component';
+import { AddEditFactoryComponent } from './components/views/add-edit-factory/add-edit-factory.component';
+import { ViewFactoryComponent } from './components/views/view-factory/view-factory.component';
+import { WorkplaceListComponent } from './components/main/workplace/workplace-list/workplace-list.component';
+import { AddEditWorkplaceComponent } from './components/views/add-edit-workplace/add-edit-workplace.component';
+import { ViewWorkplaceComponent } from './components/views/view-workplace/view-workplace.component';
+import { WorkspaceListComponent } from './components/main/workspace/workspace-list/workspace-list.component';
+import { AddEditWorkspaceComponent } from './components/views/add-edit-workspace/add-edit-workspace.component';
+import { ViewWorkspaceComponent } from './components/views/view-workspace/view-workspace.component';
+import { WorkplacesListComponent } from './components/views/workplaces-list/workplaces-list.component';
+import { WorkspacesListComponent } from './components/views/workspaces-list/workspaces-list.component';
+import { MouldListComponent } from './components/views/moulds/mould-list/mould-list.component';
+import { AddEditMouldComponent } from './components/views/moulds/add-edit-mould/add-edit-mould.component';
+import { ViewMouldComponent } from './components/views/moulds/view-mould/view-mould.component';
 @Injectable()
 export class LowerCaseUrlSerializer extends DefaultUrlSerializer {
     override parse(url: string): UrlTree {
@@ -297,7 +311,22 @@ const routes: Routes = [
     {path: 'authentication/confirm-mail', component: ConfirmMailComponent},
     {path: 'authentication/lock-screen', component: LockScreenComponent},
     { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard], data: { title: 'Settings' } },
-    
+    { path: 'factories', component: FactoryListComponent, canActivate: [AuthGuard], data: { title: 'Factories' } },
+    { path: 'add-edit-factory', component: AddEditFactoryComponent, canActivate: [AuthGuard], data: { title: 'Add Edit Factory' } },
+    { path: 'view-factory', component: ViewFactoryComponent, canActivate: [AuthGuard], data: { title: 'View Factory' } },
+    { path: 'workplaces', component: WorkplacesListComponent, canActivate: [AuthGuard], data: { title: 'Workplaces' } },
+    { path: 'add-edit-workplace/:factoryId', component: AddEditWorkplaceComponent, canActivate: [AuthGuard], data: { title: 'Add Edit Workplace' } },
+    { path: 'add-edit-workplace', component: AddEditWorkplaceComponent, canActivate: [AuthGuard], data: { title: 'Add Edit Workplace' } },
+    { path: 'view-workplace', component: ViewWorkplaceComponent, canActivate: [AuthGuard], data: { title: 'View Workplace' } },
+    { path: 'workspaces', component: WorkspacesListComponent, canActivate: [AuthGuard], data: { title: 'Workspaces' } },
+    { path: 'add-edit-workspace/:workplaceId', component: AddEditWorkspaceComponent, canActivate: [AuthGuard], data: { title: 'Add Edit Workspace' } },
+    { path: 'add-edit-workspace', component: AddEditWorkspaceComponent, canActivate: [AuthGuard], data: { title: 'Add Edit Workspace' } },
+    { path: 'view-factory', component: ViewWorkspaceComponent, canActivate: [AuthGuard], data: { title: 'View Workspace' } },
+    { path: 'moulds', component: MouldListComponent, canActivate: [AuthGuard], data: { title: 'Mouldes' } },
+    { path: 'add-edit-mould', component: AddEditMouldComponent, canActivate: [AuthGuard], data: { title: 'Add Edit Mould' } },
+    { path: 'mould-detail', component: ViewMouldComponent, canActivate: [AuthGuard], data: { title: 'View Mould' } },
+    { path: 'view-workspace', component: ViewWorkspaceComponent, canActivate: [AuthGuard], data: { title: 'View Workspace' } },
+
     // Here add new pages component
 
     {path: '**', component: NotFoundComponent} // This line will remain down from the whole pages component list

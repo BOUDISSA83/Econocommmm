@@ -59,7 +59,7 @@ export class AlertService {
   showStickyMessage(summaryAndDetails: string[], summaryAndDetailsSeparator: string, severity: MessageSeverity):any;
   showStickyMessage(response: HttpResponseBase, ignoreValueUseNull: string, severity: MessageSeverity):any;
   showStickyMessage(data: string | string[] | HttpResponseBase, separatorOrDetail?: string | any, severity?: MessageSeverity, error?: any, onRemove?: () => any):any {
-
+debugger
     if (!severity) {
       severity = MessageSeverity.default;
     }

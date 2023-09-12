@@ -3,6 +3,8 @@ using GreenTunnel.Application.Role.Queries;
 using GreenTunnel.Application.User.Queries;
 using GreenTunnel.Core.Entities;
 using GreenTunnel.Core.Interfaces;
+using GreenTunnel.Infrastructure.Helpers;
+using GreenTunnel.Infrastructure.ViewModels.Response.Factory;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
@@ -15,7 +17,7 @@ using System.Threading.Tasks;
 namespace GreenTunnel.Application.Role.Handlers
 {
 
-    public class GetRolesLoadRelatedQueryHandler : IRequestHandler<GetRolesLoadRelatedQuery, List<ApplicationRole>>
+    public class GetRolesLoadRelatedQueryHandler : IRequestHandler<GetRolesLoadRelatedQuery, PagedList<ApplicationRole>>
     {
         private readonly IAuthorizationService _authorizationService;
         private readonly ILogger<GetRolesLoadRelatedQueryHandler> _logger;
@@ -31,9 +33,18 @@ namespace GreenTunnel.Application.Role.Handlers
             _mapper = mapper;
             _accountManager = accountManager;
         }
-        public async Task<List<ApplicationRole>> Handle(GetRolesLoadRelatedQuery request, CancellationToken cancellationToken)
+        public async Task<PagedList<ApplicationRole>> Handle(GetRolesLoadRelatedQuery request, CancellationToken cancellationToken)
         {
-          return  await _accountManager.GetRolesLoadRelatedAsync(request.Page, request.PageSize);
+          var rolesList =  await _accountManager.GetRolesLoadRelatedAsync(request.SortColumn, request.SortOrder, request.SearchTerm, request.Page, request.PageSize);
+            var factoryViewModels = _mapper.Map<List<ApplicationRole>>(rolesList.Items);
+
+            var pagedList = new PagedList<ApplicationRole>(
+                factoryViewModels,
+                request.Page,
+                request.PageSize,
+                rolesList.TotalCount);
+
+            return pagedList;
         }
     }
 }

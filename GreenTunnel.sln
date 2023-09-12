@@ -13,8 +13,6 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "GreenTunnel.Client", "Green
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenTunnel.Api", "GreenTunnel.Api\GreenTunnel.Api.csproj", "{68CD32EB-183A-4307-8BA9-D8AF704A5603}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A5D275BE-B7C9-4FB3-B351-E80051CEA8B8}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

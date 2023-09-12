@@ -104,15 +104,14 @@
                                 <i class="ri-user-3-line"></i> Profile
                             </a>
                         </li>
-                        <li>
-                            <a routerLink="/account">
-                                <i class="ri-settings-3-line"></i> Settings
-                            </a>
-                        </li>
                         <li *ngIf="isUserLoggedIn">
                             <a (click)="logout()">
                                 <i class="ri-shut-down-line"></i> {{'mainMenu.Logout' | translate}}
                             </a>
+                        </li>
+                        <li >
+                            <a (click)="toggleTheme()" > Dark Mode</a>
+                            <!-- <button class="switch-btn"></button> -->
                         </li>
                         <li *ngIf="!isUserLoggedIn">
                             <a routerLink="/authentication/login">

@@ -22,6 +22,7 @@ namespace GreenTunnel.Infrastructure
         public DbSet<Factory>  Factories { get; set; }
         public DbSet<Workplace> Workplaces { get; set; }
         public DbSet<Workspace> Workspaces { get; set; }
+        public DbSet<Moulds> Moulds { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         { }

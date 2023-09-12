@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GreenTunnel.Core.Entities;
-
+namespace GreenTunnel.Core.Entities
+{
 public class Workplace: AuditableEntity
 {
     public int Id { get; set; }
@@ -13,4 +13,9 @@ public class Workplace: AuditableEntity
     [ForeignKey("FactoryId")]
     public virtual Factory Factory { get; set; }
     public string UserId { get; set; }
+    public Workplace()
+    {
+        Workspaces = new List<Workspace>();
+    }
+}
 }

@@ -444,6 +444,26 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { GroupByPipe } from './pipes/group-by.pipe';
 import { SearchBoxComponent } from './components/settings/search-box/search-box/search-box.component';
 import { EqualValidator } from './directives/equal-validator.directive';
+import { FactoryListComponent } from './components/views/factory-list/factory-list.component';
+import { FactoryService } from './services/factory.service';
+import { FactoryEndpointService } from './services/factory-endpoint.service';
+import { AddEditFactoryComponent } from './components/views/add-edit-factory/add-edit-factory.component';
+import { WorkplacesListComponent } from './components/views/workplaces-list/workplaces-list.component';
+import { AddEditWorkplaceComponent } from './components/views/add-edit-workplace/add-edit-workplace.component';
+import { ViewFactoryComponent } from './components/views/view-factory/view-factory.component';
+import { ViewWorkplaceComponent } from './components/views/view-workplace/view-workplace.component';
+import { AddEditWorkspaceComponent } from './components/views/add-edit-workspace/add-edit-workspace.component';
+import { ViewWorkspaceComponent } from './components/views/view-workspace/view-workspace.component';
+import { WorkspacesListComponent } from './components/views/workspaces-list/workspaces-list.component';
+import { WorkplaceService } from './services/workplace.service';
+import { WorkspaceService } from './services/workspace.service';
+import { WorkplaceEndpointService } from './services/workplace-endpoint.service';
+import { WorkspaceEndpointService } from './services/workspace-endpoint.service';
+import { AddEditMouldComponent } from './components/views/moulds/add-edit-mould/add-edit-mould.component';
+import { MouldListComponent } from './components/views/moulds/mould-list/mould-list.component';
+import { MouldEndpointService } from './services/mouldServices/mould-endpoint.service';
+import { MouldService } from './services/mouldServices/mould.service';
+import { ViewMouldComponent } from './components/views/moulds/view-mould/view-mould.component';
 @NgModule({
     declarations: [
         AppComponent,
@@ -817,7 +837,19 @@ import { EqualValidator } from './directives/equal-validator.directive';
         RoleEditorComponent,
         GroupByPipe,
         SearchBoxComponent,
-        EqualValidator
+        EqualValidator,
+        FactoryListComponent,
+        AddEditFactoryComponent,
+        WorkplacesListComponent,
+        AddEditWorkplaceComponent,
+        ViewFactoryComponent,
+        AddEditMouldComponent,
+        MouldListComponent,
+        ViewMouldComponent,
+        ViewWorkplaceComponent,
+        AddEditWorkspaceComponent,
+        ViewWorkspaceComponent,
+        WorkspacesListComponent
     ],
     imports: [
         BrowserModule,
@@ -901,7 +933,15 @@ import { EqualValidator } from './directives/equal-validator.directive';
         AccountService,
         AccountEndpoint,
         LocalStoreManager,
-        OidcHelperService
+        OidcHelperService,
+        FactoryService,
+        FactoryEndpointService,
+        MouldEndpointService,
+        MouldService,
+        WorkplaceService,
+        WorkplaceEndpointService,
+        WorkspaceEndpointService,
+        WorkspaceService
     ],
     bootstrap: [AppComponent]
 })

@@ -1,15 +1,16 @@
 ﻿
 
+using GreenTunnel.Core.Repositories.Interfaces;
 using GreenTunnel.Infrastructure.Interfaces;
-using GreenTunnel.Repositories.Interfaces;
-
+using System;
+using System.Linq;
 
 namespace GreenTunnel.Infrastructure
 {
     public interface IUnitOfWork
     {
         IFactoryRepository Factories { get; }
-        IWorkspaceRepository Workspaces { get; }
+        IWorkSpaceRepository Workspaces { get; }
         IWorkplaceRepository Workplaces { get; }
 
         int SaveChanges();

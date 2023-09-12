@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using GreenTunnel.Application.CQRS.Queries;
 using GreenTunnel.Core.Interfaces;
+using GreenTunnel.Infrastructure.Helpers;
 using GreenTunnel.Infrastructure.ViewModels;
+using GreenTunnel.Infrastructure.ViewModels.Response.Factory;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
@@ -13,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace GreenTunnel.Application.User.Handlers
 {
-    public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, List<UserViewModel>>
+    public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, PagedList<UserViewModel>>
     {
 
         private readonly IAuthorizationService _authorizationService;
@@ -31,21 +33,28 @@ namespace GreenTunnel.Application.User.Handlers
             _mapper = mapper;
             _accountManager = accountManager;
         }
-        public async Task<List<UserViewModel>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+        public async Task<PagedList<UserViewModel>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
-            var usersAndRoles = await _accountManager.GetUsersAndRolesAsync(request.PageNumber, request.PageSize);
+            var usersAndRoles = await _accountManager.GetUsersAndRolesAsync(request.PageNumber, request.PageSize, request.SortColumn, request.SortOrder, request.SearchTerm);
+            //var factoryViewModels = _mapper.Map<List<UserViewModel>>(usersAndRoles.Items);
 
             var usersVM = new List<UserViewModel>();
 
-            foreach (var item in usersAndRoles)
+            foreach (var item in usersAndRoles.Items)
             {
                 var userVM = _mapper.Map<UserViewModel>(item.User);
                 userVM.Roles = item.Roles;
 
                 usersVM.Add(userVM);
             }
+            var pagedList = new PagedList<UserViewModel>(
+                usersVM,
+                request.PageNumber,
+                request.PageSize,
+                usersAndRoles.TotalCount);
 
-            return usersVM;
+            return pagedList;
+
         }
     }
 }

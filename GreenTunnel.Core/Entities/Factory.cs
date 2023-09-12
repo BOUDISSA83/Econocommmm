@@ -19,5 +19,9 @@ namespace GreenTunnel.Core.Entities
         public string Support { get; set; }
         public virtual ICollection<Workplace> Workplaces { get; set; }
         public string UserId { get; set; }
+        public Factory()
+        {
+                Workplaces = new List<Workplace>();
+        }
     }
 }

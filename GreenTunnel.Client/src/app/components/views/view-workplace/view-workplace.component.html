@@ -1,0 +1,62 @@
+<!-- factory-details.component.html -->
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
+    <!-- Breadcrumb and page title -->
+    <h5 class="mb-0">Workplace Details</h5>
+    <ol class="breadcrumb mb-0 ps-0">
+        <li class="breadcrumb-item">
+            <a routerLink="/">
+                <i class="ri-home-8-line"></i>
+                Dashboard
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a routerLink="/workplaces">
+                <i class="ri-home-8-line"></i>
+                Workplaces
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            Workplace Details
+        </li>
+    </ol>
+</div>
+
+<mat-card class="mb-25 tagus-card">
+    <mat-card-content>
+        <mat-tab-group>
+            <mat-tab label="Details"><br>
+              <!-- Factory details content -->
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="tagus-form-group">
+                        <label class="d-block mb-12 fw-semibold gray-color">Name</label>
+                        <mat-form-field appearance="fill">
+                            <i class="ri-user-3-line"></i>
+                            <mat-label>Name</mat-label>
+                            <input matInput [value]="workplaceData.name" readonly>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="tagus-form-group">
+                        <label class="d-block mb-12 fw-semibold gray-color">Description</label>
+                        <mat-form-field appearance="fill">
+                            <i class="ri-phone-line"></i>
+                            <mat-label>Description</mat-label>
+                            <input matInput [value]="workplaceData.description" readonly>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            
+        <button mat-flat-button class="default-btn tagus" (click)="goBack()">
+         Back
+        </button>
+            </mat-tab>
+            <mat-tab label="Workspaces"><br>
+            <app-workspaces-list [workplaceId]="workplaceId"></app-workspaces-list>
+            </mat-tab>
+        </mat-tab-group>
+      
+    </mat-card-content>
+</mat-card>

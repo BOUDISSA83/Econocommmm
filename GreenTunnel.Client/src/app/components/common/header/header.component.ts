@@ -16,7 +16,7 @@ import { LoginComponent } from '../../authentication/login/login.component';
 import { environment } from 'src/environments/environment';
 import { Permission } from 'src/app/models/permission.model';
 const alertify: any = require('src/assets/scripts/alertify.js');
- 
+
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
@@ -37,19 +37,19 @@ export class HeaderComponent implements OnInit {
 
     isToggled = false;
     title = 'Tagus - Material Design Angular Admin Dashboard Template';
-    
+
     isAppLoaded: boolean;
     isUserLoggedIn: boolean;
     newNotificationCount = 0;
     appTitle = 'GreenTunnel';
-  
+
     stickyToasties: number[] = [];
-  
+
     dataLoadingConsecutiveFailures = 0;
     notificationsLoadingSubscription: any;
-  
+
     loginControl: LoginComponent;
-  
+
     gT = (key: string | Array<string>, interpolateParams?: object) =>
       this.translationService.getTranslation(key, interpolateParams);
     client_env_name: string = environment.env_name;
@@ -81,11 +81,11 @@ export class HeaderComponent implements OnInit {
         }
         // Extra sec to display preboot loaded information
         setTimeout(() => (this.isAppLoaded = true), 1000);
-    
+
         setTimeout(() => {
           if (this.isUserLoggedIn) {
             this.alertService.resetStickyMessage();
-    
+
             // if (!this.authService.isSessionExpired)
             this.alertService.showMessage(
               this.gT('app.alerts.Login'),
@@ -96,23 +96,23 @@ export class HeaderComponent implements OnInit {
            //  this.alertService.showStickyMessage(this.gT("app.alerts.SessionExpired"), this.gT("app.alerts.SessionExpiredLoginAgain"), MessageSeverity.warn);
           }
         }, 2000);
-    
+
         this.alertService
           .getDialogEvent()
           .subscribe((alert) => this.showDialog(alert));
         this.alertService
           .getMessageEvent()
           .subscribe((message) => this.showToast(message));
-    
+
         this.authService.reLoginDelegate = () => this.openLoginModal();
-    
+
         this.authService.getLoginStatusEvent().subscribe((isLoggedIn) => {
           this.isUserLoggedIn = isLoggedIn;
     if(!this.isUserLoggedIn){
         this.router.navigate(['/authentication/login']);
     }
-         
-    
+
+
           setTimeout(() => {
             if (!this.isUserLoggedIn) {
               this.alertService.showMessage(
@@ -126,7 +126,7 @@ export class HeaderComponent implements OnInit {
           }, 500);
         });
       }
-    
+
     toggleTheme() {
         this.themeService.toggleTheme();
     }
@@ -158,10 +158,10 @@ export class HeaderComponent implements OnInit {
     toggleRTLEnabledTheme() {
         this.themeService.toggleRTLEnabledTheme();
     }
-   
+
     currentDate: Date = new Date();
     formattedDate: any = this.datePipe.transform(this.currentDate, 'dd MMMM yyyy');
-    
+
     getSampleService() {
         this.sampleService.getAppSettings().subscribe(
           (value: string) => {
@@ -172,20 +172,20 @@ export class HeaderComponent implements OnInit {
           (err: any) => console.error('error', err)
         );
       }
-    
+
       ngOnDestroy() {
         this.unsubscribeNotifications();
       }
-    
+
       private unsubscribeNotifications() {
         if (this.notificationsLoadingSubscription) {
           this.notificationsLoadingSubscription.unsubscribe();
         }
       }
-    
-     
-    
-    
+
+
+
+
       openLoginModal() {
         const modalRef = this.modalService.open(LoginComponent, {
           windowClass: 'login-control',
@@ -193,12 +193,12 @@ export class HeaderComponent implements OnInit {
           size: 'lg',
           backdrop: 'static',
         });
-    
+
         this.loginControl = modalRef.componentInstance as LoginComponent;
         this.loginControl.isModal = true;
-    
+
         this.loginControl.modalClosedCallback = () => modalRef.close();
-    
+
         modalRef.shown.subscribe(() => {
           this.alertService.showStickyMessage(
             this.gT('app.alerts.SessionExpired'),
@@ -206,11 +206,11 @@ export class HeaderComponent implements OnInit {
             MessageSeverity.info
           );
         });
-    
+
         modalRef.hidden.subscribe(() => {
           this.alertService.resetStickyMessage();
           this.loginControl.reset();
-    
+
           if (this.authService.isSessionExpired) {
             this.alertService.showStickyMessage(
               this.gT('app.alerts.SessionExpired'),
@@ -220,7 +220,7 @@ export class HeaderComponent implements OnInit {
           }
         });
       }
-    
+
       showDialog(dialog: AlertDialog) {
         alertify.set({
           labels: {
@@ -228,11 +228,11 @@ export class HeaderComponent implements OnInit {
             cancel: dialog.cancelLabel || this.gT('app.alerts.Cancel'),
           },
         });
-    
+
         switch (dialog.type) {
           case DialogType.alert:
             alertify.alert(dialog.message);
-    
+
             break;
           case DialogType.confirm:
             alertify.confirm(dialog.message, (e:any) => {
@@ -244,7 +244,7 @@ export class HeaderComponent implements OnInit {
                 }
               }
             });
-    
+
             break;
           case DialogType.prompt:
             alertify.prompt(
@@ -260,50 +260,50 @@ export class HeaderComponent implements OnInit {
               },
               dialog.defaultValue
             );
-    
+
             break;
         }
       }
-    
+
       showToast(alert: AlertCommand) {
         if (alert.operation === 'clear') {
           for (const id of this.stickyToasties.slice(0)) {
             this.toastaService.clear(id);
           }
-    
+
           return;
         }
-    
+
         const toastOptions: ToastOptions = {
           title: alert?.message?.summary,
           msg: alert?.message?.detail,
         };
-    
+
         if (alert.operation === 'add_sticky') {
           toastOptions.timeout = 0;
-    
+
           toastOptions.onAdd = (toast: ToastData) => {
             this.stickyToasties.push(toast.id);
           };
-    
+
           toastOptions.onRemove = (toast: ToastData) => {
             const index = this.stickyToasties.indexOf(toast.id, 0);
-    
+
             if (index > -1) {
               this.stickyToasties.splice(index, 1);
             }
-    
+
             if (alert.onRemove) {
               alert.onRemove();
             }
-    
+
             toast.onAdd = undefined;
             toast.onRemove = undefined;
           };
         } else {
           toastOptions.timeout = 4000;
         }
-    
+
         switch (alert?.message?.severity) {
           case MessageSeverity.default:
             this.toastaService.default(toastOptions);
@@ -325,42 +325,42 @@ export class HeaderComponent implements OnInit {
             break;
         }
       }
-    
+
       logout() {
         this.authService.logout();
         this.authService.redirectLogoutUser();
         // Redirect to the login page
          this.router.navigate(['/authentication/login']);
       }
-    
+
       getYear() {
         return new Date().getUTCFullYear();
       }
-    
+
       get userName(): string {
         return this.authService.currentUser
           ? this.authService.currentUser.userName
           : '';
       }
-    
+
       get fullName(): string {
         return this.authService.currentUser
           ? this.authService.currentUser.fullName
           : '';
       }
-    
+
       get canViewCustomers() {
         return this.accountService.userHasPermission(
           Permission.viewUsersPermission
         ); // eg. viewCustomersPermission
       }
-    
+
       get canViewProducts() {
         return this.accountService.userHasPermission(
           Permission.viewUsersPermission
         ); // eg. viewProductsPermission
       }
-    
+
       get canViewOrders() {
         return true; // eg. viewOrdersPermission
       }

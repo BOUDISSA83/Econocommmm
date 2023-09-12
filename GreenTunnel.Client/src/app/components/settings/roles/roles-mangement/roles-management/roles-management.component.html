@@ -1,22 +1,19 @@
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
+    <h5 class="mb-0">Role Management</h5>
+    <ol class="breadcrumb mb-0 ps-0">
+        <li class="breadcrumb-item">
+            <a routerLink="/">
+                <i class="ri-home-8-line"></i>
+                Dashboard
+            </a>
+        </li>
+
+        <li class="breadcrumb-item fw-semibold">Role Management</li>
+    </ol>
+</div>
 <mat-card class="mb-25 tagus-card">
     <mat-card-content>
-        <nav>
-            <ul class="ps-0 mt-0">
-                <li>
-                    <a routerLink="/account" routerLinkActive="active"
-                        [routerLinkActiveOptions]="{exact: true}">Account</a>
-                </li>
-                <li>
-                    <a routerLink="/user-mangement" routerLinkActive="active"
-                        [routerLinkActiveOptions]="{exact: true}">Users</a>
-                </li>
-                <li>
-                    <a routerLink="/role-mangement" routerLinkActive="active"
-                        [routerLinkActiveOptions]="{exact: true}">Roles</a>
-                </li>
 
-            </ul>
-        </nav>
         <mat-card-header class="d-block">
             <div class="row control-box justify-content-between">
                 <div class="col-lg-5">
@@ -35,18 +32,6 @@
 
         <div class="myTasksTable mat-elevation-z8 tagus-mat-table">
             <table mat-table [dataSource]="dataSource">
-                <!-- Task Name Column -->
-                <ng-container matColumnDef="index">
-                    <th mat-header-cell *matHeaderCellDef class="text-start">#</th>
-                    <td mat-cell *matCellDef="let element" class="text-start">
-                        <div class="d-flex align-items-center name-info">
-                            <a routerLink="/task-details">
-                                {{element.index}}
-                            </a>
-                        </div>
-                    </td>
-                </ng-container>
-
                 <!-- Deadline Column -->
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef>{{ 'roles.management.Name' | translate }}</th>
@@ -93,8 +78,9 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
             </table>
-            <mat-paginator [pageSizeOptions]="[10, 20, 30, 40]" showFirstLastButtons>
-            </mat-paginator>
+            <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" aria-label="Select page">
+          </mat-paginator>
         </div>
     </mat-card-content>
 </mat-card>

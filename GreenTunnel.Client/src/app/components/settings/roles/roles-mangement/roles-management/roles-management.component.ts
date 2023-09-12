@@ -13,7 +13,7 @@ import { RoleEditorComponent } from '../../role-editor/role-editor/role-editor.c
 import { MatTableDataSource } from '@angular/material/table';
 import { AppTranslationService } from 'src/app/services/app-translation.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-roles-management',
@@ -22,7 +22,6 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class RolesManagementComponent implements OnInit {
     displayedColumns: string[] = [
-        'index',
         'name',
         'description',
         'usersCount',
@@ -36,6 +35,11 @@ export class RolesManagementComponent implements OnInit {
     sourceRole: Role;
     editingRoleName: any;
     loadingIndicator: boolean;
+    totalRows = 0;
+    pageSize = 1;
+    currentPage = 0;
+    pageSizeOptions: number[] = [2, 10, 25, 100];
+    searchValue: string = "";
 
     @ViewChild('editorModal', { static: true })
     editorModalTemplate: TemplateRef<any>;
@@ -141,20 +145,22 @@ export class RolesManagementComponent implements OnInit {
         this.alertService.startLoadingMessage();
         this.loadingIndicator = true;
 
-        this.accountService.getRolesAndPermissions().subscribe({
-            next: (results) => {
+        this.accountService.getRolesAndPermissions(this.currentPage + 1, this.pageSize, this.searchValue, 'name', 'desc').subscribe({
+            next: (results:any) => {
                 this.alertService.stopLoadingMessage();
                 this.loadingIndicator = false;
 
                 const roles = results[0];
                 const permissions = results[1];
 
-                roles.forEach((role, index) => {
-                    (role as any).index = index + 1;
-                });
+                // roles.forEach((role, index) => {
+                //     (role as any).index = index + 1;
+                // });
 
-                this.rowsCache = [...roles];
-                this.dataSource.data = roles;
+                //this.rowsCache = [...roles];
+                this.dataSource.data = roles.items;
+                this.totalRows = roles.totalCount;
+
 
                 this.allPermissions = permissions;
             },
@@ -256,9 +262,14 @@ export class RolesManagementComponent implements OnInit {
         );
     }
     onSearchChanged(value: string) {
-        this.dataSource.data = this.rowsCache.filter((r) =>
-            Utilities.searchArray(value, false, r.name, r.description)
-        );
+        this.searchValue = value;
+        this.currentPage = 0;
+        this.loadData();
+    }
+    pageChanged(event: PageEvent) {
+        this.pageSize = event.pageSize;
+        this.currentPage = event.pageIndex;
+        this.loadData();
     }
     openAddTaskDialog(
         enterAnimationDuration: string,

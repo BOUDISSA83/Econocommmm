@@ -71,7 +71,7 @@
       "LoginErrorOccurred": "An error occurred whilst logging in, please try again later.\nError: {{error}}",
       "InvalidUsernameOrPassword": "Invalid username or password",
       "AccountDisabled": "This account has been disabled",
-      "DeveloperDemoApiNotice": "Dear user!\nIt appears the server is not running...\nYou highly recommand to call the support!",
+      "DeveloperDemoApiNotice": "Dear Developer!\nIt appears your backend Web API service is not running...\nWould you want to temporarily switch to the online Demo API below?(Or specify another)",
       "ApiChanged": "API Changed!",
       "ApiChangedTo": "The target Web API has been changed to: {{API}}"
     }

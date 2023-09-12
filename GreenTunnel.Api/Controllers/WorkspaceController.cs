@@ -1,43 +1,87 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using GreenTunnel.Core.Entities;
+using GreenTunnel.Infrastructure.ViewModels.Response.Factory;
+using GreenTunnel.Application.Workspace.Commands.CreateWorkspace;
+using GreenTunnel.Application.Workspace.Queries;
+using GreenTunnel.Application.Workspace.Commands.UpdateWorkspace;
+using GreenTunnel.Application.Workspace.Commands.DeleteWorkspace;
+using Microsoft.AspNetCore.Authorization;
+using GreenTunnel.Infrastructure.ViewModels.Response.WorkSpace;
+using GreenTunnel.Application.Workspaces.Queries;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+namespace GreenTunnel.Api.Controllers;
 
-namespace GreenTunnel.Api.Controllers
+[Authorize]
+[Route("api/[controller]")]
+[ApiController]
+public class WorkSpaceController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class WorkspaceController : ControllerBase
+    private readonly ILogger _logger;
+    private readonly IMediator _mediator;
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public WorkSpaceController(
+        ILogger<WorkSpaceController> logger,
+        IMediator mediator,
+        UserManager<ApplicationUser> userManager)
     {
-        // GET: api/<WorkspaceController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<WorkspaceController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<WorkspaceController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<WorkspaceController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<WorkspaceController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        _logger = logger;
+        _mediator = mediator;
+        _userManager = userManager;
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateWorkspaceCommand command)
+    {
+        var user = await GetCurrentUserAsync();
+        command.Model.UserId = user.Id;
+        command.Model.CreatedBy = user.FullName;
+        return Ok(await _mediator.Send(command));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        return Ok(await _mediator.Send(new GetAllWorkspaceQuery()));
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        return Ok(await _mediator.Send(new GetWorkSpaceQuery { WorkSpaceId = id }));
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateWorkspaceCommand command)
+    {
+        var user = await GetCurrentUserAsync();
+        command.Model.UserId = user.Id;
+        command.Model.UpdatedBy = user.FullName;
+        return Ok(await _mediator.Send(command));
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        return Ok(await _mediator.Send(new DeleteWorkSpaceCommand { WorkspaceId = id }));
+    }
+    [HttpGet("workspaces")]
+    //[Authorize(Policies.ViewAllUsersPolicy)]
+    [ProducesResponseType(200, Type = typeof(List<GetWorkspacesListResponseModel>))]
+    public async Task<IActionResult> GetWorkspacesList()
+    {
+        var result = await _mediator.Send(new GetWorkspacesListQuery());
+        return Ok(result);
+    }
+    [HttpGet("Allworkspaces")]
+    //[Authorize(Policies.ViewAllUsersPolicy)]
+    [ProducesResponseType(200, Type = typeof(List<WorkSpaceViewModel>))]
+    public async Task<IActionResult> GetWorkSpaces(int pageNumber, int pageSize, [FromQuery] int? workplaceId = null, [FromQuery] string? searchTerm = null, [FromQuery] string? sortColumn = null, [FromQuery] string? sortOrder = null)
+    {
+        var result = await _mediator.Send(new GetAllWorkspaceQuery { SortColumn = sortColumn, SortOrder = sortOrder, SearchTerm = searchTerm, PageNumber = pageNumber, PageSize = pageSize, WorkplaceId = workplaceId });
+        return Ok(result);
+    }
+    private async Task<ApplicationUser> GetCurrentUserAsync() => await _userManager.GetUserAsync(HttpContext.User);
 }

@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Duende.IdentityServer.AspNetIdentity;
 using GreenTunnel.Core.Interfaces;
 using GreenTunnel.Infrastructure.IdentityServer.Configurations;
 using GreenTunnel.Infrastructure.Authorization;
@@ -26,7 +27,7 @@ using GreenTunnel.Core.Entities;
 using GreenTunnel.Core;
 using GreenTunnel.Infrastructure.Interfaces;
 using GreenTunnel.Infrastructure.Repositories;
-using GreenTunnel.Repositories.Interfaces;
+using GreenTunnel.Core.Repositories.Interfaces;
 
 namespace GreenTunnel.Infrastructure.DependencyRegistrar
 {
@@ -157,9 +158,10 @@ namespace GreenTunnel.Infrastructure.DependencyRegistrar
             builder.Services.AddScoped<IUnitOfWork, HttpUnitOfWork>();
             builder.Services.AddScoped<IAccountManager, AccountManager>();
             builder.Services.AddScoped<IFactoryRepository, FactoryRepository>();
-            builder.Services.AddScoped<IWorkplaceRepository, WorkplaceRepository>();
-            builder.Services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
+            builder.Services.AddScoped<IWorkplaceRepository, WorkplacesRepository>();
+            builder.Services.AddScoped<IWorkSpaceRepository, WorkspaceRepository>();
             builder.Services.AddScoped<IAuditableEntity, AuditableEntity>();
+            builder.Services.AddScoped<IMouldsRepository, MouldsRepository>();
 
 
             // Auth Handlers

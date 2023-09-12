@@ -21,7 +21,7 @@ namespace GreenTunnel.Infrastructure.Interfaces
         int Count();
 
         IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
-        TEntity GetSingleOrDefault(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> GetSingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
         TEntity Get(int id);
         IEnumerable<TEntity> GetAll();
     }

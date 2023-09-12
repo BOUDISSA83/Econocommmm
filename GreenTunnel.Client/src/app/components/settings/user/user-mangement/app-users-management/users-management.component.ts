@@ -14,7 +14,7 @@ import { Permission } from 'src/app/models/permission.model';
 import { Utilities } from 'src/app/services/utilities';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-users-management',
@@ -184,6 +184,12 @@ export class UsersManagementComponent implements OnInit {
     editingUserName: any;
     loadingIndicator: boolean;
     allRoles: Role[] = [];
+    totalRows = 0;
+    pageSize = 1;
+    currentPage = 0;
+    pageSizeOptions: number[] = [2, 10, 25, 100];
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
+    searchValue: string = "";
     constructor(
         public dialog: MatDialog,
         private alertService: AlertService,
@@ -195,8 +201,8 @@ export class UsersManagementComponent implements OnInit {
         this.alertService.startLoadingMessage();
         this.loadingIndicator = true;
 
-        if (this.canViewRoles) {
-            this.accountService.getUsersAndRoles().subscribe({
+        if (this.canViewRoles) {debugger
+            this.accountService.getUsersAndRoles(this.currentPage + 1, this.pageSize, this.searchValue, 'name', 'desc').subscribe({
                 next: (results) =>
                     this.onDataLoadSuccessful(results[0], results[1]),
                 error: (error) => this.onDataLoadFailed(error),
@@ -215,18 +221,13 @@ export class UsersManagementComponent implements OnInit {
         }
     }
 
-    onDataLoadSuccessful(users: User[], roles: Role[]) {
+    onDataLoadSuccessful(users: any, roles: Role[]) {
         this.alertService.stopLoadingMessage();
         this.loadingIndicator = false;
 
-        users.forEach((user, index) => {
-            (user as any).index = index + 1;
-        });
+        this.dataSource.data = users.items;
 
-        this.rowsCache = [...users];
-        this.dataSource.data = users;
-
-        this.allRoles = roles;
+        this.totalRows = users.totalCount;
     }
 
     onDataLoadFailed(error: any) {
@@ -240,21 +241,16 @@ export class UsersManagementComponent implements OnInit {
             error
         );
     }
-
+    pageChanged(event: PageEvent) {
+        this.pageSize = event.pageSize;
+        this.currentPage = event.pageIndex;
+        this.loadData();
+    }
     // Rest of the component methods
     onSearchChanged(value: string) {
-        this.dataSource.data = this.rowsCache.filter((r) =>
-            Utilities.searchArray(
-                value,
-                false,
-                r.userName,
-                r.fullName,
-                r.email,
-                r.phoneNumber,
-                r.jobTitle,
-                r.roles
-            )
-        );
+        this.searchValue = value;
+        this.currentPage = 0;
+        this.loadData();
     }
     openAddTaskDialog(
         enterAnimationDuration: string,
@@ -268,8 +264,6 @@ export class UsersManagementComponent implements OnInit {
     }
 
     displayedColumns: string[] = [
-        'index',
-        'jobTitle',
         'userName',
         'fullName',
         'email',
@@ -279,13 +273,6 @@ export class UsersManagementComponent implements OnInit {
     ];
     dataSource = new MatTableDataSource<User>([]);
 
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-
-    ngAfterViewInit() {
-        if (this.dataSource) {
-            this.dataSource.paginator = this.paginator;
-        }
-    }
 
     ongoing = true;
     pending = true;
