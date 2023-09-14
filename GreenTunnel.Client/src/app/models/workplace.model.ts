@@ -3,4 +3,5 @@ export class Workplace {
     public name: string;
     public description: string;
     public factoryId: number;
+    public factoryName:string;
 }

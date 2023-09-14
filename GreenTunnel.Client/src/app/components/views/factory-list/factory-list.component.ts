@@ -10,6 +10,8 @@ import { FactoryService } from 'src/app/services/factory.service';
 import { Utilities } from 'src/app/services/utilities';
 import { AddEditFactoryComponent } from '../add-edit-factory/add-edit-factory.component';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DeleteFactoryComponent } from '../delete-factory/delete-factory.component';
 
 @Component({
     selector: 'app-factory-list',
@@ -23,7 +25,7 @@ export class FactoryListComponent implements OnInit {
     pageSize = 5;
     currentPage = 0;
     defaultPageSize = 10;
-    pageSizeOptions: number[] = [2, 10, 25, 100];
+    pageSizeOptions: number[] = [5, 10, 25, 100];
     displayedColumns: string[] = [
         'name',
         'email',
@@ -40,13 +42,13 @@ export class FactoryListComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     searchValue: string = "";
-
     constructor(
         public dialog: MatDialog,
         private alertService: AlertService,
         private accountService: AccountService,
         private factoryService: FactoryService,
-        private router: Router
+        private router: Router,
+        private modalService: NgbModal,
     ) { }
 
     ngOnInit(): void {
@@ -113,12 +115,20 @@ export class FactoryListComponent implements OnInit {
         this.loadData();
     }
     deleteFactory(row: Factory) {
-        this.alertService.showDialog(
-            `Are you sure you want to delete \"${row.name}\"?`,
-            DialogType.confirm,
-            () => this.deleteUserHelper(row)
+        const modalRef = this.modalService.open(
+            DeleteFactoryComponent,
+            {
+                size: 'lg',
+                backdrop: 'static'
+            }
         );
+        modalRef.componentInstance.row = row;
+        modalRef.componentInstance.deleteChanged.subscribe((data) => {
+            this.modalService.dismissAll();
+            this.loadData();
+        })
     }
+
     deleteUserHelper(row: Factory) {
         this.alertService.startLoadingMessage('Deleting...');
         this.loadingIndicator = true;

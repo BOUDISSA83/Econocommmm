@@ -10,5 +10,6 @@ namespace GreenTunnel.Core.Repositories.Interfaces
 {
     public interface IMouldsRepository : IRepository<Moulds>
     {
+        Task<List<Moulds>> GetAllByWorkspaceId(int id);
     }
 }

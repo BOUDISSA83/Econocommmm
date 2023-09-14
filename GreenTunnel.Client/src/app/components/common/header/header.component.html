@@ -104,15 +104,18 @@
                                 <i class="ri-user-3-line"></i> Profile
                             </a>
                         </li>
+                        <li >
+                            <div class="row" style="margin-left: 1px;">
+                            <a class="col-md-8"><i class="ri-user-3-line"></i> Dark Mode</a>
+                            <button (click)="toggleTheme()" class="switch-btn col-md-3"  [class.active]="isDark()"></button>
+                        </div>
+                        </li>
                         <li *ngIf="isUserLoggedIn">
                             <a (click)="logout()">
                                 <i class="ri-shut-down-line"></i> {{'mainMenu.Logout' | translate}}
                             </a>
                         </li>
-                        <li >
-                            <a (click)="toggleTheme()" > Dark Mode</a>
-                            <!-- <button class="switch-btn"></button> -->
-                        </li>
+
                         <li *ngIf="!isUserLoggedIn">
                             <a routerLink="/authentication/login">
                                 <i class="ri-shut-down-line"></i> Login

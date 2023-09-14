@@ -31,9 +31,7 @@ export class ViewWorkspaceComponent {
       this.workspaceData = workplace;
     });
   }
-  goBack(): void {
-    // Navigate back to the list of factories
-    // You can use the Angular Router to navigate
-    // Example: this.router.navigate(['/factories']);
-}
+  goBack() {
+    this.router.navigate(['/workspaces']);
+  }
 }

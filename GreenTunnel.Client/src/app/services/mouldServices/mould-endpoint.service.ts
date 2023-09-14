@@ -12,11 +12,11 @@ export class MouldEndpointService extends EndpointBase  {
   constructor(private configurations: ConfigurationService, http: HttpClient,authService: AuthService) {
     super(http, authService)
   }
-  getMouldsEndpoint<T>(page?: number, pageSize?: number): Observable<T> {
+  getMouldsEndpoint<T>(workspaceId:number,page?: number, pageSize?: number): Observable<T> {
     //const endpointUrl =  this.mouldsUrl;
     debugger
     //const endpointUrl = page && pageSize ? `${this.mouldsUrl}/${page}/${pageSize}` : this.mouldsUrl;
-    const endpointUrl = this.mouldsUrl;
+    const endpointUrl = `${this.mouldsUrl}?id=${workspaceId}&page=${page}&pageSize=${pageSize}`;
     return this.http.get<T>(endpointUrl, this.requestHeaders).pipe<T>(
       catchError<T, Observable<T>>((error:any) => {
         return this.handleError(error, () => this.getMouldsEndpoint(page, pageSize));

@@ -78,6 +78,7 @@ export class UsersManagementComponent implements OnInit {
         const modalRef = this.modalService.open(this.editorModalTemplate, {
             size: 'lg',
             backdrop: 'static',
+            
         });
 
         modalRef.shown.subscribe(() => {
@@ -185,7 +186,7 @@ export class UsersManagementComponent implements OnInit {
     loadingIndicator: boolean;
     allRoles: Role[] = [];
     totalRows = 0;
-    pageSize = 1;
+    pageSize = 5;
     currentPage = 0;
     pageSizeOptions: number[] = [2, 10, 25, 100];
     @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -221,13 +222,15 @@ export class UsersManagementComponent implements OnInit {
         }
     }
 
-    onDataLoadSuccessful(users: any, roles: Role[]) {
+    onDataLoadSuccessful(users: any, roles: any) {
         this.alertService.stopLoadingMessage();
         this.loadingIndicator = false;
 
         this.dataSource.data = users.items;
 
         this.totalRows = users.totalCount;
+        this.allRoles = roles.items;
+
     }
 
     onDataLoadFailed(error: any) {

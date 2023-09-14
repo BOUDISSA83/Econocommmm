@@ -57,7 +57,7 @@ namespace GreenTunnel.Infrastructure.Repositories
                 {
                     workspacesQuery = workspacesQuery.OrderBy(GetSortProperty(sortColumn));
                 }
-                workspacesQuery = workspacesQuery
+                workspacesQuery = workspacesQuery.Include(m=>m.Workplace)
                .AsSingleQuery()
                .OrderBy(r => r.CreatedDate);
             }
@@ -73,6 +73,13 @@ namespace GreenTunnel.Infrastructure.Repositories
                 "name" => workspace => workspace.Name,
                 _ => workspace => workspace.Id,
             };
+        }
+
+        public async Task<Workspace> GetByIdDetailsAsync(int id)
+        {
+            return await _appContext.Workspaces
+               .Include(w => w.Workplace)
+               .FirstOrDefaultAsync(w => w.Id == id);
         }
     }
 }

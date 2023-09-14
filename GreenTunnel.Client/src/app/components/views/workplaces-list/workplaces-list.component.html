@@ -1,4 +1,4 @@
-<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
+<div *ngIf="!isSubView" class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
     <h5 class="mb-0">Workplaces</h5>
     <ol class="breadcrumb mb-0 ps-0">
         <li class="breadcrumb-item">
@@ -11,7 +11,7 @@
         <li class="breadcrumb-item fw-semibold">WorkPlaces</li>
     </ol>
 </div>
-<mat-card class="mb-25 tagus-card">
+<mat-card class="mb-25 tagus-card" [ngClass]="{'px-0': isSubView}">
     <mat-card-content>
        
         <mat-card-header class="d-block">
@@ -49,10 +49,15 @@
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef>{{ 'Name' | translate }}</th>
                     <td mat-cell *matCellDef="let element">
+                        <a class="text-primary cursor-pointer" [routerLink]="['/view-workplace']" [queryParams]="{ id: element.id }">{{ element.factoryName }}</a>
+                    </td>
+                </ng-container> 
+                <ng-container matColumnDef="factoryName">
+                    <th mat-header-cell *matHeaderCellDef>{{ 'Factory Name' | translate }}</th>
+                    <td mat-cell *matCellDef="let element">
                         <a class="text-primary cursor-pointer" [routerLink]="['/view-workplace']" [queryParams]="{ id: element.id }">{{ element.name }}</a>
                     </td>
                 </ng-container>
-               
                 <!-- Priority Column -->
                 <ng-container matColumnDef="description">
                     <th mat-header-cell *matHeaderCellDef>{{ 'Description' | translate }}</th>

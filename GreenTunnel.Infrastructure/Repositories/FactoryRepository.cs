@@ -42,7 +42,7 @@ namespace GreenTunnel.Infrastructure.Repositories
 
             return factoriesList;
         }
-        public async Task<PagedList<Factory>> GetFactoriesAsync(string sortColumn, string sortOrder, string searchTerm,int page, int pageSize)
+        public async Task<PagedList<Factory>> GetFactoriesAsync(string? sortColumn, string? sortOrder, string? searchTerm,int page, int pageSize)
         {
             IQueryable<Factory> factoriesQuery = _appContext.Factories;
             if (!string.IsNullOrWhiteSpace(searchTerm))

@@ -36,6 +36,7 @@ namespace GreenTunnel.Infrastructure.ViewModels.Response.Factory
 
         public string UpdatedBy { get; set; }
         public string CreatedBy { get; set; }
+        public string FactoryName { get; set; }
         // Add other properties as needed
     }
     public class WorkSpaceViewModel
@@ -43,6 +44,7 @@ namespace GreenTunnel.Infrastructure.ViewModels.Response.Factory
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string WorkplaceName { get; set; }
         public int Order { get; set; }
         public int WorkplaceId { get; set; }
 

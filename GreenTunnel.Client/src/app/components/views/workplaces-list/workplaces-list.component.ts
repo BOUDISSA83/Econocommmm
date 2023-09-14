@@ -38,12 +38,13 @@ export class WorkplacesListComponent implements OnInit {
     pageSize = 5;
     currentPage = 0;
     defaultPageSize = 10; // You can set your desired default page size here
-    pageSizeOptions: number[] = [2, 10, 25, 100];
+    pageSizeOptions: number[] = [5, 10, 25, 100];
     editorModalTemplate: TemplateRef<any>;
 
     displayedColumns: string[] = [
 
         'name',
+        'factoryName',
         'description',
         'actions'
     ];
@@ -51,6 +52,7 @@ export class WorkplacesListComponent implements OnInit {
     sourceUser: null;
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     searchValue: string = "";
+    isSubView: boolean;
     get canAssignRoles() {
         return this.accountService.userHasPermission(
             Permission.assignRolesPermission
@@ -75,6 +77,9 @@ export class WorkplacesListComponent implements OnInit {
         private modalService: NgbModal,
         private router: Router) { }
     ngOnInit(): void {
+        if (this.factoryId > 0) {
+            this.isSubView = true;
+        }
         this.loadData();
 
     }

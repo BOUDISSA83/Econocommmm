@@ -2,7 +2,7 @@
     <h5 class="mb-0">Profile</h5>
     <ol class="breadcrumb mb-0 ps-0">
         <li class="breadcrumb-item">
-            <a routerLink="/analytics">
+            <a routerLink="/">
                 <i class="ri-home-8-line"></i>
                 Dashboard
             </a>
@@ -10,27 +10,27 @@
     </ol>
 </div>
 <mat-card class="mb-25 tagus-card">
-   
+
     <mat-card-content>
-      
+
         <form *ngIf="formResetToggle" [attr.autocomplete]="isGeneralEditor ? 'NaN' : null" name="userInfoForm"
             #f="ngForm" novalidate
             (ngSubmit)="f.form.valid ? save() :
-    
+
           (!userName.valid && showErrorAlert('User name is required', 'Please enter a user name (minimum of 2 and maximum of 200 characters)'));
-    
+
           (userPassword && !userPassword.valid && showErrorAlert('Password is required', 'Please enter the current password'));
-    
+
           (email.errors?.required && email?.touched && showErrorAlert('Email is required', 'Please enter an email address (maximum of 200 characters)'));
           (email.errors?.pattern && email?.touched && showErrorAlert('Invalid Email', 'Please enter a valid email address'));
-    
+
           (isChangePassword  && isEditingSelf && isChangePassword?.touched && !currentPassword.valid && showErrorAlert('Current password is required', 'Please enter the current password'));
-    
+
           ((isChangePassword || isNewUser) && newPassword?.touched  &&  !newPassword.valid && showErrorAlert('New password is required', 'Please enter the new password (minimum of 6 characters)'));
-    
+
           ((isChangePassword || isNewUser) && newPassword?.touched && newPassword.valid && confirmPassword.errors?.required && showErrorAlert('Confirmation password is required', 'Please enter the confirmation password'));
           ((isChangePassword || isNewUser) && newPassword?.touched && newPassword.valid && confirmPassword.errors?.appValidateEqual && showErrorAlert('Passwword mismatch', 'New password and confirmation password do not match'));
-    
+
           (canAssignRoles && !roles.valid && showErrorAlert('Roles is required', 'Please select a minimum of 1 role'));">
             <div class="row mt-20">
                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -62,7 +62,7 @@
                             <i class="ri-mail-line"></i>
                             <input matInput type="text" attr.id="email-{{uniqueId}}" name="email"
                                 placeholder="Enter email address"
-                               
+
                                 [(ngModel)]="userEdit.email" #email="ngModel" required maxlength="200"
                                 pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$">
 
@@ -200,7 +200,7 @@
                                                 </span>
                                             </div>
                                         </div>
-                                    </div>                                  
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -223,7 +223,7 @@
                         <!-- <i class="ri-phone-line"></i>
                             <input matInput value="+(555) 555-1234"> -->
                         <div *ngIf="isEditMode && canAssignRoles"
-                            
+
                             [class.col-lg-9]="isViewOnly" [class.col-lg-10]="!isViewOnly">
                             <ng-select id="roles-user-info" name="roles" [items]="allRoles" bindLabel="name"
                                 bindValue="name" [multiple]="true" [closeOnSelect]="false" placeholder="Select Roles"
@@ -242,6 +242,7 @@
                                     <i class="fa fa-check d-none"></i>
                                 </ng-template>
                             </ng-select>
+
                             <span *ngIf="showValidationErrors  && !roles?.valid" class="invalid-feedback d-block">
                                 {{'users.editor.RoleRequired' | translate}}
                             </span>
@@ -281,7 +282,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6" *ngIf="!isViewOnly">
+                <!-- <div class="col-lg-6 col-md-6 col-sm-6" *ngIf="!isViewOnly">
                     <div class="tagus-form-group">
                         <label class="d-block mb-12 fw-semibold gray-color">{{'users.editor.Enabled' |
                             translate}}</label>
@@ -295,7 +296,7 @@
                                     class='fa fa-unlock-alt'></i> {{'users.editor.Unblock' | translate}}</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div *ngIf="!isViewOnly" class="row">
                     <div class="col-sm-5">
                         <div class="tagus-form-group">
@@ -335,14 +336,80 @@
             <!-- <button mat-raised-button *ngIf="isEditMode" type="button" (click)="cancel()"
                 class="tagus fw-semibold button-spacing" [disabled]="isSaving"><i class='fa fa-times'></i>
                 {{'users.editor.Cancel' | translate}}</button> -->
-            <button mat-raised-button *ngIf="isEditMode" type="submit" class="tagus fw-semibold button-spacing"
+            <!-- <button mat-raised-button *ngIf="isEditMode" type="submit" class="tagus fw-semibold button-spacing"
                 [disabled]="isSaving">
                 <i *ngIf="!isSaving" class='ri-edit-fill'></i><i *ngIf="isSaving"
                     class='fa fa-circle-o-notch fa-spin'></i> {{isSaving ? ('users.editor.Saving' | translate) :
                 ('users.editor.Save' | translate)}}
-            </button>
-            <button mat-raised-button *ngIf="!isEditMode && !isGeneralEditor" type="submit"
+            </button> -->
+            <!-- <button mat-raised-button *ngIf="!isEditMode && !isGeneralEditor" type="submit"
                 class="tagus fw-semibold button-spacing"><i class="ri-add-fill"></i> Add New User</button>
-        </form>
+        </form> -->
+        <div>
+            <br/>
+            <h5 class="mb-0">More Settings</h5>
+            <br/>
+            <div class="row">
+            <div class="p-20 col-md-5">
+            <div class="row">
+                <div class="col-md-9">
+                    <span class="sub-title d-block mb-12 fw-semibold ">Dark Mode</span>
+                </div>
+                <div class="col-md-3">
+                    <button (click)="toggleTheme()" class="switch-btn " [class.active]="isDark()"></button>
+                </div>
+            </div>
+            </div>
+            <div class="p-20 col-md-5">
+                <div class="row">
+                    <div class="col-md-9">
+                <span class="sub-title d-block mb-12 fw-semibold">Only Sidebar Dark</span>
+            </div>
+            <div class="col-md-3">
+                <button (click)="toggleSidebarTheme()" class="switch-btn" [class.active]="isSidebarDark()"></button>
+            </div>
+            </div>
+            </div>
+            </div>
+            <div class="row">
+            <div class="p-20 col-md-5">
+                <div class="row">
+                    <div class="col-md-9">
+                <span class="sub-title d-block mb-12 fw-semibold">Only Header Dark</span>
+            </div>
+            <div class="col-md-3">
+                <button (click)="toggleHeaderTheme()" class="switch-btn" [class.active]="isHeaderDark()"></button>
+            </div>
+        </div>
+            </div>
+            <div class="p-20 col-md-5">
+                <div class="row">
+                    <div class="col-md-9">
+                <span class="sub-title d-block mb-12 fw-semibold">Borderd Card</span>
+            </div>
+            <div class="col-md-3">
+                <button (click)="toggleCardBorderTheme()" class="switch-btn" [class.active]="isCardBorder()"></button>
+            </div>
+        </div>
+    </div>
+            </div>
+        </div>
+        <!-- <button mat-raised-button *ngIf="!isEditMode && !isGeneralEditor" type="submit"
+                class="tagus fw-semibold button-spacing"> Update</button> -->
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div style="text-align: right;" class="mb-3 example-buttons">
+                    <button mat-raised-button *ngIf="isEditMode" type="submit" class="tagus fw-semibold button-spacing"
+                    [disabled]="isSaving">
+                    <i *ngIf="isSaving"
+                        class='fa fa-circle-o-notch fa-spin'></i> {{isSaving ? ('users.editor.Saving' | translate) :
+                    ('Update' | translate)}}
+                </button>
+
+                    </div>
+                    </div>
+                    </div>
+ </form>
     </mat-card-content>
 </mat-card>

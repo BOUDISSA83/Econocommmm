@@ -38,9 +38,8 @@ export class ViewFactoryComponent implements OnInit {
       this.factoryData = factory;
     });
   }
-  goBack(): void {
-    // Navigate back to the list of factories
-    // You can use the Angular Router to navigate
-    // Example: this.router.navigate(['/factories']);
+
+goBack() {
+  this.router.navigate(['/factories']);
 }
 }

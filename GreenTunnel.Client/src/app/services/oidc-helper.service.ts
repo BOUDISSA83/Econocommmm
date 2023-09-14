@@ -11,15 +11,13 @@ import { ConfigurationService } from './configuration.service';
 import { DBkeys } from './db-keys';
 import { LoginResponse } from '../models/login-response.model';
 
-import { environment } from '../../environments/environment';
-
 @Injectable()
 export class OidcHelperService {
 
   private readonly clientId = 'greentunnel_spa';
   private readonly scope = 'openid email phone profile offline_access roles greentunnel_api';
 
-    private readonly tokenEndpoint = environment.baseUrl + '/connect/token';
+  private readonly tokenEndpoint = '/connect/token';
 
   constructor(
     private http: HttpClient,

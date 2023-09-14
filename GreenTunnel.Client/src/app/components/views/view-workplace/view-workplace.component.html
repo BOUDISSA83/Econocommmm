@@ -39,6 +39,16 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="tagus-form-group">
+                        <label class="d-block mb-12 fw-semibold gray-color">Factory Name</label>
+                        <mat-form-field appearance="fill">
+                            <i class="ri-user-3-line"></i>
+                            <mat-label>Factory Name</mat-label>
+                            <input matInput [value]="workplaceData.factoryName" eadonly>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="tagus-form-group">
                         <label class="d-block mb-12 fw-semibold gray-color">Description</label>
                         <mat-form-field appearance="fill">
                             <i class="ri-phone-line"></i>
@@ -49,9 +59,15 @@
                 </div>
             </div>
             
-        <button mat-flat-button class="default-btn tagus" (click)="goBack()">
-         Back
-        </button>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div style="text-align: right;" class="mb-3 example-buttons">
+                        <button mat-flat-button class="default-btn tagus" (click)="goBack()">
+                            Back
+                        </button>
+                    </div>
+                </div>
+            </div>
             </mat-tab>
             <mat-tab label="Workspaces"><br>
             <app-workspaces-list [workplaceId]="workplaceId"></app-workspaces-list>

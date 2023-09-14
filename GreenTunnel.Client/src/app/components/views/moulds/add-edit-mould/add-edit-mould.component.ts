@@ -46,7 +46,7 @@ export class AddEditMouldComponent {
         if (params['workspaceId']) {
           this.workspaceId = Number(params['workspaceId']);
           if(this.workspaceId > 0)
-          this.mouldForm.get('workspaceId').setValue(this.workspaceId);
+          this.mouldForm.get('workspaceid').setValue(this.workspaceId);
         }
       });
     this.getWorkspaceList();
@@ -80,8 +80,6 @@ export class AddEditMouldComponent {
       this.mouldRequest.model = { ...this.mouldForm.value };
       this.mouldRequest.model.id = this.mouldId;
       this.mouldRequest.model.UserId = this.accountService.currentUser.id;
-        var test=this.mouldForm.get('workspaceId');
-      this.mouldRequest.model.WorkspaceId = formData.WorkspaceId;
       debugger
       if (this.isEditMode) {
         // Update an existing mould
@@ -98,5 +96,8 @@ export class AddEditMouldComponent {
       }
     }
 
+  }
+  cancel() {
+    this.router.navigate(['/moulds']);
   }
 }

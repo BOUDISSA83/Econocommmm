@@ -5,6 +5,7 @@ import { AlertService, DialogType, MessageSeverity } from 'src/app/services/aler
 import { AuthService } from 'src/app/services/auth.service';
 import { ConfigurationService } from 'src/app/services/configuration.service';
 import { Utilities } from 'src/app/services/utilities';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-login',
@@ -23,6 +24,7 @@ export class LoginComponent  implements OnInit, OnDestroy{
     @Input()
     isModal = false;
     constructor(
+      private toastr: ToastrService,
         public themeService: CustomizerSettingsService,
         private alertService: AlertService,
          private authService: AuthService,
@@ -80,10 +82,10 @@ export class LoginComponent  implements OnInit, OnDestroy{
       }
     
     
-      login() {
+      login() {debugger
         this.isLoading = true;
-        this.alertService.startLoadingMessage('', 'Attempting login...');
-    
+        this.toastr.success('', 'Attempting login...');
+
         this.authService.loginWithPassword(this.userLogin.userName, this.userLogin.password, this.userLogin.rememberMe)
           .subscribe({
             next: user => {
@@ -93,11 +95,12 @@ export class LoginComponent  implements OnInit, OnDestroy{
                 this.reset();
     
                 if (!this.isModal) {
-                  this.alertService.showMessage('Login', `Welcome ${user.userName}!`, MessageSeverity.success);
+                  this.toastr.success('Login', `Welcome ${user.userName}!`);
+
                 } else {
-                  this.alertService.showMessage('Login', `Session for ${user.userName} restored!`, MessageSeverity.success);
+                  this.toastr.success('Login', `Session for ${user.userName} restored!`);
                   setTimeout(() => {
-                    this.alertService.showStickyMessage('Session Restored', 'Please try your last operation again', MessageSeverity.default);
+                    this.toastr.success('Session Restored', 'Please try your last operation again');
                   }, 500);
     
                   this.closeModal();
@@ -115,9 +118,10 @@ export class LoginComponent  implements OnInit, OnDestroy{
                 const errorMessage = Utilities.getHttpResponseMessage(error);
     
                 if (errorMessage) {
-                  this.alertService.showStickyMessage('Unable to login', this.mapLoginErrorMessage(errorMessage), MessageSeverity.error, error);
+                  this.toastr.error('Unable to login', this.mapLoginErrorMessage(errorMessage));
+
                 } else {
-                  this.alertService.showStickyMessage('Unable to login', 'An error occurred whilst logging in, please try again later.\nError: ' + Utilities.getResponseBody(error), MessageSeverity.error, error);
+                  this.toastr.error('Unable to login', 'An error occurred whilst logging in, please try again later.\nError: ' + Utilities.getResponseBody(error));
                 }
               }
     
@@ -136,7 +140,7 @@ export class LoginComponent  implements OnInit, OnDestroy{
             DialogType.prompt,
             (value: string) => {
               this.configurations.baseUrl = value;
-              this.alertService.showStickyMessage('API Changed!', 'The target Web API has been changed to: ' + value, MessageSeverity.warn);
+              this.toastr.error('API Changed!', 'The target Web API has been changed to: ' + value);
             },
             null,
             null,

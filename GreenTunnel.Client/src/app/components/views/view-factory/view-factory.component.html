@@ -21,7 +21,7 @@
     </ol>
 </div>
 
-<mat-card class="mb-25 tagus-card">
+<mat-card class="mb-25 tagus-card" *ngIf="factoryData != null">
     <mat-card-content>
         <mat-tab-group>
             <mat-tab label="Details"><br>
@@ -33,7 +33,17 @@
                         <mat-form-field appearance="fill">
                             <i class="ri-user-3-line"></i>
                             <mat-label>Name</mat-label>
-                            <input matInput [value]="factoryData.name" readonly>
+                            <input matInput [value]="factoryData?.name" readonly>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="tagus-form-group">
+                        <label class="d-block mb-12 fw-semibold gray-color">Factory</label>
+                        <mat-form-field appearance="fill">
+                            <i class="ri-user-3-line"></i>
+                            <mat-label>Factory</mat-label>
+                            <input matInput [value]="factoryData?.factoryName" readonly>
                         </mat-form-field>
                     </div>
                 </div>
@@ -43,7 +53,7 @@
                         <mat-form-field appearance="fill">
                             <i class="ri-mail-line"></i>
                             <mat-label>Email</mat-label>
-                            <input matInput [value]="factoryData.email" readonly>
+                            <input matInput [value]="factoryData?.email" readonly>
                         </mat-form-field>
                     </div>
                 </div>
@@ -53,7 +63,7 @@
                         <mat-form-field appearance="fill">
                             <i class="ri-map-pin-line"></i>
                             <mat-label>Address</mat-label>
-                            <input matInput [value]="factoryData.address" readonly>
+                            <input matInput [value]="factoryData?.address" readonly>
                         </mat-form-field>
                     </div>
                 </div>
@@ -63,7 +73,7 @@
                         <mat-form-field appearance="fill">
                             <i class="ri-phone-line"></i>
                             <mat-label>Description</mat-label>
-                            <input matInput [value]="factoryData.description" readonly>
+                            <input matInput [value]="factoryData?.description" readonly>
                         </mat-form-field>
                     </div>
                 </div>
@@ -73,7 +83,7 @@
                         <mat-form-field appearance="fill">
                             <i class="ri-phone-line"></i>
                             <mat-label>Mobile</mat-label>
-                            <input matInput [value]="factoryData.mobile" readonly>
+                            <input matInput [value]="factoryData?.mobile" readonly>
                         </mat-form-field>
                     </div>
                 </div>
@@ -83,7 +93,7 @@
                         <mat-form-field appearance="fill">
                             <i class="ri-phone-line"></i>
                             <mat-label>Phone</mat-label>
-                            <input matInput [value]="factoryData.phone" readonly>
+                            <input matInput [value]="factoryData?.phone" readonly>
                         </mat-form-field>
                     </div>
                 </div>
@@ -93,7 +103,7 @@
                         <mat-form-field appearance="fill">
                             <i class="ri-user-3-line"></i>
                             <mat-label>Support</mat-label>
-                            <input matInput [value]="factoryData.support" readonly>
+                            <input matInput [value]="factoryData?.support" readonly>
                         </mat-form-field>
                     </div>
                 </div>
@@ -102,10 +112,15 @@
                     <!-- Remove the button, as this is a read-only details page -->
                 </div>
             </div>
-            
-        <button mat-flat-button class="default-btn tagus" (click)="goBack()">
-           Back
-        </button>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div style="text-align: right;" class="mb-3 example-buttons">
+                        <button mat-flat-button class="default-btn tagus" (click)="goBack()">
+                            Back
+                        </button>
+                    </div>
+                </div>
+            </div>
             </mat-tab>
             <mat-tab label="Workplaces"><br>
             <app-workplaces-list [factoryId]="factoryId"></app-workplaces-list>

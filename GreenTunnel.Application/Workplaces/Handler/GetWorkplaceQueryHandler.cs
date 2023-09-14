@@ -27,9 +27,9 @@ namespace GreenTunnel.Application.Workplaces.Handler
 
         public async Task<WorkplaceViewModel> Handle(GetWorkplaceQuery request, CancellationToken cancellationToken)
         {
-            var factory = await _workplaceRepository.GetSingleOrDefaultAsync(f => f.Id == request.WorkplaceId);
+            var workplace = await _workplaceRepository.GetByIdDetailsAsync(request.WorkplaceId);
 
-            if (factory == null)
+            if (workplace == null)
             {
                 // Handle factory not found
                 // Return an appropriate response or throw an exception
@@ -37,7 +37,7 @@ namespace GreenTunnel.Application.Workplaces.Handler
             }
 
             // Map the factory entity to a view model (you'll need to define FactoryViewModel)
-            var  workplaceViewModel = _mapper.Map<WorkplaceViewModel>(factory);
+            var  workplaceViewModel = _mapper.Map<WorkplaceViewModel>(workplace);
 
             return workplaceViewModel;
         }

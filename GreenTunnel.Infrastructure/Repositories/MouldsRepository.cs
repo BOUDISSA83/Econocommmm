@@ -20,6 +20,10 @@ namespace GreenTunnel.Infrastructure.Repositories
         }
 
 
-        private ApplicationDbContext _appContext;
+        private ApplicationDbContext _appContext; 
+        public async Task<List<Moulds>> GetAllByWorkspaceId(int id)
+        {
+           return await  _appContext.Moulds.Where(m=>m.WorkspaceId == id).ToListAsync();
+        }
     }
 }

@@ -1,3 +1,4 @@
+
 nav {
     ul {
         list-style-type: none;
@@ -30,6 +31,34 @@ nav {
         }
     }
 }
+.switch-btn {
+    width: 60px;
+    height: 30px;
+    cursor: pointer;
+    position: relative;
+    border-radius: 30px;
+    display: inline-block;
+    border: 1px solid #ededed;
+    background-color: transparent;
+
+    &::before {
+        left: 4px;
+        width: 22px;
+        content: "";
+        bottom: 3px;
+        height: 22px;
+        border-radius: 50%;
+        position: absolute;
+        background-color: #dad9d9;
+        transition: var(--transition);
+    }
+    &.active {
+        &::before {
+            left: 31px;
+            background-color: var(--heraBlueColor) !important;
+        }
+    }
+}
 .component-dark-theme {
     nav {
         ul {
@@ -37,7 +66,7 @@ nav {
                 a {
                     color: #828690;
                     background-color: #1e2227;
-                    
+
                     &:hover, &.active {
                         background-color: var(--heraBlueColor);
                         color: var(--whiteColor);
@@ -92,4 +121,3 @@ nav {
     margin-right: 10px; /* Adjust the value as needed */
   }
 
-  

@@ -4,8 +4,9 @@ using MediatR;
 
 namespace GreenTunnel.Application.Moulds.Queries
 {
-    public class GetAllMouldsQuery : IRequest<PagedList<MouldsViewModel>>
+    public class GetMouldsByWorkspaceIdQuery : IRequest<PagedList<MouldsViewModel>>
     {
+        public int Id { get; set; }
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
     }

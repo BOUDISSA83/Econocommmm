@@ -15,7 +15,7 @@
                         [(ngModel)]="roleEdit.name" #roleName="ngModel" required minlength="2" maxlength="200" />
                   </div>
               </div>
-    
+
                 <div class="col-lg-6 col-md-6">
                   <div class="form-group">
                     <label [class.col-lg-3]="isViewOnly" [class.col-lg-2]="!isViewOnly" class="d-block fw-semibold" for="roleDescription">{{'roles.editor.Description' |
@@ -37,7 +37,7 @@
                <div class="row">
                 <div class="col-sm-12 mat-card card-body bg-light well-sm permissionsRow mx-0 mb-5">
                   <div class="row">
-          
+
                     <ng-template ngFor let-permissionGroup [ngForOf]="allPermissions | groupBy: 'groupName'" let-i="index">
                       <div class="row col-sm-6 permissionsColumn">
                         <div class="col-md-7">
@@ -52,22 +52,22 @@
                       </div>
                       <div *ngIf="(i + 1) % 2 === 0" class="clearfix"></div>
                     </ng-template>
-          
+
                   </div>
                 </div>
-          
+
               </div>
         <div class="clearfix"></div>
           </div>
-          <div class="text-end">
-              <button *ngIf="!canManageRoles" type="button" class="gray button-spacing" (click)="cancel()"><i class="ri-close-fill"></i> {{'roles.editor.Close' | translate}}</button>
-              <button *ngIf="canManageRoles" type="button" (click)="cancel()" class="btn btn-danger button-spacing" [disabled]="isSaving"><i class='fa fa-times'></i> {{'roles.editor.Cancel' | translate}}</button>
-              <button *ngIf="canManageRoles" type="submit" class="btn btn-primary" [disabled]="isSaving">
-                <i *ngIf="!isSaving" class='ri-edit-fill'></i><i *ngIf="isSaving" class='fa fa-circle-o-notch fa-spin button-spacing'></i>  {{isSaving ? ('roles.editor.Saving' | translate) : ('roles.editor.Save' | translate)}}
-              </button>      
+          <div class="float-end">
+              <button mat-flat-button *ngIf="!canManageRoles" type="button" class="gray text-primary" (click)="cancel()">{{'roles.editor.Close' | translate}}</button>
+              <button mat-flat-button *ngIf="canManageRoles" type="button" (click)="cancel()" class="gray text-primary" [disabled]="isSaving"> {{'roles.editor.Cancel' | translate}}</button>
+              <button mat-flat-button *ngIf="canManageRoles" type="submit" class="tagus" [disabled]="isSaving">
+                <i *ngIf="isSaving" class='fa fa-circle-o-notch fa-spin button-spacing'></i>  {{isSaving ? ('roles.editor.Saving' | translate) : ('roles.editor.Save' | translate)}}
+              </button>
             </div>
       </form>
-    
+
     </div>
     </mat-card-content>
     </mat-card>

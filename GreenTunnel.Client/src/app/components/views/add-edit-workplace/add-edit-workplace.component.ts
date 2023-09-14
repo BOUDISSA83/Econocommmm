@@ -90,4 +90,7 @@ export class AddEditWorkplaceComponent {
     }
 
   }
+  cancel() {
+    this.router.navigate(['/workplaces']);
+  }
 }

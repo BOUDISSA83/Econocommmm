@@ -91,4 +91,7 @@ getWorkplacesList(){
     }
 
   }
+  cancel() {
+    this.router.navigate(['/workspaces']);
+  }
 }

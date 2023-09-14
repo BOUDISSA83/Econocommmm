@@ -29,7 +29,7 @@ namespace GreenTunnel.Application.Workplaces.Handler
         }
         public async Task<PagedList<WorkplaceViewModel>> Handle(GetAllWorkplaceQuery request, CancellationToken cancellationToken)
         {
-            var workplacesList = await _workplaceRepository.GetWorkplacesAsync(request.SortColumn, request.SortOrder, request.SearchTerm, request.FactoryId, request.PageNumber, request.PageSize);
+            var workplacesList = await _workplaceRepository.GetWorkplacesAsync(request.SortColumn, request.SortOrder, request.SearchTerm,request.FactoryId,request.PageNumber, request.PageSize);
 
             var workplacesViewModels = _mapper.Map<List<WorkplaceViewModel>>(workplacesList.Items);
 

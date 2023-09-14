@@ -68,7 +68,8 @@ export class HeaderComponent implements OnInit {
         private translationService: AppTranslationService,
         public configurations: ConfigurationService,
         public router: Router,
-        private sampleService: SampleService
+        private sampleService: SampleService,
+        private serviceT:CustomizerSettingsService
     ) {
         this.toggleService.isToggled$.subscribe(isToggled => {
             this.isToggled = isToggled;
@@ -146,7 +147,9 @@ export class HeaderComponent implements OnInit {
     toggleCardBorderTheme() {
         this.themeService.toggleCardBorderTheme();
     }
-
+    isDark() {
+        return this.serviceT.isDark();
+    }
     toggleHeaderTheme() {
         this.themeService.toggleHeaderTheme();
     }

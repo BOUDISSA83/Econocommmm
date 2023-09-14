@@ -27,7 +27,7 @@ namespace GreenTunnel.Application.Workspace.Handler
 
         public async Task<WorkSpaceViewModel> Handle(GetWorkSpaceQuery request, CancellationToken cancellationToken)
         {
-            var factory = await _workSpaceRepository.GetSingleOrDefaultAsync(f => f.Id == request.WorkSpaceId);
+            var factory = await _workSpaceRepository.GetByIdDetailsAsync(request.WorkSpaceId);
 
             if (factory == null)
             {

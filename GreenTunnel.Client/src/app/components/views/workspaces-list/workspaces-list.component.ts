@@ -28,15 +28,16 @@ export class WorkspacesListComponent {
     pending = true;
     completed = true;
     totalRows = 0;
-    pageSize = 1;
+    pageSize = 5;
     currentPage = 0;
     defaultPageSize = 10; // You can set your desired default page size here
-    pageSizeOptions: number[] = [2, 10, 25, 100];
+    pageSizeOptions: number[] = [5, 10, 25, 100];
     editorModalTemplate: TemplateRef<any>;
 
     displayedColumns: string[] = [
 
         'name',
+        'workplaceName',
         'order',
         'description',
         'actions'
@@ -46,6 +47,7 @@ export class WorkspacesListComponent {
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     searchValue: string = "";
+    isSubView: boolean;
     get canAssignRoles() {
         return this.accountService.userHasPermission(
             Permission.assignRolesPermission
@@ -70,6 +72,9 @@ export class WorkspacesListComponent {
         private modalService: NgbModal,
         private router: Router) { }
     ngOnInit(): void {
+        if (this.workplaceId > 0) {
+            this.isSubView = true;
+        }
         this.loadData();
 
     }

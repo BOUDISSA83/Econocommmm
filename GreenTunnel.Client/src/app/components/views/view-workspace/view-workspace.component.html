@@ -39,6 +39,16 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="tagus-form-group">
+                        <label class="d-block mb-12 fw-semibold gray-color">Workplace Name</label>
+                        <mat-form-field appearance="fill">
+                            <i class="ri-user-3-line"></i>
+                            <mat-label>Workplace Name</mat-label>
+                            <input matInput [value]="workspaceData.workplaceName" readonly>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="tagus-form-group">
                         <label class="d-block mb-12 fw-semibold gray-color">Description</label>
                         <mat-form-field appearance="fill">
                             <i class="ri-phone-line"></i>
@@ -48,15 +58,21 @@
                     </div>
                 </div>
             </div>
-            
-        <button mat-flat-button class="default-btn tagus" (click)="goBack()">
-         Back
-        </button>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div style="text-align: right;" class="mb-3 example-buttons">
+                        <button mat-flat-button class="default-btn tagus" (click)="goBack()">
+                            Back
+                        </button>
+                    </div>
+                </div>
+            </div>
             </mat-tab>
             <mat-tab label="Moulds"><br>
-            <!-- <app-workspaces-list [workplaceId]="workspaceId"></app-workspaces-list> -->
+            <app-mould-list [workspaceId]="workspaceId"></app-mould-list>
             </mat-tab>
         </mat-tab-group>
-      
+
     </mat-card-content>
 </mat-card>

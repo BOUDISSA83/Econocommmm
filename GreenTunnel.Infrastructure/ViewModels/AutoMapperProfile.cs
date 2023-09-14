@@ -71,6 +71,7 @@ namespace GreenTunnel.Infrastructure.ViewModels
             CreateMap<Workspace, GetWorkspacesListResponseModel>();
 
             CreateMap<Workplace, WorkplaceViewModel>()
+            .ForMember(dest => dest.FactoryName, opt => opt.MapFrom(src => src.Factory.Name))
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
             .ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
 .           ForMember(dest => dest.UpdatedDate, opt => opt.Ignore())
@@ -78,6 +79,7 @@ namespace GreenTunnel.Infrastructure.ViewModels
 
             CreateMap<Workspace, WorkSpaceViewModel>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
+            .ForMember(dest => dest.WorkplaceName, opt => opt.MapFrom(src => src.Workplace.Name))
             .ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
             .ForMember(dest => dest.UpdatedDate, opt => opt.Ignore())
             .ForMember(dest => dest.UpdatedBy, opt => opt.Ignore());

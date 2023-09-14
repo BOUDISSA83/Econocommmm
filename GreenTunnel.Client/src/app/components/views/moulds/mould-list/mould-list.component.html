@@ -1,15 +1,17 @@
-<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
+<div *ngIf="!isSubView" class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-space-between">
     <h5 class="mb-0">Moulds</h5>
-    <!-- <ol class="breadcrumb mb-0 ps-0">
+    <ol class="breadcrumb mb-0 ps-0">
         <li class="breadcrumb-item">
-            <a routerLink="/analytics">
+            <a routerLink="/">
                 <i class="ri-home-8-line"></i>
                 Dashboard
             </a>
         </li>
-    </ol> -->
+
+        <li class="breadcrumb-item fw-semibold">Moulds</li>
+    </ol>
 </div>
-<mat-card class="mb-25 tagus-card">
+<mat-card class="mb-25 tagus-card"  [ngClass]="{'px-0': isSubView}">
     <mat-card-content>
 
         <mat-card-header class="d-block">
@@ -83,7 +85,6 @@
 
             </table>
             <mat-progress-bar mode="indeterminate" *ngIf="loadingIndicator"></mat-progress-bar>
-
             <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
             [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" aria-label="Select page">
           </mat-paginator>

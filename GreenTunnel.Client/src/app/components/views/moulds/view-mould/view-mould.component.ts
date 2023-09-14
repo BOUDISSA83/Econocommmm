@@ -39,6 +39,7 @@ export class ViewMouldComponent implements OnInit {
     });
   }
   goBack(): void {
+    this.router.navigate(['/moulds']);
     // Navigate back to the list of factories
     // You can use the Angular Router to navigate
     // Example: this.router.navigate(['/factories']);

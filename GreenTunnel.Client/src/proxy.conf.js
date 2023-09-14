@@ -1,18 +1,11 @@
 const PROXY_CONFIG = [
-    {
-        context: [
-            "/api",
-            "/swagger",
-            "/connect",
-            "/oauth",
-            "/Identity",
-            "/.well-known",
-            "/_framework"
-        ],
-        target: "https://sateba-greentunnel.azurewebsites.net",
-        secure: true,
-        changeOrigin: true
-    }
+  {
+    context: [
+      "/weatherforecast",
+    ],
+    target: "https://localhost:5001",
+    secure: false
+  }
 ]
 
 module.exports = PROXY_CONFIG;

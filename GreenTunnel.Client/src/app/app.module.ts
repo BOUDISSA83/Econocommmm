@@ -464,6 +464,9 @@ import { MouldListComponent } from './components/views/moulds/mould-list/mould-l
 import { MouldEndpointService } from './services/mouldServices/mould-endpoint.service';
 import { MouldService } from './services/mouldServices/mould.service';
 import { ViewMouldComponent } from './components/views/moulds/view-mould/view-mould.component';
+import { ToastrModule } from 'ngx-toastr';
+import { DeleteFactoryComponent } from './components/views/delete-factory/delete-factory.component';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -849,7 +852,8 @@ import { ViewMouldComponent } from './components/views/moulds/view-mould/view-mo
         ViewWorkplaceComponent,
         AddEditWorkspaceComponent,
         ViewWorkspaceComponent,
-        WorkspacesListComponent
+        WorkspacesListComponent,
+        DeleteFactoryComponent
     ],
     imports: [
         BrowserModule,
@@ -920,6 +924,11 @@ import { ViewMouldComponent } from './components/views/moulds/view-mould/view-mo
         NgSelectModule,
         NgxDatatableModule,
         OAuthModule.forRoot(),
+        ToastrModule.forRoot({
+            timeOut: 10000,
+            positionClass: 'toast-bottom-right',
+            preventDuplicates: true,
+          }),
     ],
     providers: [
         DatePipe,

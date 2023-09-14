@@ -39,7 +39,7 @@
                         <label class="d-block mb-12 fw-semibold gray-color">WorkSpace</label>
                         <mat-form-field appearance="fill">
                             <mat-label>Select Workspace</mat-label>
-                            <mat-select formControlName="workspaceId" placeholder="Select Workspace">
+                            <mat-select formControlName="workspaceid" placeholder="Select Workspace">
                                 <mat-option *ngFor="let item of workspacesList" [value]="item.id">
                                     {{ item.name }}
                                 </mat-option>
@@ -48,8 +48,14 @@
                     </div>
                 </div>
 
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <button mat-flat-button color="primary" (click)="save()">Save</button>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div style="text-align: right;" class="mb-3 example-buttons">
+                            <button mat-flat-button class="tagus" (click)="save()">Save</button>
+                            <span class="mx-2"></span>
+                            <button mat-flat-button class="gray text-primary" (click)="cancel()">Cancel</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>

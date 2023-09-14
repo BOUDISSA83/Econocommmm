@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -20,6 +20,7 @@ import { AddEditMouldComponent } from '../add-edit-mould/add-edit-mould.componen
     styleUrls: ['./mould-list.component.scss']
 })
 export class MouldListComponent implements OnInit {
+    @Input() workspaceId: number = 0;
     loadingIndicator: boolean;
     columns: any[] = [];
     rows: Mould[] = [];
@@ -35,6 +36,7 @@ export class MouldListComponent implements OnInit {
     pageSizeOptions: number[] = [4, 10, 25, 100];
     editorModalTemplate: TemplateRef<any>;
     mouldEditor: AddEditMouldComponent;
+    isSubView: boolean;
 
     displayedColumns: string[] = [
 
@@ -75,6 +77,9 @@ export class MouldListComponent implements OnInit {
         private modalService: NgbModal,
         private router: Router) { }
     ngOnInit(): void {
+        if (this.workspaceId > 0) {
+            this.isSubView = true;
+        }
         this.loadData();
 
     }
@@ -90,16 +95,15 @@ export class MouldListComponent implements OnInit {
         //         error: (error) => this.onDataLoadFailed(error),
         //     });
         // } else {
-            this.mouldService.getMoulds(this.currentPage, this.pageSize).subscribe({
+            this.mouldService.getMoulds(this.workspaceId, this.currentPage, this.pageSize).subscribe({
                 next: (users) => this.onDataLoadSuccessful(users),
                 error: (error) => this.onDataLoadFailed(error),
             });
         //}
     }
     pageChanged(event: PageEvent) {
-        console.log({ event });
         this.pageSize = event.pageSize;
-        this.currentPage = event.pageIndex+1;
+        this.currentPage = event.pageIndex;
         this.loadData();
     }
     deleteUser(row:Mould) {
@@ -136,24 +140,16 @@ export class MouldListComponent implements OnInit {
             },
         });
     }
-    onDataLoadSuccessful(moulds: Mould[]) {
+    onDataLoadSuccessful(moulds: any) {
+
+        this.allMoulds = moulds.items;
+
+        debugger
         this.alertService.stopLoadingMessage();
         this.loadingIndicator = false;
 
-        moulds.forEach((user, index) => {
-            (user as any).index = index + 1;
-        });
-
-        this.rowsCache = [...moulds];
-        this.dataSource.data = moulds;
-        this.totalRows = moulds.length;
-        setTimeout(() => {
-            debugger
-            this.paginator.pageIndex = this.currentPage;
-            this.paginator.length = moulds.length;
-        });
-
-        this.allMoulds = moulds;
+        this.dataSource.data = moulds.items;
+        this.totalRows = moulds.totalCount;
     }
 
     onDataLoadFailed(error: any) {

@@ -1,41 +1,47 @@
 ﻿using AutoMapper;
-
 using GreenTunnel.Application.Factory.Queries;
 using GreenTunnel.Core.Repositories.Interfaces;
+using GreenTunnel.Infrastructure.Interfaces;
+using GreenTunnel.Infrastructure.ViewModels;
 using GreenTunnel.Infrastructure.ViewModels.Response.Factory;
-
 using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace GreenTunnel.Application.Factory.Handler;
-
-public class GetFactoryQueryHandler : IRequestHandler<GetFactoryQuery, FactoryViewModel>
+namespace GreenTunnel.Application.Factory.Handler
 {
-    private readonly IFactoryRepository _factoryRepository;
-    private readonly IMapper _mapper;
-
-    public GetFactoryQueryHandler(
-        IFactoryRepository factoryRepository,
-        IMapper mapper)
-
+    public class GetFactoryQueryHandler : IRequestHandler<GetFactoryQuery, FactoryViewModel>
     {
-        _factoryRepository = factoryRepository;
-        _mapper = mapper;
-    }
+        private readonly IFactoryRepository _factoryRepository;
+        private readonly IMapper _mapper;
 
-    public async Task<FactoryViewModel> Handle(GetFactoryQuery request, CancellationToken cancellationToken)
-    {
-        var factory = await _factoryRepository.GetSingleOrDefaultAsync(f => f.Id == request.FactoryId);
-
-        if (factory == null)
+        public GetFactoryQueryHandler(IFactoryRepository factoryRepository,
+            IMapper mapper)
+            
         {
-            // Handle factory not found
-            // Return an appropriate response or throw an exception
-            return null;
+            _factoryRepository = factoryRepository;
+            _mapper = mapper;
         }
 
-        // Map the factory entity to a view model (you'll need to define FactoryViewModel)
-        var factoryViewModel = _mapper.Map<FactoryViewModel>(factory);
+        public async Task<FactoryViewModel> Handle(GetFactoryQuery request, CancellationToken cancellationToken)
+        {
+            var factory = await _factoryRepository.GetSingleOrDefaultAsync(f => f.Id == request.FactoryId);
 
-        return factoryViewModel;
+            if (factory == null)
+            {
+                // Handle factory not found
+                // Return an appropriate response or throw an exception
+                return null;
+            }
+
+            // Map the factory entity to a view model (you'll need to define FactoryViewModel)
+            var factoryViewModel = _mapper.Map<FactoryViewModel>(factory);
+
+            return factoryViewModel;
+        }
     }
+
 }

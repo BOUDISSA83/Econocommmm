@@ -36,7 +36,7 @@ export class RolesManagementComponent implements OnInit {
     editingRoleName: any;
     loadingIndicator: boolean;
     totalRows = 0;
-    pageSize = 1;
+    pageSize = 5;
     currentPage = 0;
     pageSizeOptions: number[] = [2, 10, 25, 100];
     searchValue: string = "";
@@ -286,9 +286,5 @@ export class RolesManagementComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    ngAfterViewInit() {
-        if (this.dataSource) {
-            this.dataSource.paginator = this.paginator;
-        }
-    }
+  
 }

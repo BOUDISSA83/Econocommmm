@@ -101,7 +101,7 @@ export class UserInfoComponent implements OnInit {
     }
   }
 
-  private onCurrentUserDataLoadSuccessful(user: User, roles: Role[]) {
+  private onCurrentUserDataLoadSuccessful(user: User, roles: Role[]) {debugger
     this.alertService?.stopLoadingMessage();
     this.user = user;
     this.allRoles = roles;
