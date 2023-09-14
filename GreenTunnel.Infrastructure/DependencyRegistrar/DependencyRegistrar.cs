@@ -74,7 +74,7 @@ namespace GreenTunnel.Infrastructure.DependencyRegistrar
                 //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
                 //options.Lockout.MaxFailedAccessAttempts = 10;
             });
-      
+
             // Adds IdentityServer.
             builder.Services.AddIdentityServer(o =>
             {
@@ -119,7 +119,16 @@ namespace GreenTunnel.Infrastructure.DependencyRegistrar
             });
 
             // Add cors
-            builder.Services.AddCors();
+            builder.Services.AddCors(option =>
+            option.AddPolicy(
+                "CorsPolicy",
+                policy =>
+                {
+                    policy.WithOrigins("https://sateba-greentunnel-client.azurewebsites.net/",
+                                        "http://localhost:4200")
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
+                }));
 
             builder.Services.AddControllersWithViews();
 
