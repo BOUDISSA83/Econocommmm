@@ -30,4 +30,8 @@
 		<ProjectReference Include="..\GreenTunnel.Core\GreenTunnel.Core.csproj" />
 		<ProjectReference Include="..\GreenTunnel.Infrastructure\GreenTunnel.Infrastructure.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="keys\" />
+	</ItemGroup>
 </Project>

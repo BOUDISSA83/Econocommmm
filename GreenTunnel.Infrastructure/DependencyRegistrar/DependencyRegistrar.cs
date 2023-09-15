@@ -125,7 +125,7 @@ namespace GreenTunnel.Infrastructure.DependencyRegistrar
                 "CorsPolicy",
                 policy =>
                 {
-                    policy.WithOrigins("https://sateba-greentunnel-client.azurewebsites.net/",
+                    policy.WithOrigins("https://sateba-greentunnel-client.azurewebsites.net",
                                         "http://localhost:4200")
                                         .AllowAnyHeader()
                                         .AllowAnyMethod();
