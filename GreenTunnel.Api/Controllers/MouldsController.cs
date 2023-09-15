@@ -8,8 +8,6 @@ using GreenTunnel.Core.Entities;
 using GreenTunnel.Infrastructure.ViewModels;
 using GreenTunnel.Infrastructure.ViewModels.Response.WorkPlace;
 using MediatR;
-
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -18,7 +16,6 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace GreenTunnel.Api.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MouldsController : ControllerBase

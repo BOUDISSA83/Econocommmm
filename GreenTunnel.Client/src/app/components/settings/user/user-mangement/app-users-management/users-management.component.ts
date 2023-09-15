@@ -15,6 +15,7 @@ import { Utilities } from 'src/app/services/utilities';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { DeleteUserComponent } from '../../delete-user/delete-user.component';
 
 @Component({
     selector: 'app-users-management',
@@ -78,7 +79,7 @@ export class UsersManagementComponent implements OnInit {
         const modalRef = this.modalService.open(this.editorModalTemplate, {
             size: 'lg',
             backdrop: 'static',
-            
+
         });
 
         modalRef.shown.subscribe(() => {
@@ -110,9 +111,9 @@ export class UsersManagementComponent implements OnInit {
                 Utilities.moveArrayItem(this.rowsCache, sourceIndex, 0);
             }
 
-            sourceIndex =  this.dataSource.data.indexOf(this.sourceUser, 0);
+            sourceIndex = this.dataSource.data.indexOf(this.sourceUser, 0);
             if (sourceIndex > -1) {
-                Utilities.moveArrayItem( this.dataSource.data, sourceIndex, 0);
+                Utilities.moveArrayItem(this.dataSource.data, sourceIndex, 0);
             }
 
             this.editedUser = null;
@@ -130,17 +131,24 @@ export class UsersManagementComponent implements OnInit {
             }
             (user as any).index = maxIndex + 1;
 
-      this.rowsCache.splice(0, 0, user);
-       this.dataSource.data.splice(0, 0, user);
-       this.dataSource.data = [... this.dataSource.data];
+            this.rowsCache.splice(0, 0, user);
+            this.dataSource.data.splice(0, 0, user);
+            this.dataSource.data = [... this.dataSource.data];
         }
     }
     deleteUser(row: UserEdit) {
-        this.alertService.showDialog(
-            `Are you sure you want to delete \"${row.userName}\"?`,
-            DialogType.confirm,
-            () => this.deleteUserHelper(row)
-        );
+        const modalRef = this.modalService.open(DeleteUserComponent,
+            {
+                size: 'lg',
+                backdrop: 'static'
+            });
+        modalRef.componentInstance.row = row;
+        modalRef.componentInstance.deleteChanged.subscribe((data) => {
+            if (data) {
+                this.modalService.dismissAll();
+                this.loadData();
+            }
+        })
     }
 
     deleteUserHelper(row: UserEdit) {
@@ -153,7 +161,7 @@ export class UsersManagementComponent implements OnInit {
                 this.loadingIndicator = false;
 
                 this.rowsCache = this.rowsCache.filter((item) => item !== row);
-                 this.dataSource.data =  this.dataSource.data.filter((item) => item !== row);
+                this.dataSource.data = this.dataSource.data.filter((item) => item !== row);
             },
             error: (error) => {
                 this.alertService.stopLoadingMessage();
@@ -195,14 +203,15 @@ export class UsersManagementComponent implements OnInit {
         public dialog: MatDialog,
         private alertService: AlertService,
         private modalService: NgbModal,
-        private accountService: AccountService
-    ) {}
+        private accountService: AccountService,
+    ) { }
 
     loadData() {
         this.alertService.startLoadingMessage();
         this.loadingIndicator = true;
 
-        if (this.canViewRoles) {debugger
+        if (this.canViewRoles) {
+            debugger
             this.accountService.getUsersAndRoles(this.currentPage + 1, this.pageSize, this.searchValue, 'name', 'desc').subscribe({
                 next: (results) =>
                     this.onDataLoadSuccessful(results[0], results[1]),

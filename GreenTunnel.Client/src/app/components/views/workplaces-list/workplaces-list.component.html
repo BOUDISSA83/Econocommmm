@@ -49,13 +49,13 @@
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef>{{ 'Name' | translate }}</th>
                     <td mat-cell *matCellDef="let element">
-                        <a class="text-primary cursor-pointer" [routerLink]="['/view-workplace']" [queryParams]="{ id: element.id }">{{ element.factoryName }}</a>
+                        <a class="text-primary cursor-pointer" [routerLink]="['/view-workplace']" [queryParams]="{ id: element.id }">{{ element.name }}</a>
                     </td>
                 </ng-container> 
                 <ng-container matColumnDef="factoryName">
                     <th mat-header-cell *matHeaderCellDef>{{ 'Factory Name' | translate }}</th>
                     <td mat-cell *matCellDef="let element">
-                        <a class="text-primary cursor-pointer" [routerLink]="['/view-workplace']" [queryParams]="{ id: element.id }">{{ element.name }}</a>
+                        <a class="text-primary cursor-pointer" [routerLink]="['/view-workplace']" [queryParams]="{ id: element.id }">{{ element.factoryName }}</a>
                     </td>
                 </ng-container>
                 <!-- Priority Column -->

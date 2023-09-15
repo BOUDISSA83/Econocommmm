@@ -17,6 +17,7 @@ import { WorkplaceService } from 'src/app/services/workplace.service';
 import { Workplace } from 'src/app/models/workplace.model';
 import { isNullOrUndefined } from '@swimlane/ngx-datatable';
 import { T } from '@angular/cdk/keycodes';
+import { DeleteWorkplaceComponent } from '../delete-workplace/delete-workplace.component';
 
 @Component({
     selector: 'app-workplaces-list',
@@ -108,11 +109,20 @@ export class WorkplacesListComponent implements OnInit {
         this.loadData();
     }
     deleteWorkplace(row: Workplace) {
-        this.alertService.showDialog(
-            `Are you sure you want to delete \"${row.name}\"?`,
-            DialogType.confirm,
-            () => this.deleteWorkplaceHelper(row)
+        const modalRef =  this.modalService.open(
+            DeleteWorkplaceComponent,
+            {
+                size:'lg',
+                backdrop:'static'
+            }
         );
+        modalRef.componentInstance.row = row;
+        modalRef.componentInstance.deleteChanged.subscribe((data)=>{
+           if(data){
+            this.modalService.dismissAll();
+            this.loadData();
+           }
+        })
     }
     deleteWorkplaceHelper(row: Workplace) {
         this.alertService.startLoadingMessage('Deleting...');

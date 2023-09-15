@@ -1,44 +1,44 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { Factory } from 'src/app/models/factory.model';
-import { FactoryService } from 'src/app/services/factory.service';
+import { Workplace } from 'src/app/models/workplace.model';
+import { Workspace } from 'src/app/models/workspace.model';
 import { Utilities } from 'src/app/services/utilities';
+import { WorkspaceService } from 'src/app/services/workspace.service';
 
 @Component({
-  selector: 'app-delete-factory',
-  templateUrl: './delete-factory.component.html',
-  styleUrls: ['./delete-factory.component.scss']
+  selector: 'app-delete-workspace',
+  templateUrl: './delete-workspace.component.html',
+  styleUrls: ['./delete-workspace.component.scss']
 })
-export class DeleteFactoryComponent implements OnInit {
-  @Input() row: Factory;
+export class DeleteWorkspaceComponent {
+  @Input() row: Workspace;
   @Output() deleteChanged: EventEmitter<any> = new EventEmitter();
 
   constructor(public activeModal: NgbActiveModal,
     private toastr: ToastrService,
-    private factoryService: FactoryService,
+    private workspaceService: WorkspaceService,
 
   ) { }
 
   ngOnInit(): void {
-    // this.afterOnInit.emit(this);
 
   }
   confirm() {
-    this.deleteFactoryHelper(this.row);
+    this.deleteWorkspaceHelper(this.row);
   }
   decline() {
     this.activeModal.close();
   }
-  deleteFactoryHelper(row: Factory) {
+  deleteWorkspaceHelper(row: Workspace) {
     this.toastr.success('Deleting...');
     // this.loadingIndicator = true;
 
-    this.factoryService.deleteFactory(row).subscribe({
+    this.workspaceService.deleteWorkspace(row).subscribe({
       next: (_) => {
         //  this.alertService.stopLoadingMessage();
         //this.loadingIndicator = false;
-        this.toastr.success('Delete Factory', `Factory ${row.name} has been deleted successfully.`);
+        this.toastr.success('Delete Workspace', `Workspace ${row.name} has been deleted successfully.`);
         this.deleteChanged.emit(true);
       },
       error: (error) => {

@@ -11,6 +11,7 @@ import { AccountService } from 'src/app/services/account.service';
 import { AlertService, DialogType, MessageSeverity } from 'src/app/services/alert.service';
 import { Utilities } from 'src/app/services/utilities';
 import { WorkspaceService } from 'src/app/services/workspace.service';
+import { DeleteWorkspaceComponent } from '../delete-workspace/delete-workspace.component';
 
 @Component({
     selector: 'app-workspaces-list',
@@ -102,11 +103,19 @@ export class WorkspacesListComponent {
         this.loadData();
     }
     deleteWorkspace(row: Workspace) {
-        this.alertService.showDialog(
-            `Are you sure you want to delete \"${row.name}\"?`,
-            DialogType.confirm,
-            () => this.deleteWorkspaceHelper(row)
+     const modalRef = this.modalService.open(DeleteWorkspaceComponent,
+            {
+                size:'lg',
+                backdrop:'static'
+            }
         );
+    modalRef.componentInstance.row = row;
+    modalRef.componentInstance.deleteChanged.subscribe((data)=>{
+        if(data){
+         this.modalService.dismissAll();
+         this.loadData();
+        }
+     })
     }
     deleteWorkspaceHelper(row: Workspace) {
         this.alertService.startLoadingMessage('Deleting...');

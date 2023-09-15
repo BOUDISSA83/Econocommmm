@@ -466,6 +466,10 @@ import { MouldService } from './services/mouldServices/mould.service';
 import { ViewMouldComponent } from './components/views/moulds/view-mould/view-mould.component';
 import { ToastrModule } from 'ngx-toastr';
 import { DeleteFactoryComponent } from './components/views/delete-factory/delete-factory.component';
+import { DeleteWorkplaceComponent } from './components/views/delete-workplace/delete-workplace.component';
+import { DeleteWorkspaceComponent } from './components/views/delete-workspace/delete-workspace.component';
+import { DeleteUserComponent } from './components/settings/user/delete-user/delete-user.component';
+import { DeleteRoleComponent } from './components/settings/roles/delete-role/delete-role.component';
 
 @NgModule({
     declarations: [
@@ -853,7 +857,11 @@ import { DeleteFactoryComponent } from './components/views/delete-factory/delete
         AddEditWorkspaceComponent,
         ViewWorkspaceComponent,
         WorkspacesListComponent,
-        DeleteFactoryComponent
+        DeleteFactoryComponent,
+        DeleteWorkplaceComponent,
+        DeleteWorkspaceComponent,
+        DeleteUserComponent,
+        DeleteRoleComponent
     ],
     imports: [
         BrowserModule,

@@ -124,8 +124,10 @@ export class FactoryListComponent implements OnInit {
         );
         modalRef.componentInstance.row = row;
         modalRef.componentInstance.deleteChanged.subscribe((data) => {
-            this.modalService.dismissAll();
-            this.loadData();
+            if(data){
+                this.modalService.dismissAll();
+                this.loadData();
+               }
         })
     }
 

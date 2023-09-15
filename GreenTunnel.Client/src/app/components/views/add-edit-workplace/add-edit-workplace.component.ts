@@ -19,35 +19,39 @@ export class AddEditWorkplaceComponent {
   workplaceRequest: WorkplaceRequest = new WorkplaceRequest();
   workplaceId: any;
   factoryId: number;
-  factoriesList:FactoryList[]=[];
+  factoriesList: FactoryList[] = [];
+  inProgress: boolean;
+  isLoading: boolean;
   constructor(
     private fb: FormBuilder,
     private workplaceService: WorkplaceService,
-    private factoryService:FactoryService,
+    private factoryService: FactoryService,
     private route: ActivatedRoute,
     private router: Router
   ) { }
 
   ngOnInit(): void {
     this.createForm();
-    this.route.queryParams.subscribe((queryParams) => {debugger
+    this.route.queryParams.subscribe((queryParams) => {
+      debugger
       if (queryParams['id']) {
         this.workplaceId = queryParams['id'];
         this.isEditMode = true;
         this.loadWorkplace(this.workplaceId);
       }
     });
-    this.route.params.subscribe((params) => {debugger
+    this.route.params.subscribe((params) => {
+      debugger
       if (params['factoryId']) {
         this.factoryId = Number(params['factoryId']);
-        if(this.factoryId > 0)
-        this.workplaceForm.get('factoryId').setValue(this.factoryId);
+        if (this.factoryId > 0)
+          this.workplaceForm.get('factoryId').setValue(this.factoryId);
       }
     });
     this.getFactoriesList();
   }
-  getFactoriesList(){
-    this.factoryService.getFactoriesList().subscribe((data:any)=>{
+  getFactoriesList() {
+    this.factoryService.getFactoriesList().subscribe((data: any) => {
       this.factoriesList = data;
     })
   }
@@ -55,11 +59,12 @@ export class AddEditWorkplaceComponent {
     this.workplaceForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],
-      factoryId:[null,Validators.required]
+      factoryId: [null, Validators.required]
     });
   }
 
-  private loadWorkplace(id: string): void {debugger
+  private loadWorkplace(id: string): void {
+    debugger
     // Load factory data from your API service
     this.workplaceService.getWorkplace(id).subscribe((factory) => {
       debugger
@@ -69,24 +74,37 @@ export class AddEditWorkplaceComponent {
   }
 
   save(): void {
-    if (this.workplaceForm.valid) {debugger
+    this.isLoading = true;
+
+    if (this.workplaceForm.valid) {
+      if (this.inProgress) {
+        return;
+      }
+      this.inProgress = true;
       const formData = this.workplaceForm.value as Workplace;
       this.workplaceRequest.model = { ...this.workplaceForm.value };
       this.workplaceRequest.model.id = this.workplaceId;
       this.workplaceRequest.model.factoryId = formData.factoryId;
       if (this.isEditMode) {
         // Update an existing factory
-        this.workplaceService.updateWorkplace(this.workplaceRequest,this.workplaceId).subscribe(() => {
+        this.workplaceService.updateWorkplace(this.workplaceRequest, this.workplaceId).subscribe(() => {
+          this.isLoading = false;
+          this.inProgress = false;
           // Handle success or navigate to a different page
           this.router.navigate(['/workplaces']);
         });
       } else {
         // Create a new factory
         this.workplaceService.createWorkplace(this.workplaceRequest).subscribe(() => {
+          this.isLoading = false;
+          this.inProgress = false;
           // Handle success or navigate to a different page
           this.router.navigate(['/workplaces']);
         });
       }
+    } else {
+      this.isLoading = false;
+      this.inProgress = false;
     }
 
   }

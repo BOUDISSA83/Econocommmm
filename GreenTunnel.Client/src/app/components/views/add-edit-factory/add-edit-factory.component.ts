@@ -10,12 +10,14 @@ import { FactoryService } from 'src/app/services/factory.service';
   templateUrl: './add-edit-factory.component.html',
   styleUrls: ['./add-edit-factory.component.scss']
 })
-export class AddEditFactoryComponent  implements OnInit {
+export class AddEditFactoryComponent implements OnInit {
   factoryForm: FormGroup;
   isEditMode = false;
   factoryData: Factory;
   factoryRequest: FactoryRequest = new FactoryRequest();
   factoryId: any;
+  isLoading: boolean;
+  inProgress: boolean;
   constructor(
     private fb: FormBuilder,
     private factoryService: FactoryService,
@@ -31,7 +33,7 @@ export class AddEditFactoryComponent  implements OnInit {
         this.isEditMode = true;
         this.loadFactory(this.factoryId);
       }
-    });    
+    });
   }
 
   private createForm(): void {
@@ -46,7 +48,8 @@ export class AddEditFactoryComponent  implements OnInit {
     });
   }
 
-  private loadFactory(id: string): void {debugger
+  private loadFactory(id: string): void {
+    debugger
     this.factoryService.getFactory(id).subscribe((factory) => {
       debugger
       this.factoryData = factory;
@@ -55,23 +58,36 @@ export class AddEditFactoryComponent  implements OnInit {
   }
 
   save(): void {
+    this.isLoading = true;
+
     if (this.factoryForm.valid) {
+      if (this.inProgress) {
+        return;
+      }
+      this.inProgress = true;
       const formData = this.factoryForm.value as Factory;
       this.factoryRequest.model = { ...this.factoryForm.value };
       this.factoryRequest.model.id = this.factoryId;
       if (this.isEditMode) {
         // Update an existing factory
-        this.factoryService.updateFactory(this.factoryRequest,this.factoryId).subscribe(() => {
+        this.factoryService.updateFactory(this.factoryRequest, this.factoryId).subscribe(() => {
+          this.isLoading = false;
+          this.inProgress = false;
           // Handle success or navigate to a different page
           this.router.navigate(['/factories']);
         });
       } else {
         // Create a new factory
         this.factoryService.createFactory(this.factoryRequest).subscribe(() => {
+          this.isLoading = false;
+          this.inProgress = false;
           // Handle success or navigate to a different page
           this.router.navigate(['/factories']);
         });
       }
+    } else {
+      this.isLoading = false;
+      this.inProgress = false;
     }
 
   }

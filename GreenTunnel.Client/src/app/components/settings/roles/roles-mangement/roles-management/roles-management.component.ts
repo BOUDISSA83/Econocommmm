@@ -14,6 +14,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AppTranslationService } from 'src/app/services/app-translation.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { DeleteRoleComponent } from '../../delete-role/delete-role.component';
 
 @Component({
     selector: 'app-roles-management',
@@ -57,7 +58,7 @@ export class RolesManagementComponent implements OnInit {
         private translationService: AppTranslationService,
         private accountService: AccountService,
         private modalService: NgbModal
-    ) {}
+    ) { }
 
     ngOnInit() {
         const gT = (key: string) => this.translationService.getTranslation(key);
@@ -146,7 +147,7 @@ export class RolesManagementComponent implements OnInit {
         this.loadingIndicator = true;
 
         this.accountService.getRolesAndPermissions(this.currentPage + 1, this.pageSize, this.searchValue, 'name', 'desc').subscribe({
-            next: (results:any) => {
+            next: (results: any) => {
                 this.alertService.stopLoadingMessage();
                 this.loadingIndicator = false;
 
@@ -221,11 +222,20 @@ export class RolesManagementComponent implements OnInit {
     }
 
     deleteRole(row: Role) {
-        this.alertService.showDialog(
-            `Are you sure you want to delete the "${row.name}" role?`,
-            DialogType.confirm,
-            () => this.deleteRoleHelper(row)
+        const modalRef = this.modalService.open(
+            DeleteRoleComponent,
+            {
+                size: 'lg',
+                backdrop: 'static'
+            }
         );
+        modalRef.componentInstance.row = row;
+        modalRef.componentInstance.deleteChanged.subscribe((data) => {
+            if (data) {
+                this.modalService.dismissAll();
+                this.loadData();
+            }
+        })
     }
 
     deleteRoleHelper(row: Role) {
@@ -286,5 +296,5 @@ export class RolesManagementComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  
+
 }

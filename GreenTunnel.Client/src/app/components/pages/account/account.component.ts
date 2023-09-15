@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { Permission } from 'src/app/models/permission.model';
 import { Role } from 'src/app/models/role.model';
 import { UserEdit } from 'src/app/models/user-edit.model';
@@ -72,7 +74,7 @@ export class AccountComponent {
     public roles:any;
 
     constructor(private alertService: AlertService | null = null, private accountService: AccountService | null = null,
-        private serviceT: CustomizerSettingsService)  {
+        private serviceT: CustomizerSettingsService, private toasterService:ToastrService)  {
     }
 
     ngOnInit() {
@@ -156,7 +158,7 @@ export class AccountComponent {
 
 
     showErrorAlert(caption: string, message: string) {
-      this.alertService?.showMessage(caption, message, MessageSeverity.error);
+      this.toasterService.error(caption, message);
     }
 
 
@@ -189,6 +191,7 @@ export class AccountComponent {
 
 
     save() {
+      debugger
       this.isSaving = true;
       this.alertService?.startLoadingMessage('Saving changes...');
 

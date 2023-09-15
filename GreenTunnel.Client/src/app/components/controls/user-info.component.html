@@ -100,7 +100,7 @@
     <div *ngIf="isEditMode" class="row">
       <label for="newPassword-{{uniqueId}}" class="col-form-label col-lg-2">{{'users.editor.Password' | translate}}</label>
       <div *ngIf="!isChangePassword && !isNewUser" class="col-lg-10">
-        <button type="button" (click)="changePassword()" class="btn btn-link text-link">{{'users.editor.ChangePassword' | translate}}</button>
+        <button type="button" (click)="changePassword()" class="tagus">{{'users.editor.ChangePassword' | translate}}</button>
       </div>
 
       <div *ngIf="isChangePassword || isNewUser" class="col-lg-10">
