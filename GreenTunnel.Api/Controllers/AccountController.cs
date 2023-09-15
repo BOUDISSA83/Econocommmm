@@ -30,7 +30,7 @@ using System.Threading.Tasks;
 
 namespace GreenTunnel.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
 
@@ -240,7 +240,7 @@ namespace GreenTunnel.Controllers
         }
 
         [HttpPost("users")]
-        [Authorize(Policies.ManageAllUsersPolicy)]
+        //[Authorize(Policies.ManageAllUsersPolicy)]
         [ProducesResponseType(201, Type = typeof(UserViewModel))]
         [ProducesResponseType(400)]
         [ProducesResponseType(403)]
@@ -384,7 +384,7 @@ namespace GreenTunnel.Controllers
         }
 
         [HttpGet("roles/Allroles")]
-        [Authorize(Policies.ViewAllRolesPolicy)]
+        //[Authorize(Policies.ViewAllRolesPolicy)]
         [ProducesResponseType(200, Type = typeof(List<RoleViewModel>))]
         public async Task<IActionResult> GetRoles(int pageNumber, int pageSize, [FromQuery] string? searchTerm = null, [FromQuery] string? sortColumn = null, [FromQuery] string? sortOrder = null)
         {
