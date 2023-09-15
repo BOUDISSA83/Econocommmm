@@ -28,6 +28,7 @@ using GreenTunnel.Core;
 using GreenTunnel.Infrastructure.Interfaces;
 using GreenTunnel.Infrastructure.Repositories;
 using GreenTunnel.Core.Repositories.Interfaces;
+using Duende.IdentityServer.Services;
 
 namespace GreenTunnel.Infrastructure.DependencyRegistrar
 {
@@ -151,6 +152,19 @@ namespace GreenTunnel.Infrastructure.DependencyRegistrar
                         }
                     }
                 });
+            });
+
+            // Allow custom CORS for identity server
+            builder.Services.AddSingleton<ICorsPolicyService>((container) => {
+                var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
+                return new DefaultCorsPolicyService(logger)
+                {
+                    AllowedOrigins = 
+                    { 
+                        "https://sateba-greentunnel-client.azurewebsites.net/",
+                        "http://localhost:4200"
+                    }
+                };
             });
 
             //builder.Services.AddAutoMapper(typeof(Program));
