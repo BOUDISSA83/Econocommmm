@@ -17,7 +17,7 @@ using GreenTunnel.Application.Workplaces.Queries;
 
 namespace GreenTunnel.Api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class WorkplaceController : ControllerBase

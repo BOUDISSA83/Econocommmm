@@ -23,7 +23,7 @@ using GreenTunnel.Application.Workspaces.Queries;
 
 namespace GreenTunnel.Api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class WorkSpaceController : ControllerBase

@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 
 namespace GreenTunnel.Api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
 
