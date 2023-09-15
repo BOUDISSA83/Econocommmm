@@ -94,7 +94,7 @@ namespace GreenTunnel.Controllers
         }
 
         [HttpGet("users")]
-        [Authorize(Policies.ViewAllUsersPolicy)]
+        //[Authorize(Policies.ViewAllUsersPolicy)]
         [ProducesResponseType(200, Type = typeof(List<UserViewModel>))]
         public async Task<IActionResult> GetUsers()
         {
@@ -103,7 +103,7 @@ namespace GreenTunnel.Controllers
         }
 
         [HttpGet("users/Allusers")]
-        [Authorize(Policies.ViewAllUsersPolicy)]
+        //[Authorize(Policies.ViewAllUsersPolicy)]
         [ProducesResponseType(200, Type = typeof(List<UserViewModel>))]
         public async Task<IActionResult> GetUsers(int pageNumber, int pageSize, [FromQuery] string? searchTerm = null, [FromQuery] string? sortColumn = null, [FromQuery] string? sortOrder = null)
         {
@@ -297,7 +297,7 @@ namespace GreenTunnel.Controllers
         }
 
         [HttpPut("users/unblock/{id}")]
-        [Authorize(Policies.ManageAllUsersPolicy)]
+        //[Authorize(Policies.ManageAllUsersPolicy)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> UnblockUser(string id)
@@ -376,7 +376,7 @@ namespace GreenTunnel.Controllers
         }
 
         [HttpGet("roles")]
-        [Authorize(Policies.ViewAllRolesPolicy)]
+        //[Authorize(Policies.ViewAllRolesPolicy)]
         [ProducesResponseType(200, Type = typeof(List<RoleViewModel>))]
         public async Task<IActionResult> GetRoles()
         {
@@ -393,7 +393,7 @@ namespace GreenTunnel.Controllers
         }
 
         [HttpPut("roles/{id}")]
-        [Authorize(Policies.ManageAllRolesPolicy)]
+        //[Authorize(Policies.ManageAllRolesPolicy)]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -426,7 +426,7 @@ namespace GreenTunnel.Controllers
         }
 
         [HttpPost("roles")]
-        [Authorize(Policies.ManageAllRolesPolicy)]
+        //[Authorize(Policies.ManageAllRolesPolicy)]
         [ProducesResponseType(201, Type = typeof(RoleViewModel))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> CreateRole([FromBody] RoleViewModel role)
@@ -452,7 +452,7 @@ namespace GreenTunnel.Controllers
         }
 
         [HttpDelete("roles/{id}")]
-        [Authorize(Policies.ManageAllRolesPolicy)]
+        //[Authorize(Policies.ManageAllRolesPolicy)]
         [ProducesResponseType(200, Type = typeof(RoleViewModel))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -476,7 +476,7 @@ namespace GreenTunnel.Controllers
         }
 
         [HttpGet("permissions")]
-        [Authorize(Policies.ViewAllRolesPolicy)]
+        //[Authorize(Policies.ViewAllRolesPolicy)]
         [ProducesResponseType(200, Type = typeof(List<PermissionViewModel>))]
         public IActionResult GetAllPermissions()
         {
