@@ -12,7 +12,7 @@
                     <div class="d-flex mb-10 align-items-center">
                         <h2 class="mb-0 me-30">Green Tunnel</h2>
                     </div>
-                    <p>Don’t have an account? <a routerLink="/authentication/register" class="main-color fw-medium">Register now!</a></p>
+                    <p>Don’t have an account? <a routerLink="#" class="main-color fw-medium">Register now!</a></p>
                 </div>
                 <form *ngIf="formResetToggle" class="login" name="loginForm" #f="ngForm" novalidate
                 (ngSubmit)="f.form.valid ? login() :
