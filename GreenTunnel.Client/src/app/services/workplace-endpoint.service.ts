@@ -13,7 +13,7 @@ export class WorkplaceEndpointService extends EndpointBase  {
   constructor(private configurations: ConfigurationService, http: HttpClient,authService: AuthService) {
     super(http, authService)
   }
-  getWorkplacesEndpoint<T>(factoryId?:number,page?: number, pageSize?: number,searchTerm?:string,sortColumn?:string,sortOrder?:string): Observable<T> {debugger
+  getWorkplacesEndpoint<T>(factoryId?:number,page?: number, pageSize?: number,searchTerm?:string,sortColumn?:string,sortOrder?:string): Observable<T> {
     const endpointUrl = page && pageSize ? `${this.workplacesUrl}/Allworkplaces?pageNumber=${page}&pageSize=${pageSize}&searchTerm=${searchTerm}&sortColumn=${sortColumn}/sortOrder?=${sortOrder}&factoryId=${factoryId}` : this.workplacesUrl;
 
     return this.http.get<T>(endpointUrl, this.requestHeaders).pipe<T>(
@@ -21,7 +21,7 @@ export class WorkplaceEndpointService extends EndpointBase  {
         return this.handleError(error, () => this.getWorkplacesEndpoint(page, pageSize));
       }));
   }
-  getWorkplacesListEndpoint<T>(): Observable<T> {debugger
+  getWorkplacesListEndpoint<T>(): Observable<T> {
     const endpointUrl = `${this.workplacesUrl}/workplaces`;
 
     return this.http.get<T>(endpointUrl, this.requestHeaders).pipe<T>(
@@ -36,7 +36,7 @@ export class WorkplaceEndpointService extends EndpointBase  {
         return this.handleError(error, () => this.getNewWorkplaceEndpoint(workplaceObject));
       }));
   }
-  getUpdateWorkplaceEndpoint<T>(workplaceObject: any, id?: number): Observable<T> {debugger
+  getUpdateWorkplaceEndpoint<T>(workplaceObject: any, id?: number): Observable<T> {
     const endpointUrl = `${this.workplacesUrl}/${id}`;
 
     return this.http.put<T>(endpointUrl, JSON.stringify(workplaceObject), this.requestHeaders).pipe<T>(
@@ -61,5 +61,15 @@ export class WorkplaceEndpointService extends EndpointBase  {
       catchError<T, Observable<T>>(error => {
         return this.handleError(error, () => this.getDeleteWorkplaceEndpoint(workplaceId));
       }));
+  }
+  getWorkplaceDuplicateStatusEndpoint<T>(workplaceName?: string): Observable<T> {
+    const endpointUrl = `${this.workplacesUrl}/validateDuplicateName/${workplaceName}`;
+
+    return this.http.get<T>(endpointUrl, this.requestHeaders).pipe(
+      catchError<T, Observable<T>>(error => { 
+        return this.handleError(error, () => this.getWorkplaceDuplicateStatusEndpoint(workplaceName));
+      })
+    );
+    
   }
 }

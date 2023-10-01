@@ -24,13 +24,13 @@
         <ul class="header-right-side d-flex align-items-center mt-0 mb-0">
             <li>
                 <button mat-icon-button [matMenuTriggerFor]="languageMenu" class="btn p-0 border-none rounded-circle position-relative">
-                    <img src="assets/img/flag/usa.png" alt="usa">
+                    <img src="assets/img/flag/uk.png" alt="usa">
                 </button>
                 <mat-menu class="language-menu-dropdown" #languageMenu="matMenu" xPosition="after">
                     <ul class="m-0">
                         <li>
                             <button type="button" class="d-flex align-items-center border-none">
-                                <img src="assets/img/flag/usa.png" alt="usa">
+                                <img src="assets/img/flag/uk.png" alt="usa">
                                 English
                             </button>
                         </li>
@@ -86,11 +86,6 @@
                     </div>
                 </mat-menu>
             </li>
-            <li class="d-none d-lg-block">
-                <div class="date-btn main-color fw-semibold position-relative">
-                    <i class="flaticon-calendar"></i> {{ formattedDate }}
-                </div>
-            </li>
             <li>
                 <button mat-icon-button [matMenuTriggerFor]="profileMenu" class="profile-btn main-color border-none bg-transparent position-relative">
                     <img src="assets/img/admin.jpg" class="rounded-circle" alt="{{userName}}">
@@ -106,7 +101,7 @@
                         </li>
                         <li >
                             <div class="row" style="margin-left: 1px;">
-                            <a class="col-md-8"><i class="ri-user-3-line"></i> Dark Mode</a>
+                            <a class="col-md-8"><i class="ri-moon-line"></i> Dark Mode</a>
                             <button (click)="toggleTheme()" class="switch-btn col-md-3"  [class.active]="isDark()"></button>
                         </div>
                         </li>

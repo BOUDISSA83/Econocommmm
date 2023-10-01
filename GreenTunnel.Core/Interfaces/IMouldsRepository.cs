@@ -1,15 +1,10 @@
 ﻿
 
 using GreenTunnel.Core.Entities;
-using GreenTunnel.Infrastructure.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace GreenTunnel.Core.Repositories.Interfaces
+namespace GreenTunnel.Core.Interfaces;
+
+public interface IMouldsRepository : IRepository<Moulds>
 {
-    public interface IMouldsRepository : IRepository<Moulds>
-    {
-        Task<List<Moulds>> GetAllByWorkspaceId(int id);
-    }
+    Task<List<Moulds>> GetAllByWorkspaceId(int id);
 }

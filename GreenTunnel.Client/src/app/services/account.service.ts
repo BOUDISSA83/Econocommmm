@@ -10,6 +10,8 @@ import { User } from '../models/user.model';
 import { Role } from '../models/role.model';
 import { Permission, PermissionValues } from '../models/permission.model';
 import { UserEdit } from '../models/user-edit.model';
+import { ForgotPassword } from '../models/forgot-password.model';
+import { ResetPasswordDto } from '../models/reset-password.model';
 
 export type RolesChangedOperation = 'add' | 'delete' | 'modify';
 export interface RolesChangedEventArg { roles: Role[] | string[]; operation: RolesChangedOperation; }
@@ -45,7 +47,7 @@ export class AccountService {
   }
 
   getUsersAndRoles(page?: number, pageSize?: number,searchTerm?:string,sortColumn?:string,sortOrder?:string) {
-    debugger
+    
     return forkJoin([
       this.accountEndpoint.getUsersEndpoint<User[]>(page, pageSize,searchTerm,sortColumn,sortOrder),
       this.accountEndpoint.getRolesEndpoint<Role[]>()]);
@@ -164,7 +166,18 @@ export class AccountService {
   getRolesChangedEvent(): Observable<RolesChangedEventArg> {
     return this.rolesChanged.asObservable();
   }
-
+  forgotPassword(role: ForgotPassword) {
+    return this.accountEndpoint.getForgotPasswordEndpoint<ForgotPassword>(role);
+    // .pipe<Role>(
+    //   tap(data => this.onRolesChanged([role], AccountService.roleAddedOperation))
+    //   );
+  }
+  resetPassword(resetObject: ResetPasswordDto) {
+    return this.accountEndpoint.getResetPasswordEndpoint<ResetPasswordDto>(resetObject);
+    // .pipe<Role>(
+    //   tap(data => this.onRolesChanged([role], AccountService.roleAddedOperation))
+    //   );
+  }
   get permissions(): PermissionValues[] {
     return this.authService.userPermissions;
   }

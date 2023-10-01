@@ -79,7 +79,7 @@ export class FactoryListComponent implements OnInit {
     }
 
     onDataLoadSuccessful(factories: any) {
-        debugger
+        
         this.alertService.stopLoadingMessage();
         this.loadingIndicator = false;
 

@@ -29,7 +29,7 @@ export class WorkplaceService {
   getWorkplace(workplaceId?: string) {  
     return this.workplaceEndpoint.getWorkplaceEndpoint<Workplace>(workplaceId);
   }
-  deleteWorkplace(factoryOrWorkplaceId: string | Workplace): Observable<Workplace> {debugger
+  deleteWorkplace(factoryOrWorkplaceId: string | Workplace): Observable<Workplace> {
     if (typeof factoryOrWorkplaceId === 'string' || factoryOrWorkplaceId instanceof String) {
       return this.workplaceEndpoint.getDeleteWorkplaceEndpoint<Workplace>(factoryOrWorkplaceId as string);
     } else {
@@ -40,5 +40,7 @@ export class WorkplaceService {
       }
     }
   }
-  
+  getWorkplaceDuplicateStatus(factoryName?: string) {  
+    return this.workplaceEndpoint.getWorkplaceDuplicateStatusEndpoint<boolean>(factoryName);
+  }
 }

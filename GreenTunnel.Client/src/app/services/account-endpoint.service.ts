@@ -1,4 +1,4 @@
- 
+
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -8,6 +8,8 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { EndpointBase } from './endpoint-base.service';
 import { ConfigurationService } from './configuration.service';
+import { ResetPasswordDto } from '../models/reset-password.model';
+import { ForgotPassword } from '../models/forgot-password.model';
 
 
 @Injectable()
@@ -21,6 +23,8 @@ export class AccountEndpoint extends EndpointBase {
   get rolesUrl() { return this.configurations.baseUrl + '/api/account/roles'; }
   get roleByRoleNameUrl() { return this.configurations.baseUrl + '/api/account/roles/name'; }
   get permissionsUrl() { return this.configurations.baseUrl + '/api/account/permissions'; }
+  get forgotPasswordUrl() { return this.configurations.baseUrl + '/api/account/forgotPassword'; }
+  get resetPasswordUrl() { return this.configurations.baseUrl + '/api/account/resetPassword'; }
 
 
   constructor(private configurations: ConfigurationService, http: HttpClient, authService: AuthService) {
@@ -36,7 +40,7 @@ export class AccountEndpoint extends EndpointBase {
         return this.handleError(error, () => this.getUserEndpoint(userId));
       })
     );
-    
+
   }
 
 
@@ -50,9 +54,9 @@ export class AccountEndpoint extends EndpointBase {
   }
 
 
-  getUsersEndpoint<T>(page?: number, pageSize?: number,searchTerm?:string,sortColumn?:string,sortOrder?:string): Observable<T> {
+  getUsersEndpoint<T>(page?: number, pageSize?: number, searchTerm?: string, sortColumn?: string, sortOrder?: string): Observable<T> {
     const endpointUrl = page && pageSize ? `${this.usersUrl}/Allusers?pageNumber=${page}&pageSize=${pageSize}&searchTerm=${searchTerm}&sortColumn=${sortColumn}/sortOrder?=${sortOrder}` : this.usersUrl;
-    debugger
+    
     return this.http.get<T>(endpointUrl, this.requestHeaders).pipe<T>(
       catchError<T, Observable<T>>(error => {
         return this.handleError(error, () => this.getUsersEndpoint(page, pageSize));
@@ -158,11 +162,11 @@ export class AccountEndpoint extends EndpointBase {
 
 
 
-  getRolesEndpoint<T>(page?: number, pageSize?: number,searchTerm?:string,sortColumn?:string,sortOrder?:string): Observable<T> {
+  getRolesEndpoint<T>(page?: number, pageSize?: number, searchTerm?: string, sortColumn?: string, sortOrder?: string): Observable<T> {
     const endpointUrl = page && pageSize ? `${this.rolesUrl}/Allroles?pageNumber=${page}&pageSize=${pageSize}&searchTerm=${searchTerm}&sortColumn=${sortColumn}/sortOrder?=${sortOrder}` : this.rolesUrl;
 
     return this.http.get<T>(endpointUrl, this.requestHeaders).pipe<T>(
-      catchError<T, Observable<T>>((error:any) => {
+      catchError<T, Observable<T>>((error: any) => {
         return this.handleError(error, () => this.getRolesEndpoint(page, pageSize));
       }));
   }
@@ -199,6 +203,20 @@ export class AccountEndpoint extends EndpointBase {
     return this.http.get<T>(this.permissionsUrl, this.requestHeaders).pipe<T>(
       catchError<T, Observable<T>>(error => {
         return this.handleError(error, () => this.getPermissionsEndpoint());
+      }));
+  }
+  getForgotPasswordEndpoint<T>(forgotObject: ForgotPassword): Observable<T> {
+
+    return this.http.post<T>(this.forgotPasswordUrl, JSON.stringify(forgotObject), this.requestHeaders).pipe<T>(
+      catchError<T, Observable<T>>(error => {
+        return this.handleError(error, () => this.getForgotPasswordEndpoint(forgotObject));
+      }));
+  }
+  getResetPasswordEndpoint<T>(resetObject: ResetPasswordDto): Observable<T> {
+
+    return this.http.post<T>(this.resetPasswordUrl, JSON.stringify(resetObject), this.requestHeaders).pipe<T>(
+      catchError<T, Observable<T>>(error => {
+        return this.handleError(error, () => this.getResetPasswordEndpoint(resetObject));
       }));
   }
 }

@@ -32,9 +32,9 @@ export class ViewFactoryComponent implements OnInit {
           });
   
   }
-  private loadFactory(id: string): void {debugger
+  private loadFactory(id: string): void {
     this.factoryService.getFactory(id).subscribe((factory) => {
-      debugger
+      
       this.factoryData = factory;
     });
   }

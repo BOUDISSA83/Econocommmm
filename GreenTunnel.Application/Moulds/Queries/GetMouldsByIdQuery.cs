@@ -1,10 +1,9 @@
 ﻿using GreenTunnel.Infrastructure.ViewModels;
 using MediatR;
 
-namespace GreenTunnel.Application.Moulds.Queries
+namespace GreenTunnel.Application.Moulds.Queries;
+
+public class GetMouldsByIdQuery : IRequest<MouldsViewModel>
 {
-    public class GetMouldsByIdQuery :IRequest<MouldsViewModel>
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

@@ -13,8 +13,8 @@ export class MouldService {
 
   private rolesChanged = new Subject<RolesChangedEventArg>();
   constructor( private accountEndpoint: MouldEndpointService) { }
-  getMoulds(workspaceId:number,page?: number, pageSize?: number) {
-    return this.accountEndpoint.getMouldsEndpoint<Mould[]>(workspaceId,page, pageSize);
+  getMoulds(workspaceId:number,page?: number, pageSize?: number,searchValue?:string) {
+    return this.accountEndpoint.getMouldsEndpoint<Mould[]>(workspaceId,page, pageSize,searchValue);
   }
   createMould(mould: MouldRequest) {
     return this.accountEndpoint.getNewMouldEndpoint<Mould>(mould);

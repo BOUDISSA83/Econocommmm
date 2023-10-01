@@ -24,7 +24,9 @@ export class RoleEditorComponent implements OnInit {
   private editingRoleName: string;
 
   public formResetToggle = true;
-
+  roleEditor: RoleEditorComponent;
+  editedRole: Role;
+  sourceRole: Role;
   public changesSavedCallback: () => void;
   public changesFailedCallback: () => void;
   public changesCancelledCallback: () => void;
@@ -200,13 +202,13 @@ export class RoleEditorComponent implements OnInit {
   }
 
   editRole(role: Role, allPermissions: Permission[]) {
-    if (role) {
+    if (role) { 
       this.isNewRole = false;
       this.showValidationErrors = true;
 
       this.editingRoleName = role.name;
       this.allPermissions = allPermissions;
-      this.selectedValues = {};
+      this.selectedValues = {}; 
       role.permissions.forEach(p => this.selectedValues[p.value] = true);
       this.roleEdit = new Role();
       Object.assign(this.roleEdit, role);
@@ -216,7 +218,14 @@ export class RoleEditorComponent implements OnInit {
       return this.newRole(allPermissions);
     }
   }
+  setRoleEditorComponent(roleEditor) {
+    this.roleEditor = roleEditor;
 
+    if (this.sourceRole == null)
+      this.editedRole = this.roleEditor.newRole(this.allPermissions);
+    else
+      this.editedRole = this.roleEditor.editRole(this.sourceRole, this.allPermissions);
+  }
 
 
   get canManageRoles() {

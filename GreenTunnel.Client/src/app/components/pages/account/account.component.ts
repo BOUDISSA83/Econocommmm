@@ -191,7 +191,6 @@ export class AccountComponent {
 
 
     save() {
-      debugger
       this.isSaving = true;
       this.alertService?.startLoadingMessage('Saving changes...');
 

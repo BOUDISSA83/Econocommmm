@@ -25,9 +25,9 @@ export class ViewWorkspaceComponent {
           });
   
   }
-  private loadWorkplace(id: string): void {debugger
+  private loadWorkplace(id: string): void {
     this.workspaceService.getWorkspace(id).subscribe((workplace) => {
-      debugger
+      
       this.workspaceData = workplace;
     });
   }

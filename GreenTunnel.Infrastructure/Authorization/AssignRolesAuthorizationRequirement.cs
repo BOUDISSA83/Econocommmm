@@ -1,61 +1,56 @@
 ﻿
 
-using DAL.Core;
 using GreenTunnel.Core;
 using Microsoft.AspNetCore.Authorization;
-using System;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
-namespace GreenTunnel.Infrastructure.Authorization
+namespace GreenTunnel.Infrastructure.Authorization;
+
+public class AssignRolesAuthorizationRequirement : IAuthorizationRequirement
 {
-    public class AssignRolesAuthorizationRequirement : IAuthorizationRequirement
-    {
 
+}
+
+public class AssignRolesAuthorizationHandler : AuthorizationHandler<AssignRolesAuthorizationRequirement, (string[] newRoles, string[] currentRoles)>
+{
+    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AssignRolesAuthorizationRequirement requirement, (string[] newRoles, string[] currentRoles) roles)
+    {
+        if (!GetIsRolesChanged(roles.newRoles, roles.currentRoles))
+        {
+            context.Succeed(requirement);
+        }
+        else if (context.User.HasClaim(ClaimConstants.Permission, ApplicationPermissions.AssignRoles))
+        {
+            if (context.User.HasClaim(ClaimConstants.Permission, ApplicationPermissions.ViewRoles)) // If user has ViewRoles permission, then he can assign any roles
+                context.Succeed(requirement);
+
+            else if (GetIsUserInAllAddedRoles(context.User, roles.newRoles, roles.currentRoles)) // Else user can only assign roles they're part of
+                context.Succeed(requirement);
+        }
+
+        return Task.CompletedTask;
     }
 
-    public class AssignRolesAuthorizationHandler : AuthorizationHandler<AssignRolesAuthorizationRequirement, (string[] newRoles, string[] currentRoles)>
+    private bool GetIsRolesChanged(string[] newRoles, string[] currentRoles)
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AssignRolesAuthorizationRequirement requirement, (string[] newRoles, string[] currentRoles) roles)
-        {
-            if (!GetIsRolesChanged(roles.newRoles, roles.currentRoles))
-            {
-                context.Succeed(requirement);
-            }
-            else if (context.User.HasClaim(ClaimConstants.Permission, ApplicationPermissions.AssignRoles))
-            {
-                if (context.User.HasClaim(ClaimConstants.Permission, ApplicationPermissions.ViewRoles)) // If user has ViewRoles permission, then he can assign any roles
-                    context.Succeed(requirement);
+        newRoles ??= new string[] { };
 
-                else if (GetIsUserInAllAddedRoles(context.User, roles.newRoles, roles.currentRoles)) // Else user can only assign roles they're part of
-                    context.Succeed(requirement);
-            }
+        currentRoles ??= new string[] { };
 
-            return Task.CompletedTask;
-        }
+        var roleAdded = newRoles.Except(currentRoles).Any();
+        var roleRemoved = currentRoles.Except(newRoles).Any();
 
-        private bool GetIsRolesChanged(string[] newRoles, string[] currentRoles)
-        {
-            newRoles ??= new string[] { };
+        return roleAdded || roleRemoved;
+    }
 
-            currentRoles ??= new string[] { };
+    private bool GetIsUserInAllAddedRoles(ClaimsPrincipal contextUser, string[] newRoles, string[] currentRoles)
+    {
+        newRoles ??= new string[] { };
 
-            var roleAdded = newRoles.Except(currentRoles).Any();
-            var roleRemoved = currentRoles.Except(newRoles).Any();
+        currentRoles ??= new string[] { };
 
-            return roleAdded || roleRemoved;
-        }
+        var addedRoles = newRoles.Except(currentRoles);
 
-        private bool GetIsUserInAllAddedRoles(ClaimsPrincipal contextUser, string[] newRoles, string[] currentRoles)
-        {
-            newRoles ??= new string[] { };
-
-            currentRoles ??= new string[] { };
-
-            var addedRoles = newRoles.Except(currentRoles);
-
-            return addedRoles.All(contextUser.IsInRole);
-        }
+        return addedRoles.All(contextUser.IsInRole);
     }
 }

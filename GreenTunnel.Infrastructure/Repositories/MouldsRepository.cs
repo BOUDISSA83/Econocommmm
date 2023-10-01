@@ -1,29 +1,23 @@
 ﻿
 
 using GreenTunnel.Core.Entities;
-using GreenTunnel.Infrastructure;
+using GreenTunnel.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using GreenTunnel.Infrastructure.Interfaces;
-using GreenTunnel.Core.Repositories.Interfaces;
 
-namespace GreenTunnel.Infrastructure.Repositories
+namespace GreenTunnel.Infrastructure.Repositories;
+
+public class MouldsRepository : Repository<Moulds>, IMouldsRepository
 {
-    public class MouldsRepository : Repository<Moulds>, IMouldsRepository
+
+    public MouldsRepository(ApplicationDbContext context) : base(context)
     {
-
-        public MouldsRepository(ApplicationDbContext context) : base(context)
-        {
-            _appContext = context;
-        }
+        _appContext = context;
+    }
 
 
-        private ApplicationDbContext _appContext; 
-        public async Task<List<Moulds>> GetAllByWorkspaceId(int id)
-        {
-           return await  _appContext.Moulds.Where(m=>m.WorkspaceId == id).ToListAsync();
-        }
+    private ApplicationDbContext _appContext;
+    public async Task<List<Moulds>> GetAllByWorkspaceId(int id)
+    {
+        return await _appContext.Moulds.Where(m => m.WorkspaceId == id).ToListAsync();
     }
 }

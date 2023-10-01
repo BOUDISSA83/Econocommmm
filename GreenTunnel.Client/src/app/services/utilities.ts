@@ -59,61 +59,69 @@ export class Utilities {
       }
     };
 
-  public static getHttpResponseMessages(data: HttpResponseBase | any): string[] {
-    const responses: string[] = [];
+    public static getHttpResponseMessages(data: HttpResponseBase | any): string[] {
+      const responses: string[] = [];
+    
+      if (data instanceof HttpResponseBase) {
+        if (this.checkNoNetwork(data)) {
+          responses.push(`${this.noNetworkMessageCaption}${this.captionAndMessageSeparator} ${this.noNetworkMessageDetail}`);
+        } else {
+          const responseObject = this.getResponseBody(data);
+    
+          if (responseObject && typeof responseObject === 'object' && responseObject.errors) {
+            // Handle the specific error object structure
+            for (const key in responseObject.errors) {
+              if (responseObject.errors.hasOwnProperty(key)) {
+                // responses.push(`${key}${this.captionAndMessageSeparator} ${responseObject.errors[key][0]}`);
+                responses.push(`${responseObject.errors[key][0]}`);
 
-    if (data instanceof HttpResponseBase) {
-      if (this.checkNoNetwork(data)) {
-        responses.push(`${this.noNetworkMessageCaption}${this.captionAndMessageSeparator} ${this.noNetworkMessageDetail}`);
-      } else {
-        const responseObject = this.getResponseBody(data);
-
-        if (responseObject && (typeof responseObject === 'object' || responseObject instanceof Object)) {
-
-          for (const key in responseObject) {
-            if (key) {
-              responses.push(`${key}${this.captionAndMessageSeparator} ${responseObject[key]}`);
-            } else if (responseObject[key]) {
-              responses.push(responseObject[key].toString());
+              }
+            }
+          } else if (responseObject && typeof responseObject === 'object') {
+            // Handle other generic object responses
+            for (const key in responseObject) {
+              if (responseObject.hasOwnProperty(key)) {
+                responses.push(`${key}${this.captionAndMessageSeparator} ${responseObject[key]}`);
+              }
             }
           }
         }
+    
+        if (!responses.length) {
+          if ((data as any).body) {
+            responses.push(`body: ${(data as any).body}`);
+          }
+    
+          if ((data as any).error) {
+            responses.push(`error: ${(data as any).error}`);
+          }
+        }
       }
-
+    
       if (!responses.length) {
-        if ((data as any).body) {
-          responses.push(`body: ${(data as any).body}`);
-        }
-
-        if ((data as any).error) {
-          responses.push(`error: ${(data as any).error}`);
+        if (this.getResponseBody(data)) {
+          responses.push(this.getResponseBody(data).toString());
+        } else {
+          responses.push(data.toString());
         }
       }
-    }
-
-    if (!responses.length) {
-      if (this.getResponseBody(data)) {
-        responses.push(this.getResponseBody(data).toString());
-      } else {
-        responses.push(data.toString());
+    
+      if (this.checkAccessDenied(data)) {
+        responses.splice(0, 0, `${this.accessDeniedMessageCaption}${this.captionAndMessageSeparator} ${this.accessDeniedMessageDetail}`);
       }
-    }
-
-    if (this.checkAccessDenied(data)) {
-      responses.splice(0, 0, `${this.accessDeniedMessageCaption}${this.captionAndMessageSeparator} ${this.accessDeniedMessageDetail}`);
-    }
-
-    if (this.checkNotFound(data)) {
-      let message = `${this.notFoundMessageCaption}${this.captionAndMessageSeparator} ${this.notFoundMessageDetail}`;
-      if (data.url) {
-        message += `. ${data.url}`;
+    
+      if (this.checkNotFound(data)) {
+        let message = `${this.notFoundMessageCaption}${this.captionAndMessageSeparator} ${this.notFoundMessageDetail}`;
+        if (data.url) {
+          message += `. ${data.url}`;
+        }
+    
+        responses.splice(0, 0, message);
       }
-
-      responses.splice(0, 0, message);
+    
+      return responses;
     }
-
-    return responses;
-  }
+    
 
   public static getHttpResponseMessage(data: HttpResponseBase | any): string {
     const httpMessage =

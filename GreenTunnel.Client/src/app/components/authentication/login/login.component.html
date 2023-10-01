@@ -19,7 +19,7 @@
                           (!username.valid && showErrorAlert('Username is required', 'Please enter a valid username'));
                           (!password.valid && showErrorAlert('Password is required', 'Please enter a valid password'))">
                     <div class="login-with-socials d-md-flex align-items-center justify-content-space-between">
-                        <button mat-flat-button class="gray fw-semibold d-block me-5"><img src="assets/img/icon/google.png" alt="Microsot"> Login with Microsoft</button>
+                        <button mat-flat-button class="gray fw-semibold d-block me-5"><img src="assets/img/icon/microsoft.png" alt="Microsot"> Login with Microsoft</button>
                     </div>
                     <div class="or text-center position-relative">
                         <span class="fw-semibold fs-16">or</span>
@@ -49,7 +49,12 @@
                         <mat-checkbox class="gray-color" id="login-rememberme" name="rememberMe" [(ngModel)]="userLogin.rememberMe">Remember me</mat-checkbox>
                         <a routerLink="/authentication/forgot-password" class="d-inline-block main-color fw-medium">Forgot your password?</a>
                     </div>
-                    <button mat-flat-button class="tagus d-block fw-semibold">Log In</button>
+                    <button mat-flat-button class="tagus d-block fw-semibold" [disabled]="inProgress || isLoading || !f.form.valid">
+                        <span *ngIf="inProgress" class="spinner-border spinner-border-sm me-1" role="status"
+                            aria-hidden="true"></span>
+                        <span *ngIf="inProgress; else saveText">Log In...</span>
+                        <ng-template #saveText>Log In</ng-template>
+                    </button>
                 </form>
             </div>
         </div>

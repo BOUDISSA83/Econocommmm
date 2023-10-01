@@ -15,6 +15,7 @@ import { SampleService } from 'src/app/services/apiService/sample.service';
 import { LoginComponent } from '../../authentication/login/login.component';
 import { environment } from 'src/environments/environment';
 import { Permission } from 'src/app/models/permission.model';
+import { ToastrService } from 'ngx-toastr';
 const alertify: any = require('src/assets/scripts/alertify.js');
 
 @Component({
@@ -69,7 +70,7 @@ export class HeaderComponent implements OnInit {
         public configurations: ConfigurationService,
         public router: Router,
         private sampleService: SampleService,
-        private serviceT:CustomizerSettingsService
+        private toastrService: ToastrService,
     ) {
         this.toggleService.isToggled$.subscribe(isToggled => {
             this.isToggled = isToggled;
@@ -78,23 +79,21 @@ export class HeaderComponent implements OnInit {
     ngOnInit(): void {
         this.isUserLoggedIn = this.authService.isLoggedIn;
         if(!this.isUserLoggedIn){
-            this.router.navigate(['/authentication/login']);
+           // this.router.navigate(['/authentication/login']);
         }
         // Extra sec to display preboot loaded information
         setTimeout(() => (this.isAppLoaded = true), 1000);
 
         setTimeout(() => {
           if (this.isUserLoggedIn) {
-            this.alertService.resetStickyMessage();
 
-            // if (!this.authService.isSessionExpired)
-            this.alertService.showMessage(
-              this.gT('app.alerts.Login'),
+             if (!this.authService.isSessionExpired)
+            this.toastrService.success(
               this.gT('app.alerts.WelcomeBack', { username: this.userName }),
-              MessageSeverity.default
+              this.gT('app.alerts.Login')
             );
-           // else
-           //  this.alertService.showStickyMessage(this.gT("app.alerts.SessionExpired"), this.gT("app.alerts.SessionExpiredLoginAgain"), MessageSeverity.warn);
+           else
+             this.toastrService.warning(this.gT("app.alerts.SessionExpired"), this.gT("app.alerts.SessionExpiredLoginAgain"));
           }
         }, 2000);
 
@@ -109,20 +108,19 @@ export class HeaderComponent implements OnInit {
 
         this.authService.getLoginStatusEvent().subscribe((isLoggedIn) => {
           this.isUserLoggedIn = isLoggedIn;
-    if(!this.isUserLoggedIn){
-        this.router.navigate(['/authentication/login']);
+    if(this.isUserLoggedIn){
+       // this.router.navigate(['/authentication/login']);
     }
 
 
           setTimeout(() => {
             if (!this.isUserLoggedIn) {
-              this.alertService.showMessage(
+              this.toastrService.warning(
                 this.gT('app.alerts.SessionEnded'),
-                '',
-                MessageSeverity.default
+                ''
               );
               // Redirect to the login page
-             this.router.navigate(['/authentication/login']);
+          //   this.router.navigate(['/authentication/login']);
             }
           }, 500);
         });
@@ -148,7 +146,7 @@ export class HeaderComponent implements OnInit {
         this.themeService.toggleCardBorderTheme();
     }
     isDark() {
-        return this.serviceT.isDark();
+        return this.themeService.isDark();
     }
     toggleHeaderTheme() {
         this.themeService.toggleHeaderTheme();
@@ -203,11 +201,11 @@ export class HeaderComponent implements OnInit {
         this.loginControl.modalClosedCallback = () => modalRef.close();
 
         modalRef.shown.subscribe(() => {
-          this.alertService.showStickyMessage(
-            this.gT('app.alerts.SessionExpired'),
+          this.toastrService.warning(
+
             this.gT('app.alerts.SessionExpiredLoginAgain'),
-            MessageSeverity.info
-          );
+            this.gT('app.alerts.SessionExpired')
+                     );
         });
 
         modalRef.hidden.subscribe(() => {
@@ -215,11 +213,10 @@ export class HeaderComponent implements OnInit {
           this.loginControl.reset();
 
           if (this.authService.isSessionExpired) {
-            this.alertService.showStickyMessage(
-              this.gT('app.alerts.SessionExpired'),
+            this.toastrService.warning(
               this.gT('app.alerts.SessionExpiredLoginToRenewSession'),
-              MessageSeverity.warn
-            );
+              this.gT('app.alerts.SessionExpired'),
+              );
           }
         });
       }

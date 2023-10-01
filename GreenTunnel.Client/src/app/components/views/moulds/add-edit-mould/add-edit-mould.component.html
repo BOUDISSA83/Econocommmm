@@ -15,14 +15,34 @@
         <form [formGroup]="mouldForm" class="mb-25">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="tagus-form-group">
-                        <label class="d-block mb-12 fw-semibold gray-color">Name <span>*</span></label>
+                    <div class="tagus-form-group without-icon">
+                        <label class="d-block mb-12 fw-semibold gray-color">Workspace</label>
                         <mat-form-field appearance="fill">
-                            <i class="ri-add-fill"></i>
-                            <mat-label>Enter name</mat-label>
-                            <input matInput formControlName="name">
+                            <mat-label>Select Workspace</mat-label>
+                            <mat-select formControlName="workspaceid" placeholder="Select Workspace">
+                                <mat-option *ngFor="let item of workspacesList" [value]="item.id">
+                                    {{ item.name }}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="tagus-form-group">
+                        <label class="d-block mb-12 fw-semibold gray-color">Name <span>*</span></label>
+                        <mat-form-field appearance="fill" class="input-container">
+                          <i class="ri-user-3-line"></i>
+                          <mat-label>Enter name</mat-label>
+                          <input matInput formControlName="name" id="nameInput">
+                          <mat-icon class="valid-icon" *ngIf="mouldForm.get('name').valid && !mouldForm.get('name').hasError('nameDuplicate')">check_circle</mat-icon>
+                          <mat-icon class="invalid-icon" *ngIf="mouldForm.get('name').hasError('nameDuplicate')">cancel</mat-icon>
+                          <div class="mat-spinner" *ngIf="mouldForm.get('name').pending && mouldForm.get('name').touched">
+                            <mat-progress-spinner [diameter]="30" mode="indeterminate"></mat-progress-spinner>
+                          </div>
+                        </mat-form-field>
+                        <mat-error *ngIf="mouldForm.get('name').hasError('nameDuplicate')">Mould name already exists.</mat-error>
+                        <mat-error *ngIf="mouldForm.get('name').hasError('required') && mouldForm.get('name').touched">Mould name require.</mat-error>
+                      </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="tagus-form-group">
@@ -34,31 +54,26 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="tagus-form-group without-icon">
-                        <label class="d-block mb-12 fw-semibold gray-color">WorkSpace</label>
-                        <mat-form-field appearance="fill">
-                            <mat-label>Select Workspace</mat-label>
-                            <mat-select formControlName="workspaceid" placeholder="Select Workspace">
-                                <mat-option *ngFor="let item of workspacesList" [value]="item.id">
-                                    {{ item.name }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div style="text-align: right;" class="mb-3 example-buttons">
-                            <button mat-flat-button class="tagus" (click)="save()">Save</button>
-                            <span class="mx-2"></span>
-                            <button mat-flat-button class="gray text-primary" (click)="cancel()">Cancel</button>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </form>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div style="text-align: right;" class="mb-3 example-buttons">
+                    <button mat-flat-button class="tagus" (click)="save()" [disabled]="inProgress || isLoading">
+                        <span *ngIf="inProgress" class="spinner-border spinner-border-sm me-1" role="status"
+                            aria-hidden="true"></span>
+                        <span *ngIf="inProgress; else saveText">Saving...</span>
+                        <ng-template #saveText>Save</ng-template>
+                    </button>
+                    <span class="mx-2"></span>
+                    <button mat-flat-button class="gray text-primary" (click)="cancel()">Cancel</button>
+                </div>
+
+            </div>
+        </div>
         </mat-card-content>
         </mat-card>
 

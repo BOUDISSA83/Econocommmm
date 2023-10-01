@@ -80,11 +80,11 @@ export class WorkspacesListComponent {
 
     }
     loadData() {
-        debugger
+        
         this.alertService.startLoadingMessage();
         this.loadingIndicator = true;
 
-        debugger
+        
         if (this.canViewRoles) {
             this.workspaceService.getWorkspaces(this.workplaceId, this.currentPage + 1, this.pageSize, this.searchValue, 'name', 'desc').subscribe({
                 next: (results) => this.onDataLoadSuccessful(results),
@@ -120,7 +120,7 @@ export class WorkspacesListComponent {
     deleteWorkspaceHelper(row: Workspace) {
         this.alertService.startLoadingMessage('Deleting...');
         this.loadingIndicator = true;
-        debugger;
+        ;
         this.workspaceService.deleteWorkspace(row).subscribe({
             next: (_) => {
                 this.alertService.stopLoadingMessage();
@@ -168,7 +168,7 @@ export class WorkspacesListComponent {
     newFactory() {
         this.sourceUser = null;
         if (!isNullOrUndefined(this.workplaceId)) {
-            debugger
+            
             this.router.navigate(['/add-edit-workspace', this.workplaceId]);
         } else {
             this.router.navigate(['/add-edit-workspace']);
@@ -176,7 +176,7 @@ export class WorkspacesListComponent {
         }
     }
     editWorkspace(id: number) {
-        debugger
+        
         this.router.navigate(['/add-edit-workspace'], { queryParams: { id: id } })
     }
     // Rest of the component methods

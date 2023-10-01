@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { EntityType } from 'src/app/models/enums';
 import { WorkplacesList } from 'src/app/models/workplaces-list.model';
 import { WorkspaceRequest } from 'src/app/models/workspace-request.model';
 import { Workspace } from 'src/app/models/workspace.model';
 import { FactoryService } from 'src/app/services/factory.service';
 import { WorkplaceService } from 'src/app/services/workplace.service';
 import { WorkspaceService } from 'src/app/services/workspace.service';
+import { CustomValidators } from 'src/app/shared/custom-validators';
 
 @Component({
   selector: 'app-add-edit-workspace',
@@ -18,8 +21,8 @@ export class AddEditWorkspaceComponent {
   isEditMode = false;
   factoryData: Workspace;
   workspaceRequest: WorkspaceRequest = new WorkspaceRequest();
-  workspaceId: any;
-  workplaceId: number;
+  workspaceId: number = 0;
+  workplaceId: number = 0;
   workplacesList: WorkplacesList[] = [];
   inProgress: any;
   isLoading: boolean;
@@ -28,20 +31,22 @@ export class AddEditWorkspaceComponent {
     private workspaceService: WorkspaceService,
     private workplaceService: WorkplaceService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private factoryService: FactoryService,
+    private toasterService:ToastrService
   ) { }
 
   ngOnInit(): void {
-    this.createForm();
     this.route.queryParams.subscribe((queryParams) => {
       if (queryParams['id']) {
         this.workspaceId = queryParams['id'];
         this.isEditMode = true;
-        this.loadWorkspace(this.workspaceId);
+        this.loadWorkspace(this.workspaceId.toString());
       }
     });
+    this.createForm();
     this.route.params.subscribe((params) => {
-      debugger
+      
       if (params['workplaceId']) {
         this.workplaceId = Number(params['workplaceId']);
         this.workspaceForm.get('workplaceId').setValue(this.workplaceId);
@@ -51,18 +56,18 @@ export class AddEditWorkspaceComponent {
   }
   private createForm(): void {
     this.workspaceForm = this.fb.group({
-      name: ['', Validators.required],
+      name: ['', Validators.required,CustomValidators.validateNameDuplicate(this.factoryService,EntityType.Workspace,this.workspaceId)],
       description: [''],
       order: [0],
-      workplaceId: [null, Validators.required]
+      workplaceId: [null, [Validators.required]]
     });
   }
 
   private loadWorkspace(id: string): void {
-    debugger
+    
     // Load factory data from your API service
     this.workspaceService.getWorkspace(id).subscribe((factory) => {
-      debugger
+      
       this.factoryData = factory;
       this.workspaceForm.patchValue(factory);
     });
@@ -90,6 +95,8 @@ export class AddEditWorkspaceComponent {
         this.workspaceService.updateWorkspace(this.workspaceRequest, this.workspaceId).subscribe(() => {
           this.isLoading = false;
           this.inProgress = false;
+          this.toasterService.success(`Workspace ${this.workspaceRequest.model.name} has been updated.`,'Workspace Updated',);
+
           // Handle success or navigate to a different page
           this.router.navigate(['/workspaces']);
         });
@@ -98,6 +105,8 @@ export class AddEditWorkspaceComponent {
         this.workspaceService.createWorkspace(this.workspaceRequest).subscribe(() => {
           this.isLoading = false;
           this.inProgress = false;
+          this.toasterService.success(`Workspace ${this.workspaceRequest.model.name} has been created.`,'Workspace Created',);
+
           // Handle success or navigate to a different page
           this.router.navigate(['/workspaces']);
         });

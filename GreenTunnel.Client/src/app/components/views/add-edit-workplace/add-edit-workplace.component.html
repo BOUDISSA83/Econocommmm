@@ -31,19 +31,30 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
+                        <mat-error *ngIf="workplaceForm.get('factoryId').hasError('required') && workplaceForm.get('factoryId').touched">Factory required.</mat-error>
+
                     </div>
                 </div>
 
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="tagus-form-group">
                         <label class="d-block mb-12 fw-semibold gray-color">Name <span>*</span></label>
-                        <mat-form-field appearance="fill">
-                            <i class="ri-user-3-line"></i>
-                            <mat-label>Enter name</mat-label>
-                            <input matInput formControlName="name">
+                        <mat-form-field appearance="fill" class="input-container">
+                          <i class="ri-user-3-line"></i>
+                          <mat-label>Enter name</mat-label>
+                          <input matInput formControlName="name" id="nameInput">
+                          <mat-icon class="valid-icon" *ngIf="workplaceForm.get('name').valid && !workplaceForm.get('name').hasError('nameDuplicate')">check_circle</mat-icon>
+                          <mat-icon class="invalid-icon" *ngIf="workplaceForm.get('name').hasError('nameDuplicate')">cancel</mat-icon>
+                          <div class="mat-spinner" *ngIf="workplaceForm.get('name').pending && workplaceForm.get('name').touched">
+                            <mat-progress-spinner [diameter]="30" mode="indeterminate"></mat-progress-spinner>
+                          </div>
                         </mat-form-field>
+                        <mat-error *ngIf="workplaceForm.get('name').hasError('nameDuplicate')">Workplace name already exists.</mat-error>
+                        <mat-error *ngIf="workplaceForm.get('name').hasError('required') && workplaceForm.get('name').touched">Workplace name required.</mat-error>
+ 
                     </div>
-                </div>
+                      
+                  </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="tagus-form-group">
                         <label class="d-block mb-12 fw-semibold gray-color">Description <span>*</span></label>
@@ -52,6 +63,7 @@
                             <mat-label>Enter description</mat-label>
                             <input matInput formControlName="description">
                         </mat-form-field>
+                        
                     </div>
                 </div>
             </div>
@@ -59,7 +71,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div style="text-align: right;" class="mb-3 example-buttons">
-                    <button mat-flat-button class="tagus" (click)="save()" [disabled]="inProgress || isLoading">
+                    <button mat-flat-button class="tagus" (click)="save()" [disabled]="inProgress || isLoading || workplaceForm.invalid">
                         <span *ngIf="inProgress" class="spinner-border spinner-border-sm me-1" role="status"
                             aria-hidden="true"></span>
                         <span *ngIf="inProgress; else saveText">Saving...</span>

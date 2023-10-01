@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CustomizerSettingsService } from '../../customizer-settings/customizer-settings.service';
 import { UserLogin } from 'src/app/models/user-login.model';
 import { AlertService, DialogType, MessageSeverity } from 'src/app/services/alert.service';
@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ConfigurationService } from 'src/app/services/configuration.service';
 import { Utilities } from 'src/app/services/utilities';
 import { ToastrService } from 'ngx-toastr';
+import { NgForm } from '@angular/forms';
 
 @Component({
     selector: 'app-login',
@@ -13,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent  implements OnInit, OnDestroy{
+  @ViewChild('f', { static: false }) loginForm: NgForm; // Reference the form using ViewChild
 
     hide = true;
     userLogin = new UserLogin();
@@ -23,6 +25,7 @@ export class LoginComponent  implements OnInit, OnDestroy{
   
     @Input()
     isModal = false;
+  inProgress: boolean;
     constructor(
       private toastr: ToastrService,
         public themeService: CustomizerSettingsService,
@@ -82,8 +85,14 @@ export class LoginComponent  implements OnInit, OnDestroy{
       }
     
     
-      login() {debugger
+      login() {
         this.isLoading = true;
+        debugger
+        if (this.loginForm.valid) {
+          if (this.inProgress) {
+            return;
+          }
+          this.inProgress = true;
         this.toastr.success('', 'Attempting login...');
 
         this.authService.loginWithPassword(this.userLogin.userName, this.userLogin.password, this.userLogin.rememberMe)
@@ -92,15 +101,17 @@ export class LoginComponent  implements OnInit, OnDestroy{
               setTimeout(() => {
                 this.alertService.stopLoadingMessage();
                 this.isLoading = false;
+                this.inProgress = false;
+
                 this.reset();
     
                 if (!this.isModal) {
-                  this.toastr.success('Login', `Welcome ${user.userName}!`);
+                  this.toastr.success(`Welcome ${user.userName}!`,'Login');
 
                 } else {
-                  this.toastr.success('Login', `Session for ${user.userName} restored!`);
+                  this.toastr.success(`Session for ${user.userName} restored!`,'Login');
                   setTimeout(() => {
-                    this.toastr.success('Session Restored', 'Please try your last operation again');
+                    this.toastr.success('Please try your last operation again','Session Restored');
                   }, 500);
     
                   this.closeModal();
@@ -118,18 +129,24 @@ export class LoginComponent  implements OnInit, OnDestroy{
                 const errorMessage = Utilities.getHttpResponseMessage(error);
     
                 if (errorMessage) {
-                  this.toastr.error('Unable to login', this.mapLoginErrorMessage(errorMessage));
+                  this.toastr.error(this.mapLoginErrorMessage(errorMessage),'Unable to login');
 
                 } else {
-                  this.toastr.error('Unable to login', 'An error occurred whilst logging in, please try again later.\nError: ' + Utilities.getResponseBody(error));
+                  this.toastr.error('An error occurred whilst logging in, please try again later.\nError: ' + Utilities.getResponseBody(error),'Unable to login');
                 }
               }
     
               setTimeout(() => {
                 this.isLoading = false;
+                this.inProgress = false;
+
               }, 500);
             }
           });
+        }else{
+          this.isLoading = false;
+          this.inProgress = false;
+        }
       }
     
     
@@ -140,7 +157,7 @@ export class LoginComponent  implements OnInit, OnDestroy{
             DialogType.prompt,
             (value: string) => {
               this.configurations.baseUrl = value;
-              this.toastr.error('API Changed!', 'The target Web API has been changed to: ' + value);
+              this.toastr.error('The target Web API has been changed to: ' + value,'API Changed!');
             },
             null,
             null,

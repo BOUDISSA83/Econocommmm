@@ -1,59 +1,53 @@
-﻿
-
-using GreenTunnel.Core.Entities;
-using GreenTunnel.Core.Repositories.Interfaces;
-using GreenTunnel.Infrastructure.Interfaces;
+﻿using GreenTunnel.Core.Interfaces;
+using GreenTunnel.Core.Interfaces.Uow;
 using GreenTunnel.Infrastructure.Repositories;
-using System;
-using System.Linq;
 
-namespace GreenTunnel.Infrastructure
+namespace GreenTunnel.Infrastructure;
+
+public class UnitOfWork : IUnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork
+    private readonly ApplicationDbContext _context;
+    private IFactoryRepository _factories;
+    private IWorkSpaceRepository _workspaces;
+    private IWorkplaceRepository _workplaces;
+
+    public UnitOfWork(ApplicationDbContext context)
     {
-        private readonly ApplicationDbContext _context;
-        private IFactoryRepository _factories;
-        private IWorkSpaceRepository _workspaces;
-        private IWorkplaceRepository _workplaces;
+        _context = context;
+    }
 
-        public UnitOfWork(ApplicationDbContext context)
+    public IFactoryRepository Factories
+    {
+        get
         {
-            _context = context;
-        }
+            _factories ??= new FactoryRepository(_context);
 
-        public IFactoryRepository Factories
+            return _factories;
+        }
+    }
+
+    public IWorkSpaceRepository Workspaces
+    {
+        get
         {
-            get
-            {
-                _factories ??= new FactoryRepository(_context);
+            _workspaces ??= new WorkspaceRepository(_context);
 
-                return _factories;
-            }
+            return _workspaces;
         }
+    }
 
-        public IWorkSpaceRepository Workspaces
+    public IWorkplaceRepository Workplaces
+    {
+        get
         {
-            get
-            {
-                _workspaces ??= new WorkspaceRepository(_context);
+            _workplaces ??= new WorkplacesRepository(_context);
 
-                return _workspaces;
-            }
+            return _workplaces;
         }
+    }
 
-        public IWorkplaceRepository Workplaces
-        {
-            get
-            {
-                _workplaces ??= new WorkplacesRepository(_context);
-
-                return _workplaces;
-            }
-        }
-
-        public int SaveChanges()
-        {
-            return _context.SaveChanges();
-        }
+    public int SaveChanges()
+    {
+        return _context.SaveChanges();
     }
 }

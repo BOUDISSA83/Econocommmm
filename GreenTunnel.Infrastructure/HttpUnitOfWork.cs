@@ -1,18 +1,15 @@
 ﻿
 
-using DAL.Core;
-using GreenTunnel.Infrastructure;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Linq;
 
-namespace DAL
+using GreenTunnel.Core;
+using Microsoft.AspNetCore.Http;
+
+namespace GreenTunnel.Infrastructure;
+
+public class HttpUnitOfWork : UnitOfWork
 {
-    public class HttpUnitOfWork : UnitOfWork
+    public HttpUnitOfWork(ApplicationDbContext context, IHttpContextAccessor httpAccessor) : base(context)
     {
-        public HttpUnitOfWork(ApplicationDbContext context, IHttpContextAccessor httpAccessor) : base(context)
-        {
-            context.CurrentUserId = httpAccessor.HttpContext?.User.FindFirst(ClaimConstants.Subject)?.Value?.Trim();
-        }
+        context.CurrentUserId = httpAccessor.HttpContext?.User.FindFirst(ClaimConstants.Subject)?.Value?.Trim();
     }
 }

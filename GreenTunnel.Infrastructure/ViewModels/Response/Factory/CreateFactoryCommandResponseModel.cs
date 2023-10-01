@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace GreenTunnel.Infrastructure.ViewModels.Response.Factories;
 
-namespace GreenTunnel.Infrastructure.ViewModels.Response.Factory
+public class CreateFactoryCommandResponseModel : CqrsResponseViewModel
 {
-    public class CreateFactoryCommandResponseModel : CqrsResponseViewModel
-    {
-        public int FactoryId { get; set; }
-    }
+    public int FactoryId { get; set; }
 }

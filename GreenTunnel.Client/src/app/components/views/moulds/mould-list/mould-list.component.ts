@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { Mould } from 'src/app/models/mould.model';
 import { MouldService } from 'src/app/services/mouldServices/mould.service';
 import { AddEditMouldComponent } from '../add-edit-mould/add-edit-mould.component';
+import { DeleteMouldComponent } from '../delete-mould/delete-mould.component';
 
 @Component({
     selector: 'app-mould-list',
@@ -20,7 +21,7 @@ import { AddEditMouldComponent } from '../add-edit-mould/add-edit-mould.componen
     styleUrls: ['./mould-list.component.scss']
 })
 export class MouldListComponent implements OnInit {
-    @Input() workspaceId: number = 0;
+    @Input() workspaceid: number = 0;
     loadingIndicator: boolean;
     columns: any[] = [];
     rows: Mould[] = [];
@@ -37,7 +38,7 @@ export class MouldListComponent implements OnInit {
     editorModalTemplate: TemplateRef<any>;
     mouldEditor: AddEditMouldComponent;
     isSubView: boolean;
-
+    searchValue: string = null;
     displayedColumns: string[] = [
 
         'name',
@@ -77,7 +78,7 @@ export class MouldListComponent implements OnInit {
         private modalService: NgbModal,
         private router: Router) { }
     ngOnInit(): void {
-        if (this.workspaceId > 0) {
+        if (this.workspaceid > 0) {
             this.isSubView = true;
         }
         this.loadData();
@@ -95,7 +96,7 @@ export class MouldListComponent implements OnInit {
         //         error: (error) => this.onDataLoadFailed(error),
         //     });
         // } else {
-            this.mouldService.getMoulds(this.workspaceId, this.currentPage, this.pageSize).subscribe({
+            this.mouldService.getMoulds(this.workspaceid, this.currentPage, this.pageSize,this.searchValue).subscribe({
                 next: (users) => this.onDataLoadSuccessful(users),
                 error: (error) => this.onDataLoadFailed(error),
             });
@@ -107,11 +108,20 @@ export class MouldListComponent implements OnInit {
         this.loadData();
     }
     deleteUser(row:Mould) {
-        this.alertService.showDialog(
-            `Are you sure you want to delete \"${row.name}\"?`,
-            DialogType.confirm,
-            () => this.deleteUserHelper(row)
+        const modalRef = this.modalService.open(DeleteMouldComponent,
+            {
+                size:'lg',
+                backdrop:'static'
+            }
         );
+    modalRef.componentInstance.row = row;
+    modalRef.componentInstance.deleteChanged.subscribe((data)=>{
+        debugger
+        if(data){
+         this.modalService.dismissAll();
+         this.loadData();
+        }
+     })
     }
     deleteUserHelper(row: Mould) {
         this.alertService.startLoadingMessage('Deleting...');
@@ -169,8 +179,9 @@ export class MouldListComponent implements OnInit {
         this.router.navigate(['/add-edit-mould']);
 
     }
-    editMould(id:number){debugger
-        this.router.navigate(['/add-edit-mould'],{queryParams:{id:id}})
+    editMould(element:any){debugger
+        var g=element.workspaceId;
+        this.router.navigate(['/add-edit-mould'],{queryParams:{id:element.id,wid: element.workspaceId}})
     }
     detailMould(id:number){
         debugger
@@ -178,18 +189,9 @@ export class MouldListComponent implements OnInit {
     }
     // Rest of the component methods
     onSearchChanged(value: string) {
-        this.dataSource.data = this.rowsCache.filter((r) =>
-            Utilities.searchArray(
-                value,
-                false,
-                r.name,
-                r.type
-                // r.address,
-                // r.email,
-                // r.phone,
-                // r.email,
-                // r.mobile
-            )
-        );
+        this.searchValue = value;
+       this.searchValue= this.searchValue==""?null:this.searchValue;
+        this.currentPage = 0;
+        this.loadData();
     }
 }

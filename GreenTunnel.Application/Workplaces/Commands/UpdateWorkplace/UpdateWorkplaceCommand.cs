@@ -1,16 +1,10 @@
 ﻿using GreenTunnel.Infrastructure.ViewModels.Response;
 using GreenTunnel.Infrastructure.ViewModels.Workplaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GreenTunnel.Application.Workplace.Commands.UpdateWorkplace
+namespace GreenTunnel.Application.Workplaces.Commands.UpdateWorkplace;
+
+public class UpdateWorkplaceCommand : IRequest<CqrsResponseViewModel>
 {
-    public class UpdateWorkplaceCommand : IRequest<CqrsResponseViewModel>
-    {
-        public UpdateWorkplaceRequestViewModel Model { get; set; }
-}
+    public UpdateWorkplaceRequestViewModel Model { get; set; }
 }

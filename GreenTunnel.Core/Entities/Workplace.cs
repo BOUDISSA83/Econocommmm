@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GreenTunnel.Core.Entities
-{
-public class Workplace: AuditableEntity
+namespace GreenTunnel.Core.Entities;
+
+public class Workplace : AuditableEntity
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -17,5 +16,4 @@ public class Workplace: AuditableEntity
     {
         Workspaces = new List<Workspace>();
     }
-}
 }

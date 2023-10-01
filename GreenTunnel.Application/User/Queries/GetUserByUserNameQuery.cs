@@ -1,17 +1,11 @@
 ﻿using GreenTunnel.Infrastructure.ViewModels;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GreenTunnel.Application.CQRS.Queries
+namespace GreenTunnel.Application.User.Queries;
+
+public class GetUserByUserNameQuery : IRequest<UserViewModel>
 {
-    public class GetUserByUserNameQuery:IRequest<UserViewModel>
-    {
-        public string UserName { get; set; }
-        public ClaimsPrincipal User { get; set; }
-    }
+    public string UserName { get; set; }
+    public ClaimsPrincipal User { get; set; }
 }

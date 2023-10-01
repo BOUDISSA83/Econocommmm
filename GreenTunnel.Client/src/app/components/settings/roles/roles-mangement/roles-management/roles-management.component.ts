@@ -154,9 +154,9 @@ export class RolesManagementComponent implements OnInit {
                 const roles = results[0];
                 const permissions = results[1];
 
-                // roles.forEach((role, index) => {
-                //     (role as any).index = index + 1;
-                // });
+                roles.items.forEach((role, index) => {
+                    (role as any).index = index + 1;
+                });
 
                 //this.rowsCache = [...roles];
                 this.dataSource.data = roles.items;
@@ -197,29 +197,29 @@ export class RolesManagementComponent implements OnInit {
 
     openRoleEditor() {
         const modalRef = this.modalService.open(this.editorModalTemplate, {
-            size: 'lg',
-            backdrop: 'static',
+          size: 'lg',
+          backdrop: 'static'
         });
-
+    
         modalRef.shown.subscribe(() => {
-            this.roleEditor.changesSavedCallback = () => {
-                this.addNewRoleToList();
-                modalRef.close();
-            };
-
-            this.roleEditor.changesCancelledCallback = () => {
-                this.editedRole = new Role();
-                this.sourceRole = new Role();
-                modalRef.close();
-            };
+          this.roleEditor.changesSavedCallback = () => {
+            this.addNewRoleToList();
+            modalRef.close();
+          };
+    
+          this.roleEditor.changesCancelledCallback = () => {
+            this.editedRole = null;
+            this.sourceRole = null;
+            modalRef.close();
+          };
         });
-
+    
         modalRef.hidden.subscribe(() => {
-            this.editingRoleName = { name: '' };
-            this.roleEditor.resetForm(true);
-            this.roleEditor = new RoleEditorComponent();
+          this.editingRoleName = null;
+          this.roleEditor.resetForm(true);
+          this.roleEditor = null;
         });
-    }
+      }
 
     deleteRole(row: Role) {
         const modalRef = this.modalService.open(

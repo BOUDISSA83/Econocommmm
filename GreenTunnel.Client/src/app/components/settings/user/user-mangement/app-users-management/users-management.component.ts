@@ -211,7 +211,6 @@ export class UsersManagementComponent implements OnInit {
         this.loadingIndicator = true;
 
         if (this.canViewRoles) {
-            debugger
             this.accountService.getUsersAndRoles(this.currentPage + 1, this.pageSize, this.searchValue, 'name', 'desc').subscribe({
                 next: (results) =>
                     this.onDataLoadSuccessful(results[0], results[1]),

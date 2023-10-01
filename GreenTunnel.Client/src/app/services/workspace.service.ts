@@ -39,6 +39,10 @@ export class WorkspaceService {
         throw new Error("Invalid factoryOrWorkspaceId"); // Add this line to handle the case where id does not exist
       }
     }
+   
+  }
+  getWorkspaceDuplicateStatus(workspaceName?: string) {  
+    return this.workspaceEndpoint.getWorkplaceDuplicateStatusEndpoint<boolean>(workspaceName);
   }
 
 }

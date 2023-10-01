@@ -86,11 +86,11 @@ export class WorkplacesListComponent implements OnInit {
     }
 
     loadData() {
-        debugger
+        
         this.alertService.startLoadingMessage();
         this.loadingIndicator = true;
 
-        debugger
+        
         if (this.canViewRoles) {
             this.workplaceService.getWorkplaces(this.factoryId, this.currentPage + 1, this.pageSize, this.searchValue, 'name', 'desc').subscribe({
                 next: (results) => this.onDataLoadSuccessful(results),
@@ -152,7 +152,7 @@ export class WorkplacesListComponent implements OnInit {
         });
     }
     onDataLoadSuccessful(workplaces: any) {
-        debugger
+        
         this.alertService.stopLoadingMessage();
         this.loadingIndicator = false;
 
@@ -175,7 +175,7 @@ export class WorkplacesListComponent implements OnInit {
     newFactory() {
         this.sourceUser = null;
         if (!isNullOrUndefined(this.factoryId)) {
-            debugger
+            
             this.router.navigate(['/add-edit-workplace', this.factoryId]);
         } else {
             this.router.navigate(['/add-edit-workplace']);
@@ -183,7 +183,7 @@ export class WorkplacesListComponent implements OnInit {
         }
     }
     editWorkplace(id: number) {
-        debugger
+        
         this.router.navigate(['/add-edit-workplace'], { queryParams: { id: id } })
     }
     // Rest of the component methods

@@ -1,60 +1,53 @@
 ﻿using AutoMapper;
-using GreenTunnel.Application.CQRS.Queries;
+using GreenTunnel.Application.User.Queries;
 using GreenTunnel.Core.Interfaces;
 using GreenTunnel.Infrastructure.Helpers;
 using GreenTunnel.Infrastructure.ViewModels;
-using GreenTunnel.Infrastructure.ViewModels.Response.Factory;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GreenTunnel.Application.User.Handlers
+namespace GreenTunnel.Application.User.Handlers;
+
+public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, PagedList<UserViewModel>>
 {
-    public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, PagedList<UserViewModel>>
+
+    private readonly IAuthorizationService _authorizationService;
+    private readonly ILogger<GetUsersQueryHandler> _logger;
+    private readonly IMapper _mapper;
+    private readonly IAccountManager _accountManager;
+
+    public GetUsersQueryHandler(IAuthorizationService authorizationService,
+        IMapper mapper,
+        ILogger<GetUsersQueryHandler> logger,
+        IAccountManager accountManager)
     {
+        _authorizationService = authorizationService;
+        _logger = logger;
+        _mapper = mapper;
+        _accountManager = accountManager;
+    }
+    public async Task<PagedList<UserViewModel>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+    {
+        var usersAndRoles = await _accountManager.GetUsersAndRolesAsync(request.PageNumber, request.PageSize, request.SortColumn, request.SortOrder, request.SearchTerm);
+        //var factoryViewModels = _mapper.Map<List<UserViewModel>>(usersAndRoles.Items);
 
-        private readonly IAuthorizationService _authorizationService;
-        private readonly ILogger<GetUsersQueryHandler> _logger;
-        private readonly IMapper _mapper;
-        private readonly IAccountManager _accountManager;
+        var usersVM = new List<UserViewModel>();
 
-        public GetUsersQueryHandler(IAuthorizationService authorizationService,
-            IMapper mapper,
-            ILogger<GetUsersQueryHandler> logger,
-            IAccountManager accountManager)
+        foreach (var item in usersAndRoles.Items)
         {
-            _authorizationService = authorizationService;
-            _logger = logger;
-            _mapper = mapper;
-            _accountManager = accountManager;
+            var userVM = _mapper.Map<UserViewModel>(item.User);
+            userVM.Roles = item.Roles;
+
+            usersVM.Add(userVM);
         }
-        public async Task<PagedList<UserViewModel>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
-        {
-            var usersAndRoles = await _accountManager.GetUsersAndRolesAsync(request.PageNumber, request.PageSize, request.SortColumn, request.SortOrder, request.SearchTerm);
-            //var factoryViewModels = _mapper.Map<List<UserViewModel>>(usersAndRoles.Items);
+        var pagedList = new PagedList<UserViewModel>(
+            usersVM,
+            request.PageNumber,
+            request.PageSize,
+            usersAndRoles.TotalCount);
 
-            var usersVM = new List<UserViewModel>();
+        return pagedList;
 
-            foreach (var item in usersAndRoles.Items)
-            {
-                var userVM = _mapper.Map<UserViewModel>(item.User);
-                userVM.Roles = item.Roles;
-
-                usersVM.Add(userVM);
-            }
-            var pagedList = new PagedList<UserViewModel>(
-                usersVM,
-                request.PageNumber,
-                request.PageSize,
-                usersAndRoles.TotalCount);
-
-            return pagedList;
-
-        }
     }
 }

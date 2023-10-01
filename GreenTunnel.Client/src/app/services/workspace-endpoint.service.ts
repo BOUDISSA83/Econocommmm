@@ -35,7 +35,7 @@ export class WorkspaceEndpointService extends EndpointBase  {
         return this.handleError(error, () => this.getNewWorkspaceEndpoint(workspaceObject));
       }));
   }
-  getUpdateWorkspaceEndpoint<T>(workspaceObject: any, id?: number): Observable<T> {debugger
+  getUpdateWorkspaceEndpoint<T>(workspaceObject: any, id?: number): Observable<T> {
     const endpointUrl = `${this.workspacesUrl}/${id}`;
 
     return this.http.put<T>(endpointUrl, JSON.stringify(workspaceObject), this.requestHeaders).pipe<T>(
@@ -53,12 +53,22 @@ export class WorkspaceEndpointService extends EndpointBase  {
     );
 
   }
-  getDeleteWorkspaceEndpoint<T>(WorkspaceId: string): Observable<T> {debugger
+  getDeleteWorkspaceEndpoint<T>(WorkspaceId: string): Observable<T> {
     const endpointUrl = `${this.workspacesUrl}/${WorkspaceId}`;
 
     return this.http.delete<T>(endpointUrl, this.requestHeaders).pipe<T>(
       catchError<T, Observable<T>>(error => {
         return this.handleError(error, () => this.getDeleteWorkspaceEndpoint(WorkspaceId));
       }));
+  }
+  getWorkplaceDuplicateStatusEndpoint<T>(workspacName?: string): Observable<T> {
+    const endpointUrl = `${this.workspacesUrl}/validateDuplicateName/${workspacName}`;
+
+    return this.http.get<T>(endpointUrl, this.requestHeaders).pipe(
+      catchError<T, Observable<T>>(error => { 
+        return this.handleError(error, () => this.getWorkplaceDuplicateStatusEndpoint(workspacName));
+      })
+    );
+    
   }
 }
