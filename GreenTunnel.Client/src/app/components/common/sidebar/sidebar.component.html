@@ -48,7 +48,32 @@
                                     Moulds
                                 </a>
                             </li>
-                                                  </ul>
+                        </ul>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <i class="flaticon-user-1"></i>
+                                <span class="title">Quality Tests</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <ul class="sidebar-sub-menu">
+                            <li class="sidemenu-item">
+                                <a routerLink="/tests" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                    Tests
+                                </a>
+                            </li>
+
+                            <li class="sidemenu-item">
+                                <a routerLink="/testtypes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                    Test Types
+                                </a>
+                            </li>
+
+
+
+                        </ul>
                     </mat-expansion-panel>
                     <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
                         <mat-expansion-panel-header>

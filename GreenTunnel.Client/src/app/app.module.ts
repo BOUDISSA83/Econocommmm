@@ -166,6 +166,21 @@ import { DeleteRoleComponent } from './components/settings/roles/delete-role/del
 import { DeleteMouldComponent } from './components/views/moulds/delete-mould/delete-mould.component';
 import { PKanbanBoardComponent } from './components/projects/p-kanban-board/p-kanban-board.component';
 
+
+import { DeleteTestComponent } from './components/views/delete-test/delete-test.component';
+import { AddEditTestComponent } from './components/views/add-edit-test/add-edit-test.component';
+import { TestListComponent } from './components/views/test-list/test-list.component';
+import { TestService } from './services/testServices/test.service';
+import { TestEndpointService } from './services/testServices/test-endpoint.service';
+import { ViewTestComponent } from './components/views/view-test/view-test.component';
+
+import { DeleteTestTypeComponent } from './components/views/delete-testType/delete-testType.component';
+import { AddEditTestTypeComponent } from './components/views/add-edit-testType/add-edit-testType.component';
+import { TestTypeListComponent } from './components/views/testType-list/testType-list.component';
+import { TestTypeService } from './services/testTypeServices/testType.service';
+import { TestTypeEndpointService } from './services/testTypeServices/testType-endpoint.service';
+import { ViewTestTypeComponent } from './components/views/view-testType/view-testType.component'
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -250,7 +265,15 @@ import { PKanbanBoardComponent } from './components/projects/p-kanban-board/p-ka
         DeleteWorkspaceComponent,
         DeleteUserComponent,
         DeleteRoleComponent,
-        DeleteMouldComponent
+        DeleteMouldComponent,
+        TestListComponent,
+        AddEditTestComponent,
+        DeleteTestComponent,
+        ViewTestComponent,
+        DeleteTestTypeComponent,
+        AddEditTestTypeComponent,
+        TestTypeListComponent,
+        ViewTestTypeComponent
     ],
     imports: [
         BrowserModule,
@@ -347,7 +370,11 @@ import { PKanbanBoardComponent } from './components/projects/p-kanban-board/p-ka
         WorkplaceService,
         WorkplaceEndpointService,
         WorkspaceEndpointService,
-        WorkspaceService
+        WorkspaceService,
+        TestService,
+        TestEndpointService,
+        TestTypeService,
+        TestTypeEndpointService
     ],
     bootstrap: [AppComponent]
 })

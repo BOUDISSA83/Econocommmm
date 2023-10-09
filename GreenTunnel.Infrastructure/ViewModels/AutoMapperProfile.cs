@@ -7,6 +7,7 @@ using GreenTunnel.Infrastructure.ViewModels.Response.Category;
 using GreenTunnel.Infrastructure.ViewModels.Response.Description;
 using GreenTunnel.Infrastructure.ViewModels.Response.Factories;
 using GreenTunnel.Infrastructure.ViewModels.Response.InputType;
+using GreenTunnel.Infrastructure.ViewModels.Response.TestType;
 using GreenTunnel.Infrastructure.ViewModels.Response.WorkPlaces;
 using GreenTunnel.Infrastructure.ViewModels.Response.WorkSpaces;
 using Microsoft.AspNetCore.Identity;
@@ -83,5 +84,11 @@ public class AutoMapperProfile : Profile
         CreateMap<Workspace, WorkSpaceViewModel>();
         CreateMap<Moulds, MouldsViewModel>()
             .ReverseMap();
+
+        CreateMap<TestType, TestTypeViewModel>();
+        CreateMap<TestType, GetTestTypesListResponseModel>();
+        CreateMap<Test, TestViewModel>()
+         .ForMember(dest => dest.TestTypeName, opt => opt.MapFrom(src => src.TestType.Name));
+        //   CreateMap<Test, GetTestListResponseModel>();
     }
 }

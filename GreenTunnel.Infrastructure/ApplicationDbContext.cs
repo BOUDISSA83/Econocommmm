@@ -17,6 +17,9 @@ namespace GreenTunnel.Infrastructure
         public DbSet<Category> Categories { get; set; }
         public DbSet<Description> Descriptions { get; set; }
         public DbSet<InputType> InputTypes { get; set; }
+        public DbSet<Test> Tests { get; set; }
+        public DbSet<TestType> TestTypes { get; set; }
+        public DbSet<Compliance> Compliances { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         { }
@@ -31,7 +34,14 @@ namespace GreenTunnel.Infrastructure
 
             builder.Entity<ApplicationRole>().HasMany(r => r.Claims).WithOne().HasForeignKey(c => c.RoleId).IsRequired().OnDelete(DeleteBehavior.Cascade);
             builder.Entity<ApplicationRole>().HasMany(r => r.Users).WithOne().HasForeignKey(r => r.RoleId).IsRequired().OnDelete(DeleteBehavior.Cascade);
+          
+            //builder.Entity<Test>().Property(p => p.Name).HasMaxLength(256).IsRequired();
+            //builder.Entity<TestType>().Property(p => p.Name).HasMaxLength(200).IsRequired();
 
+
+            //builder.Entity<Compliance>().Property(p => p.Name).HasMaxLength(100).IsRequired();
+            //builder.Entity<Compliance>().Property(p => p.Type).HasMaxLength(100).IsRequired();
+            //builder.Entity<Compliance>().Property(p => p.status).HasMaxLength(100).IsRequired();
         }
 
         public override int SaveChanges()

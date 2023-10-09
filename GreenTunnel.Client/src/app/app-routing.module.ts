@@ -47,6 +47,12 @@ import { LoginComponent } from './components/authentication/login/login.componen
 import { ResetPasswordComponent } from './components/authentication/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './components/authentication/forgot-password/forgot-password.component';
 import { EcommerceComponent } from './components/dashboard/ecommerce/ecommerce.component';
+import { ViewTestComponent } from './components/views/view-test/view-test.component';
+import { TestListComponent } from './components/views/test-list/test-list.component';
+import { AddEditTestComponent } from './components/views/add-edit-test/add-edit-test.component';
+import { TestTypeListComponent } from './components/views/testType-list/testType-list.component';
+import { AddEditTestTypeComponent } from './components/views/add-edit-testType/add-edit-testType.component';
+import { ViewTestTypeComponent } from './components/views/view-testType/view-testType.component';
 @Injectable()
 export class LowerCaseUrlSerializer extends DefaultUrlSerializer {
     override parse(url: string): UrlTree {
@@ -112,6 +118,13 @@ const routes: Routes = [
     { path: 'add-edit-mould', component: AddEditMouldComponent, canActivate: [AuthGuard], data: { title: 'Add Edit Mould' } },
     { path: 'mould-detail', component: ViewMouldComponent, canActivate: [AuthGuard], data: { title: 'View Mould' } },
     { path: 'view-workspace', component: ViewWorkspaceComponent, canActivate: [AuthGuard], data: { title: 'View Workspace' } },
+    { path: 'view-test', component: ViewTestComponent, canActivate: [AuthGuard], data: { title: 'View Test' } },
+    { path: 'tests', component: TestListComponent, canActivate: [AuthGuard], data: { title: 'View Test' } },
+    { path: 'add-edit-test', component: AddEditTestComponent, canActivate: [AuthGuard], data: { title: 'Add Edit Test' } },
+    { path: 'testtypes', component: TestTypeListComponent, canActivate: [AuthGuard], data: { title: 'View Test Types' } },
+    { path: 'add-edit-testtype', component: AddEditTestTypeComponent, canActivate: [AuthGuard], data: { title: 'Add Edit Test' } },
+    { path: 'view-testtypes', component: ViewTestTypeComponent, canActivate: [AuthGuard], data: { title: 'View Test Types' } },
+    // Here add new pages component
 
     // Here add new pages component
 

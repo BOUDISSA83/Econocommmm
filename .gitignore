@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/GreenTunnel.Api/keys/is-signing-key-AF5F916DB1080DAC111E44B57F05DC5F.json
+/GreenTunnel.Api/appsettings.Development.json

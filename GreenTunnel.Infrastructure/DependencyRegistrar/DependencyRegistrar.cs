@@ -155,7 +155,9 @@ public static class DependencyRegistrar
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IAuditableEntity, AuditableEntity>();
             builder.Services.AddScoped<IMouldsRepository, MouldsRepository>();
-
+            builder.Services.AddScoped<ITestRepository, TestRepository>();
+            builder.Services.AddScoped<ITestTypeRepository, TestTypeRepository>();
+             builder.Services.AddScoped<IComplianceRepository, ComplianceRepository>();
 
         // Auth Handlers
         builder.Services.AddSingleton<IAuthorizationHandler, ViewUserAuthorizationHandler>();

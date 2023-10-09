@@ -14,11 +14,6 @@ public class FactoryRepository : Repository<Factory>, IFactoryRepository
     public FactoryRepository(ApplicationDbContext context) : base(context)
     { }
 
-    public IEnumerable<Factory> GetTopActiveCustomers(int count)
-    {
-        throw new NotImplementedException();
-    }
-
 
 
     public async Task<Factory> AddAsync(Factory factory)
